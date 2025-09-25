@@ -36,24 +36,24 @@ html, body {
 }
 
 .logo-centered {
-  width: 500px;
+  width: 350px;
 }
 
 .sd4-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #0057b8;
+  color: #033e6f;
 }
 
 .sd4-text {
   max-width: 600px;
-  font-size: 1rem;
+  font-size: 1.4rem;
   line-height: 1.6;
-  color: #333;
+  color: #033e6f;
 }
 
 .sd4-button {
-  background-color: #0057b8;
+  background-color: #033e6f;
   color: white;
   padding: 0.8rem 1.6rem;
   border: none;

@@ -608,7 +608,7 @@ const Sd4: React.FC = () => {
       <img src={logoUrl} alt="Logo" className="logo-centered" />
       <h1 className="sd4-title">Quais traços ocultos moldam sua personalidade?</h1>
       <p className="sd4-text">
-        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traços de personalidade, através de métricas científicas que calculam traços de sadismo, psicopatia, maquiavelismo Suas respostas são anônimas e serão usadas para pesquisa.
+        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traços de personalidade, através de métricas científicas que calculam traços de sadismo, psicopatia, maquiavelismo. Suas respostas são anônimas e serão usadas para pesquisa.
       </p>
       <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás da minha personalidade</button>
 

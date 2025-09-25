@@ -59,8 +59,8 @@ const Dashboard: React.FC = () => {
 
   const palette = {
     background: "#ffffff",
-    surface: "#f8fafc",
-    primary: "#0d6efd",
+    surface: "#033e6f",
+    primary: "#033e6f",
     primaryHover: "#0b5ed7",
     text: "#111827",
     muted: "#6b7280",
@@ -145,175 +145,175 @@ const Dashboard: React.FC = () => {
 };
 
   return (
-    <div style={{ padding: 20, background: palette.background, color: palette.text }}>
-      <h1 style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <img src={logoUrl} alt="Logo" style={{ width: 150, height: 75 }} />
-        Relatório de Respostas SD4 
-      </h1>
+  <div style={{ padding: 20, background: palette.background, color: palette.text }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 20 }}>
+  <img src={logoUrl} alt="Logo" style={{ width: 150, height: 75 }} />
+  <h1 style={{ margin: 0, color: "#033e6f" }}>Relatório de Respostas SD4</h1>
+  </div>
 
-      <div style={{ marginBottom: 12 }}>
-        <button
-          onClick={() => setShowFilters((s) => !s)}
+
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+      <button
+        onClick={() => setShowFilters((s) => !s)}
+        style={{
+          background: palette.primary,
+          border: "none",
+          color: "#fff",
+          padding: "10px 14px",
+          borderRadius: 8,
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          boxShadow: "0 2px 6px rgba(13,110,253,0.12)",
+        }}
+        onMouseOver={(e) => ((e.currentTarget.style.background = palette.primaryHover))}
+        onMouseOut={(e) => ((e.currentTarget.style.background = palette.primary))}
+      >
+        Visualizar Dados {showFilters ? "▴" : "▾"}
+      </button>
+
+      <button
+        onClick={handleExport}
+        style={{
+          background: palette.primary,
+          color: "#fff",
+          padding: "10px 14px",
+          border: "none",
+          borderRadius: 8,
+          cursor: "pointer",
+          boxShadow: "0 2px 6px rgba(13,110,253,0.12)",
+        }}
+        onMouseOver={(e) => ((e.currentTarget.style.background = palette.primaryHover))}
+        onMouseOut={(e) => ((e.currentTarget.style.background = palette.primary))}
+      >
+        Exportar CSV
+      </button>
+    </div>
+
+    {showFilters && (
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ marginBottom: 8 }}>
+          <label style={{ marginRight: 12, color: palette.text }}>
+            <input
+              type="checkbox"
+              checked={selecionadas.includes("total")}
+              onChange={() => {
+                if (selecionadas.includes("total")) setSelecionadas([]);
+                else setSelecionadas(["total"]);
+              }}
+              style={{ accentColor: palette.primary }}
+            />{" "}
+            Visualizar Total
+          </label>
+        </div>
+
+        <select
+          multiple
+          size={8}
+          value={selecionadas.filter((s) => s !== "total")}
+          onChange={(e) => {
+            const opts = Array.from(e.target.selectedOptions).map((o) => o.value);
+            const keepTotal = selecionadas.includes("total") ? ["total"] : [];
+            setSelecionadas([...keepTotal, ...opts]);
+          }}
           style={{
-            background: palette.surface,
-            border: `1px solid ${palette.controlBorder}`,
-            color: palette.text,
-            padding: "8px 14px",
+            width: "100%",
+            padding: 10,
             borderRadius: 8,
-            cursor: "pointer",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
+            border: `1px solid ${palette.controlBorder}`,
+            background: palette.controlBg,
+            color: palette.controlText,
+            outline: "none",
           }}
         >
-          Visualizar Dados {showFilters ? "▴" : "▾"}
-        </button>
-      </div>
+          {perguntas.map((p) => (
+            <option key={p} value={p}>
+              {perguntasMap[p] ?? p}
+            </option>
+          ))}
+        </select>
 
-      {showFilters && (
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ marginBottom: 8 }}>
-            <label style={{ marginRight: 12, color: palette.text }}>
-              <input
-                type="checkbox"
-                checked={selecionadas.includes("total")}
-                onChange={() => {
-                  if (selecionadas.includes("total")) setSelecionadas([]);
-                  else setSelecionadas(["total"]);
-                }}
-                style={{ accentColor: palette.primary }}
-              />{" "}
-              Visualizar Total
-            </label>
-          </div>
-
-          <select
-            multiple
-            size={8}
-            value={selecionadas.filter((s) => s !== "total")}
-            onChange={(e) => {
-              const opts = Array.from(e.target.selectedOptions).map((o) => o.value);
-              const keepTotal = selecionadas.includes("total") ? ["total"] : [];
-              setSelecionadas([...keepTotal, ...opts]);
-            }}
+        <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
+          <button
+            onClick={() => setSelecionadas([])}
             style={{
-              width: "100%",
-              padding: 10,
+              padding: "8px 12px",
               borderRadius: 8,
               border: `1px solid ${palette.controlBorder}`,
-              background: palette.controlBg,
-              color: palette.controlText,
-              outline: "none",
+              background: palette.surface,
+              color: palette.text,
+              cursor: "pointer",
             }}
           >
-            {perguntas.map((p) => (
-              <option key={p} value={p}>
-                {perguntasMap[p] ?? p}
-              </option>
-            ))}
-          </select>
-
-          <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
-            <button
-              onClick={() => setSelecionadas([])}
-              style={{
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: `1px solid ${palette.controlBorder}`,
-                background: palette.surface,
-                color: palette.text,
-                cursor: "pointer",
-              }}
-            >
-              Limpar
-            </button>
-            <button
-              onClick={() => setSelecionadas([...perguntas])}
-              style={{
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: `1px solid ${palette.controlBorder}`,
-                background: palette.surface,
-                color: palette.text,
-                cursor: "pointer",
-              }}
-            >
-              Selecionar tudo
-            </button>
-          </div>
+            Limpar
+          </button>
+          <button
+            onClick={() => setSelecionadas([...perguntas])}
+            style={{
+              padding: "8px 12px",
+              borderRadius: 8,
+              border: `1px solid ${palette.controlBorder}`,
+              background: palette.surface,
+              color: palette.text,
+              cursor: "pointer",
+            }}
+          >
+            Selecionar tudo
+          </button>
         </div>
-      )}
-
-      <div style={{ textAlign: "right", marginBottom: 20 }}>
-        <button
-          onClick={handleExport}
-          style={{
-            background: palette.primary,
-            color: "#fff",
-            padding: "10px 14px",
-            border: "none",
-            borderRadius: 8,
-            cursor: "pointer",
-            boxShadow: "0 2px 6px rgba(13,110,253,0.12)",
-          }}
-          onMouseOver={(e) => ((e.currentTarget.style.background = palette.primaryHover))}
-          onMouseOut={(e) => ((e.currentTarget.style.background = palette.primary))}
-        >
-          Exportar CSV
-        </button>
       </div>
+    )}
 
-      <div>
-        {respostas.map((r) => {
-          const resultado = normalizeResultado(r.resultado ?? r);
-          const categories = resultado.categories ?? {};
-          return (
-            <div key={r.id} style={{ border: "1px solid #e6edf3", borderRadius: 8, padding: 12, marginBottom: 12, background: "#fff" }}>
-              <p style={{ margin: 0 }}>
-                <b>{r.nome}</b> — {r.email}
-              </p>
+    <div>
+      {respostas.map((r) => {
+        const resultado = normalizeResultado(r.resultado ?? r);
+        const categories = resultado.categories ?? {};
+        return (
+          <div key={r.id} style={{ border: "1px solid #e6edf3", borderRadius: 8, padding: 12, marginBottom: 12, background: "#fff" }}>
+            <p style={{ margin: 0 }}>
+              <b>{r.nome}</b> — {r.email}
+            </p>
 
-              {selecionadas.includes("total") ? (
-                <ul>
-                  {Object.entries(r.respostas ?? {}).map(([k, v]) => (
-                    <li key={k}>
-                      <b>{perguntasMap[k] ?? k}:</b> {String(v)}
-                    </li>
-                  ))}
-                </ul>
-              ) : selecionadas.length > 0 ? (
-                <ul>
-                  {selecionadas.map((s) => (
-                    <li key={s}>
-                      <b>{perguntasMap[s] ?? s}:</b> {String((r.respostas ?? {})[s] ?? "")}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+            {selecionadas.includes("total") ? (
+              <ul>
+                {Object.entries(r.respostas ?? {}).map(([k, v]) => (
+                  <li key={k}>
+                    <b>{perguntasMap[k] ?? k}:</b> {String(v)}
+                  </li>
+                ))}
+              </ul>
+            ) : selecionadas.length > 0 ? (
+              <ul>
+                {selecionadas.map((s) => (
+                  <li key={s}>
+                    <b>{perguntasMap[s] ?? s}:</b> {String((r.respostas ?? {})[s] ?? "")}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
 
-              <p style={{ margin: "8px 0 0 0" }}>
-                <b>Resultado Final:</b> {resultado.finalCategory ?? "Indefinido"}
-              </p>
+            <p style={{ margin: "8px 0 0 0" }}>
+              <b>Resultado Final:</b> {resultado.finalCategory ?? "Indefinido"}
+            </p>
 
-              <p style={{ margin: "6px 0 0 0" }}>
-                <b>Detalhes:</b>{" "}
-                {Object.keys(categories).length === 0 ? (
-                  <span style={{ color: palette.muted }}>—</span>
-                ) : (
-                  Object.entries(categories).map(([key, value]) => (
-                    <span key={key} style={{ marginRight: 10 }}>
-                      {key}: {String(value)}
-                    </span>
-                  ))
-                )}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+            <p style={{ margin: "6px 0 0 0" }}>
+              <b>Detalhes:</b>{" "}
+              {Object.keys(categories).length === 0 ? (
+                <span style={{ color: palette.muted }}>—</span>
+              ) : (
+                Object.entries(categories).map(([key, value]) => (
+                  <span key={key} style={{ marginRight: 10 }}>
+                    {key}: {String(value)}
+                  </span>
+                ))
+              )}
+            </p>
+          </div>
+        );
+      })}
     </div>
-  );
+  </div>
+);
 };
-
 export default Dashboard;
-// ...existing code...
