@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as PM from "../perguntasMap";
 import { API_URL } from "../api";
-
+const logoUrl = new URL("../assets/logo.png", import.meta.url).href;
 
 
 type Resposta = {
@@ -147,7 +147,7 @@ const Dashboard: React.FC = () => {
   return (
     <div style={{ padding: 20, background: palette.background, color: palette.text }}>
       <h1 style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <img src="/src/assets/logo.png" alt="logo" style={{ width: 150, height: 75 }} />
+        <img src={logoUrl} alt="Logo" style={{ width: 150, height: 75 }} />
         Relatório de Respostas SD4 
       </h1>
 
