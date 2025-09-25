@@ -608,7 +608,7 @@ const Sd4: React.FC = () => {
       <img src={logoUrl} alt="Logo" className="logo-centered" />
       <h1 className="sd4-title">Quais traços ocultos moldam sua personalidade?</h1>
       <p className="sd4-text">
-        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traços de personalidade, através de métricas científicas que calculam traços de sadismo, psicopatia, maquiavelismo. Suas respostas são anônimas e serão usadas para pesquisa.
+        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traços de personalidade, através de métricas científicas que calculam traços de sadismo, psicopatia, maquiavelismo e narcisismo. Suas respostas são anônimas e serão usadas para pesquisa.
       </p>
       <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás da minha personalidade</button>
 
@@ -669,12 +669,12 @@ const Sd4: React.FC = () => {
                         e os procedimentos desta pesquisa de forma clara e detalhada.
                       </p>
                       <div style={{ marginTop: 8 }}>
-                        <button className="btn-link" onClick={() => setMostrarTermoCompleto(true)}>Ler mais / mostrar tudo</button>
+                        <button className="btn-link" onClick={() => setMostrarTermoCompleto(true)}>Ler mais</button>
                       </div>
                     </>
                   ) : (
                     <div>
-                      <p>(Texto completo do termo — versão estendida. Se precisar que eu coloque fielmente linha a linha do PDF, eu posso ajustar.)</p>
+                      <p>Desde já agradecemos sua participação e contribuição, voce terá um resultado já nesse formulário, porém a avaliação é feita em duas etapas, onde o formulário é respondido 30 dias após esse.</p>
                     </div>
                   )}
                 </div>
@@ -759,6 +759,7 @@ const Sd4: React.FC = () => {
                 <p>{value.message}</p>
               </div>
             ))}
+        
           </div>
 
           <div style={{ marginTop: "16px", textAlign: "right" }}>
