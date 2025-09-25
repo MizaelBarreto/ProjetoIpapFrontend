@@ -1,7 +1,7 @@
 // Sd4.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import "../App.css";
-
+import { API_URL } from "../api";
 const logoUrl = new URL("../assets/logo.png", import.meta.url).href;
 
 type TipoPergunta = "radio" | "escala1a5" | "escala1a7" | "escala0a4" | "texto" | "big5" | "intro";
@@ -581,7 +581,7 @@ const Sd4: React.FC = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/api/sd4", {
+      const res = await fetch('${API_URL}/api/sd4', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)

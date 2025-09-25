@@ -1,6 +1,8 @@
-// ...existing code...
 import React, { useEffect, useState } from "react";
 import * as PM from "../perguntasMap";
+import { API_URL } from "../api";
+
+
 
 type Resposta = {
   id: number;
@@ -70,7 +72,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/respostas");
+        const res = await fetch(`${API_URL}/api/respostas`);
         const data = await res.json();
 
         const rawItems = Array.isArray(data) ? data : data ? [data] : [];
