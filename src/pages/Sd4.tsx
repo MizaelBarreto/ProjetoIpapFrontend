@@ -746,30 +746,25 @@ const Sd4: React.FC = () => {
         </div>
       )}
       {resultado && (
-      <div className="popup-overlay">
-        <div className="popup-box">
-          <h2>Resultado da sua Avaliação</h2>
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h2>Resultado da sua Avaliação</h2>
 
-          <div className="resultado-section">
-            <h3>Traços da Personalidade</h3>
-            {Object.entries(resultado.categories).map(([key, value]: any) => (
-              <div key={key} className="resultado-card">
-                <h4>{key.charAt(0).toUpperCase() + key.slice(1)}</h4>
-                
-                <p>{value.message}</p>
-              </div>
-            ))}
-        
-          </div>
+            <div className="resultado-section">
+              <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
+                {resultado.summaryText}
+              </p>
+            </div>
 
-          <div style={{ marginTop: "16px", textAlign: "right" }}>
-            <button className="btn-primary" onClick={() => setResultado(null)}>
-              Fechar
-            </button>
+            <div style={{ marginTop: "16px", textAlign: "right" }}>
+              <button className="btn-primary" onClick={() => setResultado(null)}>
+                Fechar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       )}
+
 
     </div>
   );

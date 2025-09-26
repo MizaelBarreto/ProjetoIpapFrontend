@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
   };
 
  const handleExport = () => {
-  const header = ["Nome", "Email", "Pergunta", "Resposta", "Resultado Final", "Detalhes"];
+  const header = ["Nome", "Email", "Pergunta", "Resposta", "Score Geral", "SD4"];
   let csv = header.join(",") + "\n";
   const safe = (s: any) => String(s ?? "").replace(/"/g, '""');
 
