@@ -717,7 +717,7 @@ const Sd4: React.FC = () => {
     };
 
     try {
-      const res = await fetch("https://projeto-ipap-backend.vercel.app/api/sd4", {
+      const res = await fetch(`${API_URL}/api/sd4`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
