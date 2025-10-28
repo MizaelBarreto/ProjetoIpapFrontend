@@ -174,7 +174,7 @@ const Dashboard: React.FC = () => {
         onMouseOver={(e) => ((e.currentTarget.style.background = palette.primaryHover))}
         onMouseOut={(e) => ((e.currentTarget.style.background = palette.primary))}
       >
-        Visualizar Dados {showFilters ? "â–´" : "â–¾"}
+        Visualizar Dados {showFilters ? "˄" : "˅"}
       </button>
 
       <button
@@ -304,7 +304,7 @@ const Dashboard: React.FC = () => {
             <p style={{ margin: "6px 0 0 0" }}>
               <b>Detalhes:</b>{" "}
               {Object.keys(categories).length === 0 ? (
-                <span style={{ color: palette.muted }}>â€”</span>
+                <span style={{ color: palette.muted }}>:</span>
               ) : (
                 Object.entries(categories).map(([key, value]) => (
                   <span key={key} style={{ marginRight: 10 }}>

@@ -754,7 +754,7 @@ const Sd4: React.FC = () => {
                 </div>
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={() => setStep(0)}>Voltar</button>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>Avan├ºar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>Avançar</button>
                 </div>
               </>
             )}
