@@ -1,10 +1,10 @@
-// Sd4.tsx
+﻿// Sd4.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import "../App.css";
 import { API_URL } from "../api";
 const logoUrl = new URL("../assets/logo.png", import.meta.url).href;
 
-type TipoPergunta = "radio" | "escala1a5" | "escala1a7" | "escala0a4" | "texto" | "big5" | "intro";
+type TipoPergunta = "radio" | "escala1a5" | "escala1a7" | "escala0a4" | "texto" | "big5" | "intro" | "checkboxes";
 type Pergunta = {
   key: string;
   texto: string;
@@ -17,10 +17,10 @@ const CHUNK_SIZE = 2; // duas perguntas por pop-up
 
 
 const encouragingMessages = [
-  "Quase lá — curioso para o resultado?",
-  "Cada vez mais curioso com as perguntas, né? Tá quase!",
-  "Cada passo conta — você está indo muito bem!",
-  "Quase lá! Continua assim que já já temos o resultado."
+  "Quase lÃ¡ â€” curioso para o resultado?",
+  "Cada vez mais curioso com as perguntas, nÃ©? TÃ¡ quase!",
+  "Cada passo conta â€” vocÃª estÃ¡ indo muito bem!",
+  "Quase lÃ¡! Continua assim que jÃ¡ jÃ¡ temos o resultado."
 ];
 
 const Sd4: React.FC = () => {
@@ -40,32 +40,32 @@ const Sd4: React.FC = () => {
   // Flat questions + intros (completo)
   // ---------------------------
   const flatQuestions: Pergunta[] = useMemo(() => {
-    // Bloco de perguntas de substâncias (ASSIST) — mostrado apenas se "substancias" === "Sim"
+    // Bloco de perguntas de substÃ¢ncias (ASSIST) â€” mostrado apenas se "substancias" === "Sim"
     const substGroups: { name: string; codes: string[] }[] = [
-      { name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
+      { name: "Ãlcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
       { name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
       { name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
-      { name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
-      { name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
+      { name: "CocaÃ­na", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
+      { name: "Anfetaminas/Ãªxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
       { name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
-      { name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
-      { name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
+      { name: "HipnÃ³ticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
+      { name: "AlucinÃ³genos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
       { name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
-      { name: "Uso injetável", codes: ["BX1"] }
+      { name: "Uso injetÃ¡vel", codes: ["BX1"] }
     ];
     const substPerguntas: Pergunta[] = [];
     substGroups.forEach((g) => {
       g.codes.forEach((code, idx) => {
-        // rótulos temporários: substituir pelos enunciados exatos do PDF/Excel
+        // rÃ³tulos temporÃ¡rios: substituir pelos enunciados exatos do PDF/Excel
         const labels = [
-          `${g.name} - Frequência de uso (3 meses)`,
-          `${g.name} - Forte desejo/urgência`,
+          `${g.name} - FrequÃªncia de uso (3 meses)`,
+          `${g.name} - Forte desejo/urgÃªncia`,
           `${g.name} - Problemas relacionados ao uso`,
-          `${g.name} - Preocupação de outros`,
-          `${g.name} - Falhas em obrigações`,
+          `${g.name} - PreocupaÃ§Ã£o de outros`,
+          `${g.name} - Falhas em obrigaÃ§Ãµes`,
           `${g.name} - Tentou reduzir/controle`
         ];
-        const texto = g.name === "Uso injetável"
+        const texto = g.name === "Uso injetÃ¡vel"
           ? `${g.name} - Alguma vez na vida (pontuar conforme instrumento)`
           : (labels[idx] || `${g.name} - Item ${idx + 1}`);
         substPerguntas.push({ key: code, texto, tipo: "escala0a4" });
@@ -74,146 +74,147 @@ const Sd4: React.FC = () => {
 
     const arr: Pergunta[] = [
       // Demografia
-      { key: "idade", texto: "Idade", tipo: "radio", opcoes: ["18-   -25", "26– -35", "36– -45", "46+"] },
-      { key: "genero", texto: "Gênero que se identifica", tipo: "radio", opcoes: ["Mulher", "Homem", "Não Binarie", "Prefiro não dizer", "Outro"] },
+      { key: "idade", texto: "Idade", tipo: "radio", opcoes: ["18-   -25", "26â€“ -35", "36â€“ -45", "46+"] },
+      { key: "genero", texto: "GÃªnero que se identifica", tipo: "radio", opcoes: ["Mulher", "Homem", "NÃ£o Binarie", "Prefiro nÃ£o dizer", "Outro"] },
 
-      { key: "cor", texto: "Cor", tipo: "radio", opcoes: ["Amarelo", "Branco", "Indígena", "Pardo", "Preto", "Outro"] },
-      { key: "escolaridade", texto: "Nível Educacional", tipo: "radio", opcoes: ["Ensino Médio Cursando", "Ensino Médio Completo", "Ensino Superior Cursando", "Ensino Superior Completo", "Outro"] },
-      { key: "area", texto: "Se selecionado Ensino Superior, indique a área:", tipo: "texto" },
-      { key: "estadoCivil", texto: "Estado Civil", tipo: "radio", opcoes: ["Solteiro", "Casado", "Viúvo", "Outro"] },
+      { key: "cor", texto: "Cor", tipo: "radio", opcoes: ["Amarelo", "Branco", "IndÃ­gena", "Pardo", "Preto", "Outro"] },
+      { key: "escolaridade", texto: "NÃ­vel Educacional", tipo: "radio", opcoes: ["Ensino MÃ©dio Cursando", "Ensino MÃ©dio Completo", "Ensino Superior Cursando", "Ensino Superior Completo", "Outro"] },
+      { key: "area", texto: "Se selecionado Ensino Superior, indique a Ã¡rea:", tipo: "texto" },
+      { key: "estadoCivil", texto: "Estado Civil", tipo: "radio", opcoes: ["Solteiro", "Casado", "ViÃºvo", "Outro"] },
 
-      { key: "renda", texto: "Renda Familiar Mensal", tipo: "radio", opcoes: ["Até 1 salário mínimo (Até R$ 1412,00)", "De 1 a 3 salários mínimos (Até R$ 4236,00)", "De 3 a 5 salários mínimos (Até R$ 7.060,00)", "De 7 a 10 salários (Até R$ 14.120,00)", "Acima de 10 salários mínimos"] },
-      { key: "diagnostico", texto: "Você já recebeu algum diagnóstico clínico psicológico, psiquiátrico ou neurológico?", tipo: "radio", opcoes: ["Sim", "Não"] },
+      { key: "renda", texto: "Renda Familiar Mensal", tipo: "radio", opcoes: ["AtÃ© 1 salÃ¡rio mÃ­nimo (AtÃ© R$ 1412,00)", "De 1 a 3 salÃ¡rios mÃ­nimos (AtÃ© R$ 4236,00)", "De 3 a 5 salÃ¡rios mÃ­nimos (AtÃ© R$ 7.060,00)", "De 7 a 10 salÃ¡rios (AtÃ© R$ 14.120,00)", "Acima de 10 salÃ¡rios mÃ­nimos"] },
+      { key: "diagnostico", texto: "VocÃª jÃ¡ recebeu algum diagnÃ³stico clÃ­nico psicolÃ³gico, psiquiÃ¡trico ou neurolÃ³gico?", tipo: "radio", opcoes: ["Sim", "NÃ£o"] },
       { key: "diagnosticoDetalhe", texto: "Se sim, qual?", tipo: "texto" },
-      { key: "crime", texto: "Já foi acusado de algum crime?", tipo: "radio", opcoes: ["Sim", "Não"] },
+      { key: "crime", texto: "JÃ¡ foi acusado de algum crime?", tipo: "radio", opcoes: ["Sim", "NÃ£o"] },
       { key: "crimeDetalhe", texto: "Se sim, qual?", tipo: "texto" },
 
-      { key: "substancias", texto: "Você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opiáceos/opioides; outras (especificar).` },
+      { key: "substancias", texto: "Você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opiáceos/opioides; outras.` },
+      { key: "substanciasSelecionadas", texto: "Selecione as substâncias para perguntar detalhes", tipo: "checkboxes", opcoes: ["Álcool","Tabaco","Maconha","Cocaína","Anfetaminas/êxtase","Inalantes","Hipnóticos/sedativos","Alucinógenos","Opioides","Uso injetável","Outras"] },
       { key: "outrasSubstanciasDetalhe", texto: "Outras (especificar)", tipo: "texto" },
-      // Bloco condicional de substâncias (ASSIST)
+      // Bloco condicional de substÃ¢ncias (ASSIST)
       ...substPerguntas,
 
       // Intro: escala 1-5
       {
         key: "intro_1_5",
         texto:
-          "Agora, responda o quanto você concorda ou não com o que está escrito nas próximas frases, considerando o que você pensa ou como age. Use a escala: 1 - Discordo totalmente; 2 - Discordo; 3 - Não concordo nem discordo; 4 - Concordo; 5 - Concordo totalmente.",
+          "Agora, responda o quanto vocÃª concorda ou nÃ£o com o que estÃ¡ escrito nas prÃ³ximas frases, considerando o que vocÃª pensa ou como age. Use a escala: 1 - Discordo totalmente; 2 - Discordo; 3 - NÃ£o concordo nem discordo; 4 - Concordo; 5 - Concordo totalmente.",
         tipo: "intro"
       },
 
       // Escala 1-5 (q1 - q28)
-      { key: "q1", texto: "1. Não acho inteligente deixar as pessoas conhecerem os meus segredos.", tipo: "escala1a5" },
+      { key: "q1", texto: "1. NÃ£o acho inteligente deixar as pessoas conhecerem os meus segredos.", tipo: "escala1a5" },
       { key: "q2", texto: "2. Acredito que as pessoas devem fazer o que for preciso para ganhar o apoio de pessoas importantes.", tipo: "escala1a5" },
-      { key: "q3", texto: "3. Evito conflito direto com as pessoas porque elas podem me ser úteis no futuro.", tipo: "escala1a5" },
-      { key: "q4", texto: "4. Acho que as pessoas devem se manter reservadas se quiserem alcançar seus objetivos.", tipo: "escala1a5" },
+      { key: "q3", texto: "3. Evito conflito direto com as pessoas porque elas podem me ser Ãºteis no futuro.", tipo: "escala1a5" },
+      { key: "q4", texto: "4. Acho que as pessoas devem se manter reservadas se quiserem alcanÃ§ar seus objetivos.", tipo: "escala1a5" },
 
-      { key: "q5", texto: "5. Acredito que para manipular uma situação é necessário planejamento.", tipo: "escala1a5" },
-      { key: "q6", texto: "6. Bajulação é uma boa maneira de conquistar as pessoas para o seu lado.", tipo: "escala1a5" },
+      { key: "q5", texto: "5. Acredito que para manipular uma situaÃ§Ã£o Ã© necessÃ¡rio planejamento.", tipo: "escala1a5" },
+      { key: "q6", texto: "6. BajulaÃ§Ã£o Ã© uma boa maneira de conquistar as pessoas para o seu lado.", tipo: "escala1a5" },
       { key: "q7", texto: "7. Adoro quando um plano feito com 'jeitinho' tem sucesso.", tipo: "escala1a5" },
-      { key: "q8", texto: "8. As pessoas me vêem como uma pessoa que lidera com facilidade.", tipo: "escala1a5" },
+      { key: "q8", texto: "8. As pessoas me vÃªem como uma pessoa que lidera com facilidade.", tipo: "escala1a5" },
 
       { key: "q9", texto: "9. Eu tenho um talento para convencer as pessoas.", tipo: "escala1a5" },
-      { key: "q10", texto: "10. Atividades em grupo geralmente são chatas se eu não estiver presente.", tipo: "escala1a5" },
+      { key: "q10", texto: "10. Atividades em grupo geralmente sÃ£o chatas se eu nÃ£o estiver presente.", tipo: "escala1a5" },
       { key: "q11", texto: "11. Sei que sou especial porque as pessoas sempre me dizem isso.", tipo: "escala1a5" },
-      { key: "q12", texto: "12. Tenho algumas qualidades extraordinárias.", tipo: "escala1a5" },
+      { key: "q12", texto: "12. Tenho algumas qualidades extraordinÃ¡rias.", tipo: "escala1a5" },
 
-      { key: "q13", texto: "13. É provável que no futuro eu seja famoso em alguma área.", tipo: "escala1a5" },
+      { key: "q13", texto: "13. Ã‰ provÃ¡vel que no futuro eu seja famoso em alguma Ã¡rea.", tipo: "escala1a5" },
       { key: "q14", texto: "14. Gosto de me exibir de vez em quando.", tipo: "escala1a5" },
       { key: "q15", texto: "15. As pessoas frequentemente dizem que eu estou descontrolado.", tipo: "escala1a5" },
-      { key: "q16", texto: "16. Tenho a tendência de bater de frente com as autoridades, desrespeitando suas regras.", tipo: "escala1a5" },
+      { key: "q16", texto: "16. Tenho a tendÃªncia de bater de frente com as autoridades, desrespeitando suas regras.", tipo: "escala1a5" },
 
-      { key: "q17", texto: "17. Já me envolvi em mais conflitos do que a maioria das pessoas da minha idade e gênero.", tipo: "escala1a5" },
-      { key: "q18", texto: "18. Eu tenho a tendência de fazer primeiro e pensar depois.", tipo: "escala1a5" },
-      { key: "q19", texto: "19. Já tive problemas com a justiça.", tipo: "escala1a5" },
-      { key: "q20", texto: "20. Às vezes, me envolvo em situações perigosas.", tipo: "escala1a5" },
+      { key: "q17", texto: "17. JÃ¡ me envolvi em mais conflitos do que a maioria das pessoas da minha idade e gÃªnero.", tipo: "escala1a5" },
+      { key: "q18", texto: "18. Eu tenho a tendÃªncia de fazer primeiro e pensar depois.", tipo: "escala1a5" },
+      { key: "q19", texto: "19. JÃ¡ tive problemas com a justiÃ§a.", tipo: "escala1a5" },
+      { key: "q20", texto: "20. Ã€s vezes, me envolvo em situaÃ§Ãµes perigosas.", tipo: "escala1a5" },
 
       { key: "q21", texto: "21. As pessoas que me causam problemas sempre se arrependem.", tipo: "escala1a5" },
       { key: "q22", texto: "22. Gosto de assistir uma briga de rua.", tipo: "escala1a5" },
       { key: "q23", texto: "23. Gosto muito de assistir filmes e esportes violentos.", tipo: "escala1a5" },
-      { key: "q24", texto: "24. Acho engraçado quando pessoas babacas se dão mal.", tipo: "escala1a5" },
+      { key: "q24", texto: "24. Acho engraÃ§ado quando pessoas babacas se dÃ£o mal.", tipo: "escala1a5" },
 
       { key: "q25", texto: "25. Gosto de jogar videogames/jogos violentos.", tipo: "escala1a5" },
       { key: "q26", texto: "26. Acho que algumas pessoas merecem sofrer.", tipo: "escala1a5" },
-      { key: "q27", texto: "27. Já disse coisas maldosas na internet só por diversão.", tipo: "escala1a5" },
+      { key: "q27", texto: "27. JÃ¡ disse coisas maldosas na internet sÃ³ por diversÃ£o.", tipo: "escala1a5" },
       { key: "q28", texto: "28. Sei como machucar as pessoas somente com palavras.", tipo: "escala1a5" },
 
       // Intro: escala 1-7
       {
         key: "intro_1_7",
-        texto: "Por favor, avalie sua concordância usando a escala: 1 - Discordo totalmente; 7 - Concordo totalmente." ,          
+        texto: "Por favor, avalie sua concordÃ¢ncia usando a escala: 1 - Discordo totalmente; 7 - Concordo totalmente." ,          
 
         tipo: "intro",
        
       },
 
       // Escala 1-7 (q7_1..q7_18)
-      { key: "q7_1", texto: "1. Fui propositalmente maldoso(a) com outras pessoas no ensino médio.", tipo: "escala1a7" },
+      { key: "q7_1", texto: "1. Fui propositalmente maldoso(a) com outras pessoas no ensino mÃ©dio.", tipo: "escala1a7" },
       { key: "q7_2", texto: "2. Gosto de machucar fisicamente as pessoas", tipo: "escala1a7" },
-      { key: "q7_3", texto: "3. Já dominei outras pessoas usando medo.", tipo: "escala1a7" },
-      { key: "q7_4", texto: "4. Às vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
+      { key: "q7_3", texto: "3. JÃ¡ dominei outras pessoas usando medo.", tipo: "escala1a7" },
+      { key: "q7_4", texto: "4. Ã€s vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
 
-      { key: "q7_5", texto: "5. Gosto de fazer piadas às custas dos outros.", tipo: "escala1a7" },
+      { key: "q7_5", texto: "5. Gosto de fazer piadas Ã s custas dos outros.", tipo: "escala1a7" },
       { key: "q7_6", texto: "6. Em jogos de videogame, gosto do realismo dos jorros de sangue.", tipo: "escala1a7" },
-      { key: "q7_7", texto: "7. Já enganei alguém e ri quando pareceram tolos.", tipo: "escala1a7" },
+      { key: "q7_7", texto: "7. JÃ¡ enganei alguÃ©m e ri quando pareceram tolos.", tipo: "escala1a7" },
       { key: "q7_8", texto: "8. Gosto de atormentar pessoas.", tipo: "escala1a7" },
 
-      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores não têm por onde escapar.", tipo: "escala1a7" },
+      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores nÃ£o tÃªm por onde escapar.", tipo: "escala1a7" },
       { key: "q7_10", texto: "10. Eu gosto de machucar (ou fingir que vou machucar) meu parceiro(a) durante o sexo.", tipo: "escala1a7" },
-      { key: "q7_11", texto: "11. Eu gosto de ter o papel de vilão em jogos e torturar os outros personagens.", tipo: "escala1a7" },
-      { key: "q7_12", texto: "12. Quando tiro sarro de alguém, acho especialmente divertido se eles percebem o que estou fazendo.", tipo: "escala1a7" },
+      { key: "q7_11", texto: "11. Eu gosto de ter o papel de vilÃ£o em jogos e torturar os outros personagens.", tipo: "escala1a7" },
+      { key: "q7_12", texto: "12. Quando tiro sarro de alguÃ©m, acho especialmente divertido se eles percebem o que estou fazendo.", tipo: "escala1a7" },
 
-      { key: "q7_13", texto: "13. Em corridas profissionais de carros, os acidentes são as partes que eu mais gosto.", tipo: "escala1a7" },
-      { key: "q7_14", texto: "14. Talvez eu não deveria, mas nunca me canso de zombar de alguns colegas.", tipo: "escala1a7" },
-      { key: "q7_15", texto: "15. Eu jamais humilharia alguém de propósito.", tipo: "escala1a7" },
+      { key: "q7_13", texto: "13. Em corridas profissionais de carros, os acidentes sÃ£o as partes que eu mais gosto.", tipo: "escala1a7" },
+      { key: "q7_14", texto: "14. Talvez eu nÃ£o deveria, mas nunca me canso de zombar de alguns colegas.", tipo: "escala1a7" },
+      { key: "q7_15", texto: "15. Eu jamais humilharia alguÃ©m de propÃ³sito.", tipo: "escala1a7" },
       { key: "q7_16", texto: "16. Eu tenho o direito de empurrar as pessoas.", tipo: "escala1a7" },
 
-      { key: "q7_17", texto: "17. Adoro assistir vídeos na internet (por exemplo, Youtube, facebook) de pessoas brigando.", tipo: "escala1a7" },
-      { key: "q7_18", texto: "18. Esportes são violentos demais.", tipo: "escala1a7" },
+      { key: "q7_17", texto: "17. Adoro assistir vÃ­deos na internet (por exemplo, Youtube, facebook) de pessoas brigando.", tipo: "escala1a7" },
+      { key: "q7_18", texto: "18. Esportes sÃ£o violentos demais.", tipo: "escala1a7" },
 
       // Intro: escala 0-4
       {
         key: "intro_0_4",
         texto:
-          "A seguir leia cada uma e decida o quanto cada item se assemelha a você: 0 - Nada a ver comigo; 1 - Um pouco a ver comigo; 2 - Mais ou menos; 3 - Muito a ver comigo; 4 - Tudo a ver comigo.",
+          "A seguir leia cada uma e decida o quanto cada item se assemelha a vocÃª: 0 - Nada a ver comigo; 1 - Um pouco a ver comigo; 2 - Mais ou menos; 3 - Muito a ver comigo; 4 - Tudo a ver comigo.",
         tipo: "intro"
       },
 
       // Escala 0-4 (q0_1..q0_18)
       { key: "q0_1", texto: "1. Sei o que fazer para que as pessoas se sintam bem.", tipo: "escala0a4" },
-      { key: "q0_2", texto: "2. Sou competente para analisar problemas por diferentes “ângulos”.", tipo: "escala0a4" },
+      { key: "q0_2", texto: "2. Sou competente para analisar problemas por diferentes â€œÃ¢ngulosâ€.", tipo: "escala0a4" },
       { key: "q0_3", texto: "3. Coisas boas me aguardam no futuro.", tipo: "escala0a4" },
       { key: "q0_4", texto: "4. Consigo encontrar em minha vida motivos para ser grato(a).", tipo: "escala0a4" },
 
-      { key: "q0_5", texto: "5. Acredito em uma força sagrada que nos liga um ao outro.", tipo: "escala0a4" },
-      { key: "q0_6", texto: "6. Crio coisas úteis.", tipo: "escala0a4" },
+      { key: "q0_5", texto: "5. Acredito em uma forÃ§a sagrada que nos liga um ao outro.", tipo: "escala0a4" },
+      { key: "q0_6", texto: "6. Crio coisas Ãºteis.", tipo: "escala0a4" },
       { key: "q0_7", texto: "7. Sou uma pessoa verdadeira.", tipo: "escala0a4" },
       { key: "q0_8", texto: "8. Consigo criar um bom ambiente nos grupos que trabalho.", tipo: "escala0a4" },
 
       { key: "q0_9", texto: "9. Enfrento perigos para fazer o bem.", tipo: "escala0a4" },
       { key: "q0_10", texto: "10. Sei admirar a beleza que existe no mundo.", tipo: "escala0a4" },
-      { key: "q0_11", texto: "11. Não perco as oportunidades que tenho para aprender coisas novas.", tipo: "escala0a4" },
+      { key: "q0_11", texto: "11. NÃ£o perco as oportunidades que tenho para aprender coisas novas.", tipo: "escala0a4" },
       { key: "q0_12", texto: "12. Sou uma pessoa que tem humildade.", tipo: "escala0a4" },
 
       { key: "q0_13", texto: "13. Eu me sinto cheio(a) de vida.", tipo: "escala0a4" },
       { key: "q0_14", texto: "14. Tenho facilidade para organizar trabalhos em grupos.", tipo: "escala0a4" },
-      { key: "q0_15", texto: "15. Consigo ajudar pessoas a se entenderem quando há uma discussão.", tipo: "escala0a4" },
-      { key: "q0_16", texto: "16. Tenho facilidade para fazer uma situação chata se tornar divertida.", tipo: "escala0a4" },
+      { key: "q0_15", texto: "15. Consigo ajudar pessoas a se entenderem quando hÃ¡ uma discussÃ£o.", tipo: "escala0a4" },
+      { key: "q0_16", texto: "16. Tenho facilidade para fazer uma situaÃ§Ã£o chata se tornar divertida.", tipo: "escala0a4" },
 
-      { key: "q0_17", texto: "17. Costumo tomar decisões quando estou ciente das consequências dos meus atos.", tipo: "escala0a4" },
+      { key: "q0_17", texto: "17. Costumo tomar decisÃµes quando estou ciente das consequÃªncias dos meus atos.", tipo: "escala0a4" },
       { key: "q0_18", texto: "18. Sou uma pessoa justa.", tipo: "escala0a4" },
 
       // Intro: Big Five short (legend shown in each option)
       {
         key: "intro_big5",
         texto:
-          "A seguir encontram-se algumas características. Para cada item escolha: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente. (As legendas aparecem junto às opções.)",
+          "A seguir encontram-se algumas caracterÃ­sticas. Para cada item escolha: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente. (As legendas aparecem junto Ã s opÃ§Ãµes.)",
         tipo: "intro"
       },
 
       // Big5 short (big1..big10)
       {
         key: "big1",
-        texto: "1. É conversador, comunicativo.",
+        texto: "1. Ã‰ conversador, comunicativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -225,43 +226,43 @@ const Sd4: React.FC = () => {
       },
       {
         key: "big3",
-        texto: "3. É original, tem sempre novas ideias.",
+        texto: "3. Ã‰ original, tem sempre novas ideias.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big4",
-        texto: "4. É inventivo, criativo.",
+        texto: "4. Ã‰ inventivo, criativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big5",
-        texto: "5. É prestativo e ajuda os outros.",
+        texto: "5. Ã‰ prestativo e ajuda os outros.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big6",
-        texto: "6. Faz as coisas com eficiência.",
+        texto: "6. Faz as coisas com eficiÃªncia.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big7",
-        texto: "7. É sociável, extrovertido.",
+        texto: "7. Ã‰ sociÃ¡vel, extrovertido.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big8",
-        texto: "8. É um trabalhador de confiança.",
+        texto: "8. Ã‰ um trabalhador de confianÃ§a.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big9",
-        texto: "9. Fica tenso com frequência.",
+        texto: "9. Fica tenso com frequÃªncia.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -273,7 +274,7 @@ const Sd4: React.FC = () => {
       },
 
       // Final placeholder text
-      { key: "final_text", texto: "Pop up final: explicação e resultados (será calculado no backend). Obrigado por participar!", tipo: "texto" }
+      { key: "final_text", texto: "Pop up final: explicaÃ§Ã£o e resultados (serÃ¡ calculado no backend). Obrigado por participar!", tipo: "texto" }
     ];
     return arr;
   }, []);
@@ -338,6 +339,26 @@ const Sd4: React.FC = () => {
     "BX1"
   ]), []);
 
+
+  // mapa código -> grupo (para filtrar por seleção do usuário)
+  const SUBST_CODE_TO_GROUP: Record<string, string> = useMemo(() => {
+    const map: Record<string, string> = {};
+    const groups = [
+      { name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
+      { name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
+      { name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
+      { name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
+      { name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
+      { name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
+      { name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
+      { name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
+      { name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
+      { name: "Uso injetável", codes: ["BX1"] }
+    ];
+    groups.forEach((g) => g.codes.forEach((c) => (map[c] = g.name)));
+    return map;
+  }, []);
+
   const isQuestionVisible = (q: Pergunta): boolean => {
     const r = formData.respostas;
     switch (q.key) {
@@ -347,11 +368,21 @@ const Sd4: React.FC = () => {
         return r["diagnostico"] === "Sim";
       case "crimeDetalhe":
         return r["crime"] === "Sim";
-      case "outrasSubstanciasDetalhe":
+      case "substanciasSelecionadas":
         return r["substancias"] === "Sim";
+      case "outrasSubstanciasDetalhe": {
+        if (r["substancias"] !== "Sim") return false;
+        const sel = (r["substanciasSelecionadas"] as any) || [];
+        return Array.isArray(sel) && sel.includes("Outras");
+      }
       default:
-        // Questões de substâncias visíveis apenas se marcado "Sim"
-        if (SUBST_CODES_SET.has(q.key)) return r["substancias"] === "Sim";
+        if (SUBST_CODES_SET.has(q.key)) {
+          if (r["substancias"] !== "Sim") return false;
+          const group = SUBST_CODE_TO_GROUP[q.key];
+          const sel = (r["substanciasSelecionadas"] as any) || [];
+          if (Array.isArray(sel) && group) return sel.includes(group);
+          return true;
+        }
         return true;
     }
   };
@@ -383,17 +414,18 @@ const Sd4: React.FC = () => {
   const validarEtapaAtual = (): boolean => {
     const newErrors: Record<string, string> = {};
     if (step === 0 && !formData.consent) {
-      newErrors.consent = "Você precisa aceitar o termo para continuar.";
+      newErrors.consent = "VocÃª precisa aceitar o termo para continuar.";
     }
     if (step === 1) {
-      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome é obrigatório.";
-      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail é obrigatório.";
+      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome Ã© obrigatÃ³rio.";
+      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail Ã© obrigatÃ³rio.";
     }
     // validate visible questions in this step
     const perguntas = etapas[step] || [];
     perguntas.forEach((q) => {
       if (!isQuestionVisible(q)) return;
       const resp = formData.respostas[q.key];
+      if (q.tipo === "texto") {
       if (q.tipo === "texto") {
         // only certain text fields are required when visible
         if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
@@ -405,16 +437,183 @@ const Sd4: React.FC = () => {
         if (q.key === "crimeDetalhe" && formData.respostas["crime"] === "Sim") {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusação.";
         }
-        if (q.key === "outrasSubstanciasDetalhe" && formData.respostas["substancias"] === "Sim") {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique a(s) substância(s).";
+        if (q.key === "outrasSubstanciasDetalhe") {
+          const sel = (formData.respostas["substanciasSelecionadas"] as any) || [];
+          if (Array.isArray(sel) && sel.includes("Outras")) {
+            if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique as substâncias em Outras.";
+          }
         }
       } else {
-        // radio / escala: required
-        if (resp === undefined || resp === "") {
-          newErrors[q.key] = "Selecione uma opção.";
+        if (q.tipo === "checkboxes") {
+          if ((formData.respostas["substancias"] === "Sim") && (!Array.isArray(resp) || (resp as any[]).length === 0)) {
+            newErrors[q.key] = "Selecione pelo menos uma substância.";
+          }
+        } else {
+          // radio / escalas: required
+          if (resp === undefined || resp === "") {
+            newErrors[q.key] = "Selecione uma opção.";
+          }
         }
       }
-      // caso "Outro:" sem texto (não usado generically here, but safe)
+    return out;
+  };
+
+  const questionChunks = useMemo(() => {
+  const chunks: Pergunta[][] = [];
+  let buffer: Pergunta[] = [];
+
+  flatQuestions.forEach((q) => {
+    if (q.tipo === "intro") {
+      // flush buffer se tiver algo acumulado
+      if (buffer.length > 0) {
+        chunks.push(buffer);
+        buffer = [];
+      }
+      // intro sempre sozinho
+      chunks.push([q]);
+    } else {
+      buffer.push(q);
+      if (buffer.length >= CHUNK_SIZE) {
+        chunks.push(buffer);
+        buffer = [];
+      }
+    }
+  });
+
+  if (buffer.length > 0) chunks.push(buffer);
+
+  return chunks;
+}, [flatQuestions]);
+
+  // etapas: [[], []] reserved for termo (0) e dados pessoais (1)
+  const etapas = useMemo(() => {
+    const base: Pergunta[][] = [[], []];
+    return base.concat(questionChunks);
+  }, [questionChunks]);
+
+  // ---------------------------
+  // utility: visibility conditions
+  // ---------------------------
+  const SUBST_CODES_SET = useMemo(() => new Set<string>([
+    "Q1","AA1","AK1","AU1","BE1","BO1",
+    "P1","Z1","AJ1","AT1","BD1","BN1",
+    "R1","AB1","AL1","AV1","BF1","BP1",
+    "S1","AC1","AM1","AW1","BG1","BQ1",
+    "T1","AD1","AN1","AX1","BH1","BR1",
+    "U1","AE1","AO1","AY1","BI1","BS1",
+    "V1","AF1","AP1","AZ1","BJ1","BT1",
+    "W1","AG1","AQ1","BA1","BL1","BU1",
+    "X1","AH1","AR1","BB1","BM1","BV1",
+    "BX1"
+  ]), []);
+
+
+  // mapa código -> grupo (para filtrar por seleção do usuário)
+  const SUBST_CODE_TO_GROUP: Record<string, string> = useMemo(() => {
+    const map: Record<string, string> = {};
+    const groups = [
+      { name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
+      { name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
+      { name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
+      { name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
+      { name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
+      { name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
+      { name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
+      { name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
+      { name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
+      { name: "Uso injetável", codes: ["BX1"] }
+    ];
+    groups.forEach((g) => g.codes.forEach((c) => (map[c] = g.name)));
+    return map;
+  }, []);
+
+  const isQuestionVisible = (q: Pergunta): boolean => {
+    const r = formData.respostas;
+    switch (q.key) {
+      case "area":
+        return (r["escolaridade"] || "").toString().includes("Ensino Superior");
+      case "diagnosticoDetalhe":
+        return r["diagnostico"] === "Sim";
+      case "crimeDetalhe":
+        return r["crime"] === "Sim";
+      case "substanciasSelecionadas":
+        return r["substancias"] === "Sim";
+      case "outrasSubstanciasDetalhe": {
+        if (r["substancias"] !== "Sim") return false;
+        const sel = (r["substanciasSelecionadas"] as any) || [];
+        return Array.isArray(sel) && sel.includes("Outras");
+      }
+      default:
+        if (SUBST_CODES_SET.has(q.key)) {
+          if (r["substancias"] !== "Sim") return false;
+          const group = SUBST_CODE_TO_GROUP[q.key];
+          const sel = (r["substanciasSelecionadas"] as any) || [];
+          if (Array.isArray(sel) && group) return sel.includes(group);
+          return true;
+        }
+        return true;
+    }
+  };
+
+  // ---------------------------
+  // skip empty step (caused by conditionals) automatically
+  // ---------------------------
+  useEffect(() => {
+    if (!showPopup) return;
+    // when step changes, if it's a question step (>=2) but all questions are invisible, advance
+    let s = step;
+    const max = etapas.length - 1;
+    let safety = 0;
+    while (s >= 2 && s <= max) {
+      const visible = (etapas[s] || []).some((q) => isQuestionVisible(q));
+      if (!visible && s < max) {
+        s++;
+      } else break;
+      safety++;
+      if (safety > etapas.length) break;
+    }
+    if (s !== step) setStep(s);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, formData, showPopup]);
+
+  // ---------------------------
+  // validation per step
+  // ---------------------------
+  const validarEtapaAtual = (): boolean => {
+    const newErrors: Record<string, string> = {};
+    if (step === 0 && !formData.consent) {
+      newErrors.consent = "VocÃª precisa aceitar o termo para continuar.";
+    }
+    if (step === 1) {
+      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome Ã© obrigatÃ³rio.";
+      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail Ã© obrigatÃ³rio.";
+    }
+    // validate visible questions in this step
+    const perguntas = etapas[step] || [];
+    perguntas.forEach((q) => {
+      if (!isQuestionVisible(q)) return;
+      const resp = formData.respostas[q.key];
+      if (q.tipo === "texto") {
+        // only certain text fields are required when visible
+        if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a Ã¡rea de formaÃ§Ã£o.";
+        }
+        if (q.key === "diagnosticoDetalhe" && formData.respostas["diagnostico"] === "Sim") {
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o diagnÃ³stico.";
+        }
+        if (q.key === "crimeDetalhe" && formData.respostas["crime"] === "Sim") {
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusaÃ§Ã£o.";
+        }
+        
+        //
+          const sel = (formData.respostas["substanciasSelecionadas"] as any) || [];
+          if (Array.isArray(sel) && sel.includes("Outras")) {
+            if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique as substâncias em Outras.";
+          }
+        }
+        }
+        
+      // caso "Outro:" sem texto (nÃ£o usado generically here, but safe)
       if (typeof resp === "string" && resp.startsWith("Outro:") && resp === "Outro:") {
         newErrors[q.key] = "Preencha o campo 'Outro'.";
       }
@@ -475,10 +674,10 @@ const Sd4: React.FC = () => {
     if (q.tipo === "intro") {
       return (
         <div key={q.key} style={{ padding: 8 }}>
-          <h3>Instruções</h3>
+          <h3>InstruÃ§Ãµes</h3>
           <p style={{ whiteSpace: "pre-wrap" }}>{q.texto}</p>
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-            <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>Começar seção</button>
+            <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>ComeÃ§ar seÃ§Ã£o</button>
           </div>
         </div>
       );
@@ -490,9 +689,35 @@ const Sd4: React.FC = () => {
         {q.instrucoes && <p style={{ fontSize: 13, color: "#444" }}>{q.instrucoes}</p>}
         <div style={{ marginBottom: 6 }}><strong>{q.texto}</strong></div>
 
+        {/* seleção múltipla por checkboxes */}
+        {q.tipo === "checkboxes" && q.opcoes && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {q.opcoes.map((op) => {
+              const list = (resp as string[]) || [];
+              const checked = Array.isArray(list) && list.includes(op);
+              return (
+                <label key={op} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, padding: "4px 0" }}>
+                  <span>{op}</span>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => {
+                      const prev = ((formData.respostas[q.key] as string[]) || []).slice();
+                      let next: string[];
+                      if (e.target.checked) next = Array.from(new Set([...prev, op]));
+                      else next = prev.filter((x) => x !== op);
+                      handleResposta(q.key, next as any);
+                    }}
+                  />
+                </label>
+              );
+            })}
+          </div>
+        )}
+
         {/* radio / big5 */}
-        
-        {/* radio padrão */}
+
+        {/* radio padrÃ£o */}
         {q.tipo === "radio" && q.opcoes && (
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {q.opcoes.map((op) => (
@@ -646,7 +871,7 @@ const Sd4: React.FC = () => {
       handleClosePopup();
     } catch (err) {
       console.error(err);
-      alert("Erro ao enviar respostas. Verifique a conexão com o backend.");
+      alert("Erro ao enviar respostas. Verifique a conexÃ£o com o backend.");
     }
   };
 
@@ -656,11 +881,11 @@ const Sd4: React.FC = () => {
   return (
     <div className="sd4-wrapper">
       <img src={logoUrl} alt="Logo" className="logo-centered" />
-      <h1 className="sd4-title">Quais traços ocultos moldam sua personalidade?</h1>
+      <h1 className="sd4-title">Quais traÃ§os ocultos moldam sua personalidade?</h1>
       <p className="sd4-text">
-        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traços de personalidade, através de métricas científicas que calculam traços de sadismo, psicopatia, maquiavelismo e narcisismo. Suas respostas são anônimas e serão usadas para pesquisa.
+        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar traÃ§os de personalidade, atravÃ©s de mÃ©tricas cientÃ­ficas que calculam traÃ§os de sadismo, psicopatia, maquiavelismo e narcisismo. Suas respostas sÃ£o anÃ´nimas e serÃ£o usadas para pesquisa.
       </p>
-      <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás da minha personalidade</button>
+      <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que hÃ¡ por trÃ¡s da minha personalidade</button>
 
       {showPopup && (
         <div className="popup-overlay">
@@ -680,42 +905,42 @@ const Sd4: React.FC = () => {
                   {!mostrarTermoCompleto ? (
                     <>
                       <p>
-                        Você está sendo convidado a participar, como voluntário/a, de uma pesquisa sobre diferentes formas de pensar, sentir e agir no dia-a-dia e uso de álcool e outras substâncias, sob a responsabilidade da Psicóloga Profa. Dra. Ana
-                        Cristina Resende (CRP 09/2113), vinculada à PUC Goiás. Após receber os esclarecimentos e as informações a seguir, no caso de aceitar fazer parte do estudo, favor escolher a opção CONCORDO. Caso os resultados desta pesquisa sejam divulgados,
-                        a sua identidade NÃO será revelada.
+                        VocÃª estÃ¡ sendo convidado a participar, como voluntÃ¡rio/a, de uma pesquisa sobre diferentes formas de pensar, sentir e agir no dia-a-dia e uso de Ã¡lcool e outras substÃ¢ncias, sob a responsabilidade da PsicÃ³loga Profa. Dra. Ana
+                        Cristina Resende (CRP 09/2113), vinculada Ã  PUC GoiÃ¡s. ApÃ³s receber os esclarecimentos e as informaÃ§Ãµes a seguir, no caso de aceitar fazer parte do estudo, favor escolher a opÃ§Ã£o CONCORDO. Caso os resultados desta pesquisa sejam divulgados,
+                        a sua identidade NÃƒO serÃ¡ revelada.
                       </p>
                       <p>
-                        O objetivo do nosso estudo é a adaptação de uma medida com propriedades científicas adequadas para avaliar características da personalidade no contexto brasileiro para pessoas adultas. Este estudo é realizado online através de um formulário
-                        com uma série de perguntas objetivas, que deve durar aproximadamente 20 minutos para concluí-lo, sendo garantidas a segurança e a privacidade das suas informações. Sua participação é anônima, ou seja, não pediremos seu nome e nem dados como CPF
+                        O objetivo do nosso estudo Ã© a adaptaÃ§Ã£o de uma medida com propriedades cientÃ­ficas adequadas para avaliar caracterÃ­sticas da personalidade no contexto brasileiro para pessoas adultas. Este estudo Ã© realizado online atravÃ©s de um formulÃ¡rio
+                        com uma sÃ©rie de perguntas objetivas, que deve durar aproximadamente 20 minutos para concluÃ­-lo, sendo garantidas a seguranÃ§a e a privacidade das suas informaÃ§Ãµes. Sua participaÃ§Ã£o Ã© anÃ´nima, ou seja, nÃ£o pediremos seu nome e nem dados como CPF
                         ou identidade.
                       </p>
                       <p>
-                        Nossa equipe de Pesquisadores é composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela Mestranda Cristina Damasceno, e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, Luísa Libaroni
+                        Nossa equipe de Pesquisadores Ã© composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela Mestranda Cristina Damasceno, e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, LuÃ­sa Libaroni
                         Artiaga e Marcella Martins Dell Isola.
                       </p>
                       <p>
-                        Em caso de qualquer dúvida sobre a pesquisa, você poderá entrar em contato com os pesquisadores ou o Comitê de Ética em Pesquisa com Seres Humanos da Pontifícia Universidade Católica de Goiás (CEP - PUC Goiás): Doutorando Tharmes Chiodarelli
-                        Cambuava dos Santos, (61) 98231-6827, e-mail tharmes24dp@gmail.com, Mestranda Cristina Damasceno (62) 98589-0186, e-mail cristinadge@gmail.com. Pesquisadora responsável Profa. Dra. Ana Cristina Resende (62) 99137-0535, e-mail cristina.psi@pucgoias.edu.br.
+                        Em caso de qualquer dÃºvida sobre a pesquisa, vocÃª poderÃ¡ entrar em contato com os pesquisadores ou o ComitÃª de Ã‰tica em Pesquisa com Seres Humanos da PontifÃ­cia Universidade CatÃ³lica de GoiÃ¡s (CEP - PUC GoiÃ¡s): Doutorando Tharmes Chiodarelli
+                        Cambuava dos Santos, (61) 98231-6827, e-mail tharmes24dp@gmail.com, Mestranda Cristina Damasceno (62) 98589-0186, e-mail cristinadge@gmail.com. Pesquisadora responsÃ¡vel Profa. Dra. Ana Cristina Resende (62) 99137-0535, e-mail cristina.psi@pucgoias.edu.br.
                       </p>
                       <p>
-                        Pontifícia Universidade Católica de Goiás Av. Universitária 1.440, Setor Universitário CEP: 74605-010 - Goiânia, Goiás Comitê de Ética de Pesquisa (CEP) (62) 3946-1512, e-mail cep@pucgoias.edu.br, Av. Universitária, 1069, St. Universitário,
-                        Goiânia/GO. Funcionamento: das 08h às 17h, de segunda-feira a sexta-feira.
+                        PontifÃ­cia Universidade CatÃ³lica de GoiÃ¡s Av. UniversitÃ¡ria 1.440, Setor UniversitÃ¡rio CEP: 74605-010 - GoiÃ¢nia, GoiÃ¡s ComitÃª de Ã‰tica de Pesquisa (CEP) (62) 3946-1512, e-mail cep@pucgoias.edu.br, Av. UniversitÃ¡ria, 1069, St. UniversitÃ¡rio,
+                        GoiÃ¢nia/GO. Funcionamento: das 08h Ã s 17h, de segunda-feira a sexta-feira.
                       </p>
                       <p>
-                        Riscos e benefícios: Este estudo possui riscos mínimos para os participantes, pois é possível que algumas perguntas do questionário possam causar algum desconforto ou constrangimento, ou que você se canse. Caso você se sinta desconfortável, poderá
-                        desistir de participar da pesquisa a qualquer momento, sem nenhum prejuízo ou penalidade. Se preciso for, os pesquisadores estão prontos para dar mais informações e apoio psicológico. Sua participação é voluntária e não há pagamento nem custo
-                        para você. Se houver algum dano decorrente de sua participação no estudo, você terá direito a uma indenização.
+                        Riscos e benefÃ­cios: Este estudo possui riscos mÃ­nimos para os participantes, pois Ã© possÃ­vel que algumas perguntas do questionÃ¡rio possam causar algum desconforto ou constrangimento, ou que vocÃª se canse. Caso vocÃª se sinta desconfortÃ¡vel, poderÃ¡
+                        desistir de participar da pesquisa a qualquer momento, sem nenhum prejuÃ­zo ou penalidade. Se preciso for, os pesquisadores estÃ£o prontos para dar mais informaÃ§Ãµes e apoio psicolÃ³gico. Sua participaÃ§Ã£o Ã© voluntÃ¡ria e nÃ£o hÃ¡ pagamento nem custo
+                        para vocÃª. Se houver algum dano decorrente de sua participaÃ§Ã£o no estudo, vocÃª terÃ¡ direito a uma indenizaÃ§Ã£o.
                       </p>
                       <p>
-                        Sua ajuda é muito importante para entendermos mais sobre como as pessoas tendem a pensar, sentir e agir. As informações que você fornecer serão usadas somente para esta pesquisa e para estudos futuros relacionados. Os resultados ajudarão em relatórios
-                        científicos e outras publicações.
+                        Sua ajuda Ã© muito importante para entendermos mais sobre como as pessoas tendem a pensar, sentir e agir. As informaÃ§Ãµes que vocÃª fornecer serÃ£o usadas somente para esta pesquisa e para estudos futuros relacionados. Os resultados ajudarÃ£o em relatÃ³rios
+                        cientÃ­ficos e outras publicaÃ§Ãµes.
                       </p>
                       <p>
-                        Como parte do processo científico, este estudo também avaliará a estabilidade das respostas ao longo do tempo. Por esse motivo, você poderá ser contatada (o) novamente dentro de um prazo de 30 dias para responder a um dos questionários já
-                        aplicados. Essa segunda participação também é totalmente voluntária, anônima e com duração de 5 minutos.
+                        Como parte do processo cientÃ­fico, este estudo tambÃ©m avaliarÃ¡ a estabilidade das respostas ao longo do tempo. Por esse motivo, vocÃª poderÃ¡ ser contatada (o) novamente dentro de um prazo de 30 dias para responder a um dos questionÃ¡rios jÃ¡
+                        aplicados. Essa segunda participaÃ§Ã£o tambÃ©m Ã© totalmente voluntÃ¡ria, anÃ´nima e com duraÃ§Ã£o de 5 minutos.
                       </p>
                       <p>
-                        O aceite do presente Termo de Consentimento Livre e Esclarecido significa que você concorda com a participação voluntária na pesquisa e autoriza a coleta dos dados para fins científicos. Você também declara que foi informado sobre os objetivos
+                        O aceite do presente Termo de Consentimento Livre e Esclarecido significa que vocÃª concorda com a participaÃ§Ã£o voluntÃ¡ria na pesquisa e autoriza a coleta dos dados para fins cientÃ­ficos. VocÃª tambÃ©m declara que foi informado sobre os objetivos
                         e os procedimentos desta pesquisa de forma clara e detalhada.
                       </p>
                       <div style={{ marginTop: 8 }}>
@@ -724,7 +949,7 @@ const Sd4: React.FC = () => {
                     </>
                   ) : (
                     <div>
-                      <p>Desde já agradecemos sua participação e contribuição, voce terá um resultado já nesse formulário, porém a avaliação é feita em duas etapas, onde o formulário é respondido 30 dias após esse.</p>
+                      <p>Desde jÃ¡ agradecemos sua participaÃ§Ã£o e contribuiÃ§Ã£o, voce terÃ¡ um resultado jÃ¡ nesse formulÃ¡rio, porÃ©m a avaliaÃ§Ã£o Ã© feita em duas etapas, onde o formulÃ¡rio Ã© respondido 30 dias apÃ³s esse.</p>
                     </div>
                   )}
                 </div>
@@ -736,7 +961,7 @@ const Sd4: React.FC = () => {
                 {errors.consent && <div style={{ color: "crimson", marginTop: 6 }}>{errors.consent}</div>}
 
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "flex-end", gap: 8 }}>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>Avançar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>AvanÃ§ar</button>
                 </div>
               </>
             )}
@@ -753,7 +978,7 @@ const Sd4: React.FC = () => {
                 </div>
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={() => setStep(0)}>Voltar</button>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>Avançar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>AvanÃ§ar</button>
                 </div>
               </>
             )}
@@ -764,7 +989,7 @@ const Sd4: React.FC = () => {
                 <div style={{ maxHeight: "60vh", overflowY: "auto", paddingRight: 8 }}>
                   {/* render visible questions in this chunk */}
                   {(etapas[step] || []).filter((q) => isQuestionVisible(q)).length === 0 ? (
-                    <div style={{ padding: 8, fontStyle: "italic" }}>Nenhuma pergunta nesta tela — avance para continuar.</div>
+                    <div style={{ padding: 8, fontStyle: "italic" }}>Nenhuma pergunta nesta tela â€” avance para continuar.</div>
                   ) : (
                     (etapas[step] || []).map((q) => renderPergunta(q))
                   )}
@@ -774,7 +999,7 @@ const Sd4: React.FC = () => {
                   <div style={{ fontSize: 12, color: "#666" }}>{`Tela ${step} de ${etapas.length - 1}`}</div>
                   <div style={{ display: "flex", gap: 8 }}>
                     <button className="btn-secondary" onClick={handleBack}>Voltar</button>
-                    <button className="btn-primary" onClick={handleNext}>Avançar</button>
+                    <button className="btn-primary" onClick={handleNext}>AvanÃ§ar</button>
                   </div>
                 </div>
               </>
@@ -784,7 +1009,7 @@ const Sd4: React.FC = () => {
             {step === etapas.length - 1 && (
               <>
                 <h2>Finalizar</h2>
-                <p>Obrigado! Ao enviar, seus dados serão encaminhados ao servidor para processamento e cálculo das pontuações. As respostas são anônimas.</p>
+                <p>Obrigado! Ao enviar, seus dados serÃ£o encaminhados ao servidor para processamento e cÃ¡lculo das pontuaÃ§Ãµes. As respostas sÃ£o anÃ´nimas.</p>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={handleBack}>Voltar</button>
                   <button className="btn-primary" onClick={handleSubmit}>Enviar</button>
@@ -798,7 +1023,7 @@ const Sd4: React.FC = () => {
       {resultado && (
         <div className="popup-overlay">
           <div className="popup-box">
-            <h2>Resultado da sua Avaliação</h2>
+            <h2>Resultado da sua AvaliaÃ§Ã£o</h2>
 
             <div className="resultado-section">
               <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>

@@ -14,6 +14,7 @@ export const perguntasMap: Record<string, string> = {
   crimeDetalhe: "Qual crime?",
   substancias: "Você já usou alguma substância sem prescrição médica?",
   outrasSubstanciasDetalhe: "Outras substâncias (especificar)",
+  substanciasSelecionadas: "Substâncias selecionadas",
 
   // ---------------- Escala 1-5 (q1..q28) ----------------
   q1: "Não acho inteligente deixar as pessoas conhecerem os meus segredos.",
