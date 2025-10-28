@@ -1,4 +1,4 @@
-﻿// Sd4.tsx
+// Sd4.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import "../App.css";
 import { API_URL } from "../api";
@@ -104,11 +104,11 @@ const Sd4: React.FC = () => {
       // Escala 1-5 (q1 - q28)
       { key: "q1", texto: "1. Não acho inteligente deixar as pessoas conhecerem os meus segredos.", tipo: "escala1a5" },
       { key: "q2", texto: "2. Acredito que as pessoas devem fazer o que for preciso para ganhar o apoio de pessoas importantes.", tipo: "escala1a5" },
-      { key: "q3", texto: "3. Evito conflito direto com as pessoas porque elas podem me ser ├║teis no futuro.", tipo: "escala1a5" },
-      { key: "q4", texto: "4. Acho que as pessoas devem se manter reservadas se quiserem alcan├ºar seus objetivos.", tipo: "escala1a5" },
+      { key: "q3", texto: "3. Evito conflito direto com as pessoas porque elas podem me ser úteis no futuro.", tipo: "escala1a5" },
+      { key: "q4", texto: "4. Acho que as pessoas devem se manter reservadas se quiserem alcançar seus objetivos.", tipo: "escala1a5" },
 
-      { key: "q5", texto: "5. Acredito que para manipular uma situação ├® necess├írio planejamento.", tipo: "escala1a5" },
-      { key: "q6", texto: "6. Bajulação ├® uma boa maneira de conquistar as pessoas para o seu lado.", tipo: "escala1a5" },
+      { key: "q5", texto: "5. Acredito que para manipular uma situação é necessário planejamento.", tipo: "escala1a5" },
+      { key: "q6", texto: "6. Bajulação é uma boa maneira de conquistar as pessoas para o seu lado.", tipo: "escala1a5" },
       { key: "q7", texto: "7. Adoro quando um plano feito com 'jeitinho' tem sucesso.", tipo: "escala1a5" },
       { key: "q8", texto: "8. As pessoas me veem como uma pessoa que lidera com facilidade.", tipo: "escala1a5" },
 
@@ -117,7 +117,7 @@ const Sd4: React.FC = () => {
       { key: "q11", texto: "11. Sei que sou especial porque as pessoas sempre me dizem isso.", tipo: "escala1a5" },
       { key: "q12", texto: "12. Tenho algumas qualidades extraordinárias.", tipo: "escala1a5" },
 
-      { key: "q13", texto: "13. ├ë prov├ível que no futuro eu seja famoso em alguma Área.", tipo: "escala1a5" },
+      { key: "q13", texto: "13. é provável que no futuro eu seja famoso em alguma Área.", tipo: "escala1a5" },
       { key: "q14", texto: "14. Gosto de me exibir de vez em quando.", tipo: "escala1a5" },
       { key: "q15", texto: "15. As pessoas frequentemente dizem que eu estou descontrolado.", tipo: "escala1a5" },
       { key: "q16", texto: "16. Tenho a tendência de bater de frente com as autoridades, desrespeitando suas regras.", tipo: "escala1a5" },
@@ -125,12 +125,12 @@ const Sd4: React.FC = () => {
       { key: "q17", texto: "17. já me envolvi em mais conflitos do que a maioria das pessoas da minha idade e Gênero.", tipo: "escala1a5" },
       { key: "q18", texto: "18. Eu tenho a tendência de fazer primeiro e pensar depois.", tipo: "escala1a5" },
       { key: "q19", texto: "19. já tive problemas com a justiça.", tipo: "escala1a5" },
-      { key: "q20", texto: "20. ├Çs vezes, me envolvo em situações perigosas.", tipo: "escala1a5" },
+      { key: "q20", texto: "20. ás vezes, me envolvo em situações perigosas.", tipo: "escala1a5" },
 
       { key: "q21", texto: "21. As pessoas que me causam problemas sempre se arrependem.", tipo: "escala1a5" },
       { key: "q22", texto: "22. Gosto de assistir uma briga de rua.", tipo: "escala1a5" },
       { key: "q23", texto: "23. Gosto muito de assistir filmes e esportes violentos.", tipo: "escala1a5" },
-      { key: "q24", texto: "24. Acho engraçado quando pessoas babacas se d├úo mal.", tipo: "escala1a5" },
+      { key: "q24", texto: "24. Acho engraçado quando pessoas babacas se dão mal.", tipo: "escala1a5" },
 
       { key: "q25", texto: "25. Gosto de jogar videogames/jogos violentos.", tipo: "escala1a5" },
       { key: "q26", texto: "26. Acho que algumas pessoas merecem sofrer.", tipo: "escala1a5" },
@@ -150,24 +150,24 @@ const Sd4: React.FC = () => {
       { key: "q7_1", texto: "1. Fui propositalmente maldoso(a) com outras pessoas no Ensino Médio.", tipo: "escala1a7" },
       { key: "q7_2", texto: "2. Gosto de machucar fisicamente as pessoas", tipo: "escala1a7" },
       { key: "q7_3", texto: "3. já dominei outras pessoas usando medo.", tipo: "escala1a7" },
-      { key: "q7_4", texto: "4. ├Çs vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
+      { key: "q7_4", texto: "4. ás vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
 
-      { key: "q7_5", texto: "5. Gosto de fazer piadas ├ás custas dos outros.", tipo: "escala1a7" },
+      { key: "q7_5", texto: "5. Gosto de fazer piadas as custas dos outros.", tipo: "escala1a7" },
       { key: "q7_6", texto: "6. Em jogos de videogame, gosto do realismo dos jorros de sangue.", tipo: "escala1a7" },
-      { key: "q7_7", texto: "7. já enganei algu├®m e ri quando pareceram tolos.", tipo: "escala1a7" },
+      { key: "q7_7", texto: "7. já enganei alguém e ri quando pareceram tolos.", tipo: "escala1a7" },
       { key: "q7_8", texto: "8. Gosto de atormentar pessoas.", tipo: "escala1a7" },
 
-      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores Não t├¬m por onde escapar.", tipo: "escala1a7" },
+      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores Não tem por onde escapar.", tipo: "escala1a7" },
       { key: "q7_10", texto: "10. Eu gosto de machucar (ou fingir que vou machucar) meu parceiro(a) durante o sexo.", tipo: "escala1a7" },
-      { key: "q7_11", texto: "11. Eu gosto de ter o papel de vil├úo em jogos e torturar os outros personagens.", tipo: "escala1a7" },
-      { key: "q7_12", texto: "12. Quando tiro sarro de algu├®m, acho especialmente divertido se eles percebem o que estou fazendo.", tipo: "escala1a7" },
+      { key: "q7_11", texto: "11. Eu gosto de ter o papel de vilão em jogos e torturar os outros personagens.", tipo: "escala1a7" },
+      { key: "q7_12", texto: "12. Quando tiro sarro de alguém, acho especialmente divertido se eles percebem o que estou fazendo.", tipo: "escala1a7" },
 
       { key: "q7_13", texto: "13. Em corridas profissionais de carros, os acidentes são as partes que eu mais gosto.", tipo: "escala1a7" },
       { key: "q7_14", texto: "14. Talvez eu Não deveria, mas nunca me canso de zombar de alguns colegas.", tipo: "escala1a7" },
-      { key: "q7_15", texto: "15. Eu jamais humilharia algu├®m de prop├│sito.", tipo: "escala1a7" },
+      { key: "q7_15", texto: "15. Eu jamais humilharia alguém de propósito.", tipo: "escala1a7" },
       { key: "q7_16", texto: "16. Eu tenho o direito de empurrar as pessoas.", tipo: "escala1a7" },
 
-      { key: "q7_17", texto: "17. Adoro assistir v├¡deos na internet (por exemplo, Youtube, facebook) de pessoas brigando.", tipo: "escala1a7" },
+      { key: "q7_17", texto: "17. Adoro assistir vídeos na internet (por exemplo, Youtube, facebook) de pessoas brigando.", tipo: "escala1a7" },
       { key: "q7_18", texto: "18. Esportes são violentos demais.", tipo: "escala1a7" },
 
       // Intro: escala 0-4
@@ -180,12 +180,12 @@ const Sd4: React.FC = () => {
 
       // Escala 0-4 (q0_1..q0_18)
       { key: "q0_1", texto: "1. Sei o que fazer para que as pessoas se sintam bem.", tipo: "escala0a4" },
-      { key: "q0_2", texto: "2. Sou competente para analisar problemas por diferentes ÔÇ£├óngulosÔÇØ.", tipo: "escala0a4" },
+      { key: "q0_2", texto: "2. Sou competente para analisar problemas por diferentes ângulos.", tipo: "escala0a4" },
       { key: "q0_3", texto: "3. Coisas boas me aguardam no futuro.", tipo: "escala0a4" },
       { key: "q0_4", texto: "4. Consigo encontrar em minha vida motivos para ser grato(a).", tipo: "escala0a4" },
 
-      { key: "q0_5", texto: "5. Acredito em uma for├ºa sagrada que nos liga um ao outro.", tipo: "escala0a4" },
-      { key: "q0_6", texto: "6. Crio coisas ├║teis.", tipo: "escala0a4" },
+      { key: "q0_5", texto: "5. Acredito em uma força sagrada que nos liga um ao outro.", tipo: "escala0a4" },
+      { key: "q0_6", texto: "6. Crio coisas úteis.", tipo: "escala0a4" },
       { key: "q0_7", texto: "7. Sou uma pessoa verdadeira.", tipo: "escala0a4" },
       { key: "q0_8", texto: "8. Consigo criar um bom ambiente nos grupos que trabalho.", tipo: "escala0a4" },
 
@@ -196,24 +196,24 @@ const Sd4: React.FC = () => {
 
       { key: "q0_13", texto: "13. Eu me sinto cheio(a) de vida.", tipo: "escala0a4" },
       { key: "q0_14", texto: "14. Tenho facilidade para organizar trabalhos em grupos.", tipo: "escala0a4" },
-      { key: "q0_15", texto: "15. Consigo ajudar pessoas a se entenderem quando h├í uma discussão.", tipo: "escala0a4" },
+      { key: "q0_15", texto: "15. Consigo ajudar pessoas a se entenderem quando há uma discussão.", tipo: "escala0a4" },
       { key: "q0_16", texto: "16. Tenho facilidade para fazer uma situação chata se tornar divertida.", tipo: "escala0a4" },
 
-      { key: "q0_17", texto: "17. Costumo tomar decis├Áes quando estou ciente das consequ├¬ncias dos meus atos.", tipo: "escala0a4" },
+      { key: "q0_17", texto: "17. Costumo tomar decisões quando estou ciente das consequências dos meus atos.", tipo: "escala0a4" },
       { key: "q0_18", texto: "18. Sou uma pessoa justa.", tipo: "escala0a4" },
 
       // Intro: Big Five short (legend shown in each option)
       {
         key: "intro_big5",
         texto:
-          "A seguir encontram-se algumas caracter├¡sticas. Para cada item escolha: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente. (As legendas aparecem junto ├ás op├º├Áes.)",
+          "A seguir encontram-se algumas características. Para cada item escolha: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente. (As legendas aparecem junto às opções.)",
         tipo: "intro"
       },
 
       // Big5 short (big1..big10)
       {
         key: "big1",
-        texto: "1. ├ë conversador, comunicativo.",
+        texto: "1. é conversador, comunicativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -225,37 +225,37 @@ const Sd4: React.FC = () => {
       },
       {
         key: "big3",
-        texto: "3. ├ë original, tem sempre novas ideias.",
+        texto: "3. é original, tem sempre novas ideias.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big4",
-        texto: "4. ├ë inventivo, criativo.",
+        texto: "4. é inventivo, criativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big5",
-        texto: "5. ├ë prestativo e ajuda os outros.",
+        texto: "5. é prestativo e ajuda os outros.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big6",
-        texto: "6. Faz as coisas com efici├¬ncia.",
+        texto: "6. Faz as coisas com eficiência.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big7",
-        texto: "7. ├ë soci├ível, extrovertido.",
+        texto: "7. é sociável, extrovertido.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big8",
-        texto: "8. ├ë um trabalhador de confian├ºa.",
+        texto: "8. é um trabalhador de confiança.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -273,7 +273,7 @@ const Sd4: React.FC = () => {
       },
 
       // Final placeholder text
-      { key: "final_text", texto: "Pop up final: explica├º├úo e resultados (ser├í calculado no backend). Obrigado por participar!", tipo: "texto" }
+      { key: "final_text", texto: "Pop up final: explicação e resultados (seria calculado no backend). Obrigado por participar!", tipo: "texto" }
     ];
     return arr;
   }, []);
@@ -386,8 +386,8 @@ const Sd4: React.FC = () => {
       newErrors.consent = "você precisa aceitar o termo para continuar.";
     }
     if (step === 1) {
-      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome ├® obrigat├│rio.";
-      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail ├® obrigat├│rio.";
+      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome é obrigatório.";
+      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail é obrigatório.";
     }
     // validate visible questions in this step
     const perguntas = etapas[step] || [];
@@ -397,13 +397,13 @@ const Sd4: React.FC = () => {
       if (q.tipo === "texto") {
         // only certain text fields are required when visible
         if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a Área de forma├º├úo.";
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a Área de formação.";
         }
         if (q.key === "diagnosticoDetalhe" && formData.respostas["diagnostico"] === "Sim") {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o diagnóstico.";
         }
         if (q.key === "crimeDetalhe" && formData.respostas["crime"] === "Sim") {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusa├º├úo.";
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusação.";
         }
         if (q.key === "outrasSubstanciasDetalhe" && formData.respostas["substancias"] === "Sim") {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique a(s) substância(s).";
@@ -411,7 +411,7 @@ const Sd4: React.FC = () => {
       } else {
         // radio / escala: required
         if (resp === undefined || resp === "") {
-          newErrors[q.key] = "Selecione uma op├º├úo.";
+          newErrors[q.key] = "Selecione uma opção.";
         }
       }
       // caso "Outro:" sem texto (Não usado generically here, but safe)
@@ -646,7 +646,7 @@ const Sd4: React.FC = () => {
       handleClosePopup();
     } catch (err) {
       console.error(err);
-      alert("Erro ao enviar respostas. Verifique a conex├úo com o backend.");
+      alert("Erro ao enviar respostas. Verifique a conexão com o backend.");
     }
   };
 
@@ -656,11 +656,11 @@ const Sd4: React.FC = () => {
   return (
     <div className="sd4-wrapper">
       <img src={logoUrl} alt="Logo" className="logo-centered" />
-      <h1 className="sd4-title">Quais tra├ºos ocultos moldam sua personalidade?</h1>
+      <h1 className="sd4-title">Quais fatores influenciam o seu jeito de ser e viver?</h1>
       <p className="sd4-text">
-        O Short Dark Tetrad (SD4) e instrumentos relacionados visam avaliar tra├ºos de personalidade, atrav├®s de m├®tricas cient├¡ficas que calculam tra├ºos de sadismo, psicopatia, maquiavelismo e narcisismo. Suas respostas são an├┤nimas e ser├úo usadas para pesquisa.
+        Este conjunto de questionários utiliza métricas científicas para compreender diferentes aspectos da sua personalidade, hábitos e estilo de vida — incluindo tanto seus recursos pessoais quanto possíveis vulnerabilidades.Suas respostas são totalmente anônimas e serão usadas apenas para fins de pesquisa. Tempo médio de resposta é 25min
       </p>
-      <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que h├í por tr├ís da minha personalidade</button>
+      <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás de meu jeito de viver</button>
 
       {showPopup && (
         <div className="popup-overlay">
@@ -678,54 +678,54 @@ const Sd4: React.FC = () => {
                 <h2>Termo de Consentimento</h2>
                 <div style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: 8 }}>
                   {!mostrarTermoCompleto ? (
-                    <>
-                      <p>
-                        você está sendo convidado a participar, como volunTário/a, de uma pesquisa sobre diferentes formas de pensar, sentir e agir no dia-a-dia e uso de ├ílcool e outras substâncias, sob a responsabilidade da Psic├│loga Profa. Dra. Ana
-                        Cristina Resende (CRP 09/2113), vinculada ├á PUC Goi├ís. Ap├│s receber os esclarecimentos e as informa├º├Áes a seguir, no caso de aceitar fazer parte do estudo, favor escolher a op├º├úo CONCORDO. Caso os resultados desta pesquisa sejam divulgados,
-                        a sua identidade N├âO ser├í revelada.
-                      </p>
-                      <p>
-                        O objetivo do nosso estudo ├® a adapta├º├úo de uma medida com propriedades cient├¡ficas adequadas para avaliar caracter├¡sticas da personalidade no contexto brasileiro para pessoas adultas. Este estudo ├® realizado online atrav├®s de um formul├írio
-                        com uma s├®rie de perguntas objetivas, que deve durar aproximadamente 20 minutos para conclu├¡-lo, sendo garantidas a seguran├ºa e a privacidade das suas informa├º├Áes. Sua participa├º├úo ├® an├┤nima, ou seja, Não pediremos seu nome e nem dados como CPF
-                        ou identidade.
-                      </p>
-                      <p>
-                        Nossa equipe de Pesquisadores ├® composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela Mestranda Cristina Damasceno, e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, Lu├¡sa Libaroni
-                        Artiaga e Marcella Martins Dell Isola.
-                      </p>
-                      <p>
-                        Em caso de qualquer d├║vida sobre a pesquisa, você poder├í entrar em contato com os pesquisadores ou o Comit├¬ de ├ëtica em Pesquisa com Seres Humanos da Pontif├¡cia Universidade Cat├│lica de Goi├ís (CEP - PUC Goi├ís): Doutorando Tharmes Chiodarelli
-                        Cambuava dos Santos, (61) 98231-6827, e-mail tharmes24dp@gmail.com, Mestranda Cristina Damasceno (62) 98589-0186, e-mail cristinadge@gmail.com. Pesquisadora respons├ível Profa. Dra. Ana Cristina Resende (62) 99137-0535, e-mail cristina.psi@pucgoias.edu.br.
-                      </p>
-                      <p>
-                        Pontif├¡cia Universidade Cat├│lica de Goi├ís Av. UniversiTária 1.440, Setor UniversiTário CEP: 74605-010 - Goi├ónia, Goi├ís Comit├¬ de ├ëtica de Pesquisa (CEP) (62) 3946-1512, e-mail cep@pucgoias.edu.br, Av. UniversiTária, 1069, St. UniversiTário,
-                        Goi├ónia/GO. Funcionamento: das 08h ├ás 17h, de segunda-feira a sexta-feira.
-                      </p>
-                      <p>
-                        Riscos e benef├¡cios: Este estudo possui riscos mínimos para os participantes, pois ├® poss├¡vel que algumas perguntas do question├írio possam causar algum desconforto ou constrangimento, ou que você se canse. Caso você se sinta desconforTável, poder├í
-                        desistir de participar da pesquisa a qualquer momento, sem nenhum preju├¡zo ou penalidade. Se preciso for, os pesquisadores est├úo prontos para dar mais informa├º├Áes e apoio psicológico. Sua participa├º├úo ├® volunTária e Não h├í pagamento nem custo
-                        para você. Se houver algum dano decorrente de sua participa├º├úo no estudo, você ter├í direito a uma indeniza├º├úo.
-                      </p>
-                      <p>
-                        Sua ajuda ├® muito importante para entendermos mais sobre como as pessoas tendem a pensar, sentir e agir. As informa├º├Áes que você fornecer ser├úo usadas somente para esta pesquisa e para estudos futuros relacionados. Os resultados ajudar├úo em relat├│rios
-                        cient├¡ficos e outras publica├º├Áes.
-                      </p>
-                      <p>
-                        Como parte do processo cient├¡fico, este estudo tamb├®m avaliar├í a estabilidade das respostas ao longo do tempo. Por esse motivo, você poder├í ser contatada (o) novamente dentro de um prazo de 30 dias para responder a um dos question├írios já
-                        aplicados. Essa segunda participa├º├úo tamb├®m ├® totalmente volunTária, an├┤nima e com dura├º├úo de 5 minutos.
-                      </p>
-                      <p>
-                        O aceite do presente Termo de Consentimento Livre e Esclarecido significa que você concorda com a participa├º├úo volunTária na pesquisa e autoriza a coleta dos dados para fins cient├¡ficos. você tamb├®m declara que foi informado sobre os objetivos
-                        e os procedimentos desta pesquisa de forma clara e detalhada.
-                      </p>
-                      <div style={{ marginTop: 8 }}>
-                        <button className="btn-link" onClick={() => setMostrarTermoCompleto(true)}>Ler mais</button>
-                      </div>
-                    </>
-                  ) : (
-                    <div>
-                      <p>Desde já agradecemos sua participa├º├úo e contribui├º├úo, voce ter├í um resultado já nesse formul├írio, por├®m a avalia├º├úo ├® feita em duas etapas, onde o formul├írio ├® respondido 30 dias ap├│s esse.</p>
+                    <p>
+                      Você está sendo convidado(a) a participar, como voluntário(a), de uma pesquisa sobre diferentes formas de pensar, sentir e agir no dia a dia e uso de álcool e outras substâncias, sob a responsabilidade da Psicóloga Profa. Dra. Ana Cristina Resende (CRP 09/2113), vinculada à PUC Goiás. Após receber os esclarecimentos e as informações a seguir, no caso de aceitar fazer parte do estudo, favor escolher a opção CONCORDO. Caso os resultados desta pesquisa sejam divulgados, a sua identidade não será revelada.
+                    </p>
+
+                    <p>
+                      O objetivo do nosso estudo é a adaptação de uma medida com propriedades científicas adequadas para avaliar características da personalidade no contexto brasileiro para pessoas adultas. Este estudo é realizado online através de um formulário com uma série de perguntas objetivas, que deve durar aproximadamente 20 minutos para concluí-lo, sendo garantidas a segurança e a privacidade das suas informações. Sua participação é anônima, ou seja, não pediremos seu nome nem dados como CPF ou identidade.
+                    </p>
+
+                    <p>
+                      Nossa equipe de pesquisadores é composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela mestranda Cristina Damasceno e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, Luísa Libaroni Artiaga e Marcella Martins Dell Isola.
+                    </p>
+
+                    <p>
+                      Em caso de qualquer dúvida sobre a pesquisa, você poderá entrar em contato com os pesquisadores ou com o Comitê de Ética em Pesquisa com Seres Humanos da Pontifícia Universidade Católica de Goiás (CEP - PUC Goiás): Doutorando Tharmes Chiodarelli Cambuava dos Santos, (61) 98231-6827, e-mail tharmes24dp@gmail.com; Mestranda Cristina Damasceno, (62) 98589-0186, e-mail cristinadge@gmail.com; Pesquisadora responsável Profa. Dra. Ana Cristina Resende, (62) 99137-0535, e-mail cristina.psi@pucgoias.edu.br.
+                    </p>
+
+                    <p>
+                      Pontifícia Universidade Católica de Goiás — Av. Universitária, 1.440, Setor Universitário, CEP: 74605-010 - Goiânia, Goiás. Comitê de Ética em Pesquisa (CEP): (62) 3946-1512, e-mail cep@pucgoias.edu.br, Av. Universitária, 1069, Setor Universitário, Goiânia/GO. Funcionamento: das 08h às 17h, de segunda-feira a sexta-feira.
+                    </p>
+
+                    <p>
+                      Riscos e benefícios: Este estudo possui riscos mínimos para os participantes, pois é possível que algumas perguntas do questionário possam causar algum desconforto ou constrangimento, ou que você se canse. Caso você se sinta desconfortável, poderá desistir de participar da pesquisa a qualquer momento, sem nenhum prejuízo ou penalidade. Se preciso for, os pesquisadores estão prontos para dar mais informações e apoio psicológico. Sua participação é voluntária e não há pagamento nem custo para você. Se houver algum dano decorrente de sua participação no estudo, você terá direito a uma indenização.
+                    </p>
+
+                    <p>
+                      Sua ajuda é muito importante para entendermos mais sobre como as pessoas tendem a pensar, sentir e agir. As informações que você fornecer serão usadas somente para esta pesquisa e para estudos futuros relacionados. Os resultados ajudarão em relatórios científicos e outras publicações.
+                    </p>
+
+                    <p>
+                      Como parte do processo científico, este estudo também avaliará a estabilidade das respostas ao longo do tempo. Por esse motivo, você poderá ser contatado(a) novamente dentro de um prazo de 30 dias para responder a um dos questionários já aplicados. Essa segunda participação também é totalmente voluntária, anônima e com duração de 5 minutos.
+                    </p>
+
+                    <p>
+                      O aceite do presente Termo de Consentimento Livre e Esclarecido significa que você concorda com a participação voluntária na pesquisa e autoriza a coleta dos dados para fins científicos. Você também declara que foi informado(a) sobre os objetivos e os procedimentos desta pesquisa de forma clara e detalhada.
+                    </p>
+
+                    <div style={{ marginTop: 8 }}>
+                      <button className="btn-link" onClick={() => setMostrarTermoCompleto(true)}>Ler mais</button>
                     </div>
+
+                    </>
+                    ) : (
+                    <div>
+                      <p>
+                        Desde já agradecemos sua participação e contribuição. Você teria um resultado já neste formulário, porém a avaliação é feita em duas etapas, onde o formulário é respondido 30 dias após este.
+                      </p>
+                    </div>
+
                   )}
                 </div>
 
@@ -736,7 +736,7 @@ const Sd4: React.FC = () => {
                 {errors.consent && <div style={{ color: "crimson", marginTop: 6 }}>{errors.consent}</div>}
 
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "flex-end", gap: 8 }}>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>Avan├ºar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>Avançar</button>
                 </div>
               </>
             )}
@@ -774,7 +774,7 @@ const Sd4: React.FC = () => {
                   <div style={{ fontSize: 12, color: "#666" }}>{`Tela ${step} de ${etapas.length - 1}`}</div>
                   <div style={{ display: "flex", gap: 8 }}>
                     <button className="btn-secondary" onClick={handleBack}>Voltar</button>
-                    <button className="btn-primary" onClick={handleNext}>Avan├ºar</button>
+                    <button className="btn-primary" onClick={handleNext}>Avançar</button>
                   </div>
                 </div>
               </>
@@ -784,7 +784,7 @@ const Sd4: React.FC = () => {
             {step === etapas.length - 1 && (
               <>
                 <h2>Finalizar</h2>
-                <p>Obrigado! Ao enviar, seus dados ser├úo encaminhados ao servidor para processamento e c├ílculo das pontua├º├Áes. As respostas são an├┤nimas.</p>
+                <p>Obrigado! Ao enviar, seus dados serão encaminhados ao servidor para processamento e cálculo das pontuações. As respostas são anônimas.</p>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={handleBack}>Voltar</button>
                   <button className="btn-primary" onClick={handleSubmit}>Enviar</button>
@@ -798,7 +798,7 @@ const Sd4: React.FC = () => {
       {resultado && (
         <div className="popup-overlay">
           <div className="popup-box">
-            <h2>Resultado da sua Avalia├º├úo</h2>
+            <h2>Resultado da sua Avaliação</h2>
 
             <div className="resultado-section">
               <p style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
