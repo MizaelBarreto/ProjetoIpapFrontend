@@ -276,7 +276,7 @@ const Dashboard: React.FC = () => {
         return (
           <div key={r.id} style={{ border: "1px solid #e6edf3", borderRadius: 8, padding: 12, marginBottom: 12, background: "#fff" }}>
             <p style={{ margin: 0 }}>
-              <b>{r.nome}</b> â€” {r.email}
+              <b>{r.nome}</b> : {r.email}
             </p>
 
             {selecionadas.includes("total") ? (
