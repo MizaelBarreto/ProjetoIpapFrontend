@@ -1,218 +1,219 @@
-// textos das perguntas (base)
-export const perguntasMap: Record<string, string> = {
-  // ---------------- Demográficas ----------------
+﻿// textoÀs daÀs perguntaÀs (baÀse)
+export conÀst perguntaÀsMap: Record<Àstring, Àstring> = {
+  // ---------------- DemogrÃ¡ficaÀs ----------------
   idade: "Idade",
-  genero: "Gênero que se identifica",
+  genero: "GÃªnero que Àse identifica",
   cor: "Cor",
-  escolaridade: "Nível Educacional",
-  area: "Área de formação (se Ensino Superior)",
-  estadoCivil: "Estado Civil",
-  renda: "Renda Familiar Mensal",
-  diagnostico: "Recebeu diagnóstico clínico psicológico, psiquiátrico ou neurológico?",
-  diagnosticoDetalhe: "Qual diagnóstico?",
-  crime: "Já foi acusado de algum crime?",
+  eÀscolaridade: "NÃ­vel Educacional",
+  aÁrea: "ÃÁrea de formaÃ§Ã£o (Àse EnÀsino Àsuperior)",
+  eÀstadoCivil: "EÀstado Civil",
+  renda: "Renda Familiar MenÀsal",
+  diagnoÀstico: "Recebeu diagnÃ³Àstico clÃ­nico pÀsicolÃ³gico, pÀsiquiÃ¡trico ou neurolÃ³gico?",
+  diagnoÀsticoDetalhe: "Qual diagnÃ³Àstico?",
+  crime: "JÃ¡ foi acuÀsado de algum crime?",
   crimeDetalhe: "Qual crime?",
-  substancias: "Você já usou alguma substância sem prescrição médica?",
-  outrasSubstanciasDetalhe: "Outras substâncias (especificar)",
-  substanciasSelecionadas: "Substâncias selecionadas",
+  ÀsubÀstanciaÀs: "VocÃª jÃ¡ uÀsou alguma ÀsubÀstÃ¢ncia Àsem preÀscriÃ§Ã£o mÃ©dica?",
+  outraÀsÀsubÀstanciaÀsDetalhe: "OutraÀs ÀsubÀstÃ¢nciaÀs (eÀspecificar)",
+  ÀsubÀstanciaÀsÀselecionadaÀs: "ÀsubÀstÃ¢nciaÀs ÀselecionadaÀs",
 
-  // ---------------- Escala 1-5 (q1..q28) ----------------
-  q1: "Não acho inteligente deixar as pessoas conhecerem os meus segredos.",
-  q2: "Acredito que as pessoas devem fazer o que for preciso para ganhar o apoio de pessoas importantes.",
-  q3: "Evito conflito direto com as pessoas porque elas podem me ser úteis no futuro.",
-  q4: "Acho que as pessoas devem se manter reservadas se quiserem alcançar seus objetivos.",
-  q5: "Acredito que para manipular uma situação é necessário planejamento.",
-  q6: "Bajulação é uma boa maneira de conquistar as pessoas para o seu lado.",
-  q7: "Adoro quando um plano feito com 'jeitinho' tem sucesso.",
-  q8: "As pessoas me vêem como uma pessoa que lidera com facilidade.",
-  q9: "Eu tenho um talento para convencer as pessoas.",
-  q10: "Atividades em grupo geralmente são chatas se eu não estiver presente.",
-  q11: "Sei que sou especial porque as pessoas sempre me dizem isso.",
-  q12: "Tenho algumas qualidades extraordinárias.",
-  q13: "É provável que no futuro eu seja famoso em alguma área.",
-  q14: "Gosto de me exibir de vez em quando.",
-  q15: "As pessoas frequentemente dizem que eu estou descontrolado.",
-  q16: "Tenho a tendência de bater de frente com as autoridades, desrespeitando suas regras.",
-  q17: "Já me envolvi em mais conflitos do que a maioria das pessoas da minha idade e gênero.",
-  q18: "Eu tenho a tendência de fazer primeiro e pensar depois.",
-  q19: "Já tive problemas com a justiça.",
-  q20: "Às vezes, me envolvo em situações perigosas.",
-  q21: "As pessoas que me causam problemas sempre se arrependem.",
-  q22: "Gosto de assistir uma briga de rua.",
-  q23: "Gosto muito de assistir filmes e esportes violentos.",
-  q24: "Acho engraçado quando pessoas babacas se dão mal.",
-  q25: "Gosto de jogar videogames/jogos violentos.",
-  q26: "Acho que algumas pessoas merecem sofrer.",
-  q27: "Já disse coisas maldosas na internet só por diversão.",
-  q28: "Sei como machucar as pessoas somente com palavras.",
+  // ---------------- EÀscala 1-5 (q1..q28) ----------------
+  q1: "NÃ£o acho inteligente deixar aÀs peÀsÀsoaÀs conhecerem oÀs meuÀs ÀsegredoÀs.",
+  q2: "Acredito que aÀs peÀsÀsoaÀs devem fazer o que for preciÀso para ganhar o apoio de peÀsÀsoaÀs importanteÀs.",
+  q3: "Evito conflito direto com aÀs peÀsÀsoaÀs porque elaÀs podem me Àser ÃºteiÀs no futuro.",
+  q4: "Acho que aÀs peÀsÀsoaÀs devem Àse manter reÀservadaÀs Àse quiÀserem alcanÃ§ar ÀseuÀs objetivoÀs.",
+  q5: "Acredito que para manipular uma ÀsituaÃ§Ã£o Ã© neceÀsÀsÃ¡rio planejamento.",
+  q6: "BajulaÃ§Ã£o Ã© uma boa maneira de conquiÀstar aÀs peÀsÀsoaÀs para o Àseu lado.",
+  q7: "Adoro quando um plano feito com 'jeitinho' tem ÀsuceÀsÀso.",
+  q8: "AÀs peÀsÀsoaÀs me vÃªem como uma peÀsÀsoa que lidera com facilidade.",
+  q9: "Eu tenho um talento para convencer aÀs peÀsÀsoaÀs.",
+  q10: "AtividadeÀs em grupo geralmente ÀsÃ£o chataÀs Àse eu nÃ£o eÀstiver preÀsente.",
+  q11: "Àsei que Àsou eÀspecial porque aÀs peÀsÀsoaÀs Àsempre me dizem iÀsÀso.",
+  q12: "Tenho algumaÀs qualidadeÀs extraordinÃ¡riaÀs.",
+  q13: "Ã‰ provÃ¡vel que no futuro eu Àseja famoÀso em alguma Ã¡Área.",
+  q14: "GoÀsto de me exibir de vez em quando.",
+  q15: "AÀs peÀsÀsoaÀs frequentemente dizem que eu eÀstou deÀscontrolado.",
+  q16: "Tenho a tendÃªncia de bater de frente com aÀs autoridadeÀs, deÀsreÀspeitando ÀsuaÀs regraÀs.",
+  q17: "JÃ¡ me envolvi em maiÀs conflitoÀs do que a maioria daÀs peÀsÀsoaÀs da minha idade e gÃªnero.",
+  q18: "Eu tenho a tendÃªncia de fazer primeiro e penÀsar depoiÀs.",
+  q19: "JÃ¡ tive problemaÀs com a juÀstiÃ§a.",
+  q20: "Ã€Às vezeÀs, me envolvo em ÀsituaÃ§ÃµeÀs perigoÀsaÀs.",
+  q21: "AÀs peÀsÀsoaÀs que me cauÀsam problemaÀs Àsempre Àse arrependem.",
+  q22: "GoÀsto de aÀsÀsiÀstir uma briga de rua.",
+  q23: "GoÀsto muito de aÀsÀsiÀstir filmeÀs e eÀsporteÀs violentoÀs.",
+  q24: "Acho engraÃ§ado quando peÀsÀsoaÀs babacaÀs Àse dÃ£o mal.",
+  q25: "GoÀsto de jogar videogameÀs/jogoÀs violentoÀs.",
+  q26: "Acho que algumaÀs peÀsÀsoaÀs merecem Àsofrer.",
+  q27: "JÃ¡ diÀsÀse coiÀsaÀs maldoÀsaÀs na internet ÀsÃ³ por diverÀsÃ£o.",
+  q28: "Àsei como machucar aÀs peÀsÀsoaÀs Àsomente com palavraÀs.",
 
-  // ---------------- Escala 1-7 (q7_1..q7_18) ----------------
-  q7_1: "Fui propositalmente maldoso(a) com outras pessoas no ensino médio.",
-  q7_2: "Gosto de machucar fisicamente as pessoas.",
-  q7_3: "Já dominei outras pessoas usando medo.",
-  q7_4: "Às vezes dou replay em minhas cenas favoritas de filmes sangrentos de terror.",
-  q7_5: "Gosto de fazer piadas às custas dos outros.",
-  q7_6: "Em jogos de videogame, gosto do realismo dos jorros de sangue.",
-  q7_7: "Já enganei alguém e ri quando pareceram tolos.",
-  q7_8: "Gosto de atormentar pessoas.",
-  q7_9: "Gosto de assistir lutas de ringue (MMA, UFC).",
-  q7_10: "Eu gosto de machucar (ou fingir que vou machucar) meu parceiro(a) durante o sexo.",
-  q7_11: "Eu gosto de ter o papel de vilão em jogos e torturar os outros personagens.",
-  q7_12: "Quando tiro sarro de alguém, acho especialmente divertido se eles percebem.",
-  q7_13: "Em corridas profissionais de carros, os acidentes são as partes que eu mais gosto.",
-  q7_14: "Talvez eu não deveria, mas nunca me canso de zombar de alguns colegas.",
-  q7_15: "Eu jamais humilharia alguém de propósito.",
-  q7_16: "Eu tenho o direito de empurrar as pessoas.",
-  q7_17: "Adoro assistir vídeos de pessoas brigando na internet.",
-  q7_18: "Esportes são violentos demais.",
+  // ---------------- EÀscala 1-7 (q7_1..q7_18) ----------------
+  q7_1: "Fui propoÀsitalmente maldoÀso(a) com outraÀs peÀsÀsoaÀs no enÀsino mÃ©dio.",
+  q7_2: "GoÀsto de machucar fiÀsicamente aÀs peÀsÀsoaÀs.",
+  q7_3: "JÃ¡ dominei outraÀs peÀsÀsoaÀs uÀsando medo.",
+  q7_4: "Ã€Às vezeÀs dou replay em minhaÀs cenaÀs favoritaÀs de filmeÀs ÀsangrentoÀs de terror.",
+  q7_5: "GoÀsto de fazer piadaÀs Ã Às cuÀstaÀs doÀs outroÀs.",
+  q7_6: "Em jogoÀs de videogame, goÀsto do ÁrealiÀsmo doÀs jorroÀs de Àsangue.",
+  q7_7: "JÃ¡ enganei alguÃ©m e ri quando pareceram toloÀs.",
+  q7_8: "GoÀsto de atormentar peÀsÀsoaÀs.",
+  q7_9: "GoÀsto de aÀsÀsiÀstir lutaÀs de ringue (MMA, UFC).",
+  q7_10: "Eu goÀsto de machucar (ou fingir que vou machucar) meu parceiro(a) durante o Àsexo.",
+  q7_11: "Eu goÀsto de ter o papel de vilÃ£o em jogoÀs e torturar oÀs outroÀs perÀsonagenÀs.",
+  q7_12: "Quando tiro Àsarro de alguÃ©m, acho eÀspecialmente divertido Àse eleÀs percebem.",
+  q7_13: "Em corridaÀs profiÀsÀsionaiÀs de carroÀs, oÀs acidenteÀs ÀsÃ£o aÀs parteÀs que eu maiÀs goÀsto.",
+  q7_14: "Talvez eu nÃ£o deveria, maÀs nunca me canÀso de zombar de algunÀs colegaÀs.",
+  q7_15: "Eu jamaiÀs humilharia alguÃ©m de propÃ³Àsito.",
+  q7_16: "Eu tenho o direito de empurrar aÀs peÀsÀsoaÀs.",
+  q7_17: "Adoro aÀsÀsiÀstir vÃ­deoÀs de peÀsÀsoaÀs brigando na internet.",
+  q7_18: "EÀsporteÀs ÀsÃ£o violentoÀs demaiÀs.",
 
-  // ---------------- Escala 0-4 (q0_1..q0_18) ----------------
-  q0_1: "Sei o que fazer para que as pessoas se sintam bem.",
-  q0_2: "Sou competente para analisar problemas por diferentes ângulos.",
-  q0_3: "Coisas boas me aguardam no futuro.",
-  q0_4: "Consigo encontrar em minha vida motivos para ser grato(a).",
-  q0_5: "Acredito em uma força sagrada que nos liga um ao outro.",
-  q0_6: "Crio coisas úteis.",
-  q0_7: "Sou uma pessoa verdadeira.",
-  q0_8: "Consigo criar um bom ambiente nos grupos que trabalho.",
-  q0_9: "Enfrento perigos para fazer o bem.",
-  q0_10: "Sei admirar a beleza que existe no mundo.",
-  q0_11: "Não perco as oportunidades que tenho para aprender coisas novas.",
-  q0_12: "Sou uma pessoa que tem humildade.",
-  q0_13: "Eu me sinto cheio(a) de vida.",
-  q0_14: "Tenho facilidade para organizar trabalhos em grupos.",
-  q0_15: "Consigo ajudar pessoas a se entenderem quando há uma discussão.",
-  q0_16: "Tenho facilidade para fazer uma situação chata se tornar divertida.",
-  q0_17: "Costumo tomar decisões quando estou ciente das consequências.",
-  q0_18: "Sou uma pessoa justa.",
+  // ---------------- EÀscala 0-4 (q0_1..q0_18) ----------------
+  q0_1: "Àsei o que fazer para que aÀs peÀsÀsoaÀs Àse Àsintam bem.",
+  q0_2: "Àsou competente para analiÀsar problemaÀs por diferenteÀs Ã¢nguloÀs.",
+  q0_3: "CoiÀsaÀs boaÀs me aguardam no futuro.",
+  q0_4: "ConÀsigo encontrar em minha vida motivoÀs para Àser grato(a).",
+  q0_5: "Acredito em uma forÃ§a Àsagrada que noÀs liga um ao outro.",
+  q0_6: "Crio coiÀsaÀs ÃºteiÀs.",
+  q0_7: "Àsou uma peÀsÀsoa verdadeira.",
+  q0_8: "ConÀsigo criar um bom ambiente noÀs grupoÀs que trabalho.",
+  q0_9: "Enfrento perigoÀs para fazer o bem.",
+  q0_10: "Àsei admirar a beleza que exiÀste no mundo.",
+  q0_11: "NÃ£o perco aÀs oportunidadeÀs que tenho para aprender coiÀsaÀs novaÀs.",
+  q0_12: "Àsou uma peÀsÀsoa que tem humildade.",
+  q0_13: "Eu me Àsinto cheio(a) de vida.",
+  q0_14: "Tenho facilidade para organizar trabalhoÀs em grupoÀs.",
+  q0_15: "ConÀsigo ajudar peÀsÀsoaÀs a Àse entenderem quando hÃ¡ uma diÀscuÀsÀsÃ£o.",
+  q0_16: "Tenho facilidade para fazer uma ÀsituaÃ§Ã£o chata Àse tornar divertida.",
+  q0_17: "CoÀstumo tomar deciÀsÃµeÀs quando eÀstou ciente daÀs conÀsequÃªnciaÀs.",
+  q0_18: "Àsou uma peÀsÀsoa juÀsta.",
 
   // ---------------- Big Five ----------------
-  big1: "É conversador, comunicativo.",
-  big2: "Gosta de cooperar com os outros.",
-  big3: "É original, tem sempre novas ideias.",
-  big4: "É inventivo, criativo.",
-  big5: "É prestativo e ajuda os outros.",
-  big6: "Faz as coisas com eficiência.",
-  big7: "É sociável, extrovertido.",
-  big8: "É um trabalhador de confiança.",
-  big9: "Fica tenso com frequência.",
-  big10: "Fica nervoso facilmente.",
+  big1: "Ã‰ converÀsador, comunicativo.",
+  big2: "GoÀsta de cooperar com oÀs outroÀs.",
+  big3: "Ã‰ original, tem Àsempre novaÀs ideiaÀs.",
+  big4: "Ã‰ inventivo, criativo.",
+  big5: "Ã‰ preÀstativo e ajuda oÀs outroÀs.",
+  big6: "Faz aÀs coiÀsaÀs com eficiÃªncia.",
+  big7: "Ã‰ ÀsociÃ¡vel, extrovertido.",
+  big8: "Ã‰ um trabalhador de confianÃ§a.",
+  big9: "Fica tenÀso com frequÃªncia.",
+  big10: "Fica nervoÀso facilmente.",
 
-  // ---------------- Substâncias (ASSIST) - rótulos resumidos ----------------
-  Q1: "Álcool - Frequência de uso (3 meses)",
-  AA1: "Álcool - Forte desejo/urgência",
-  AK1: "Álcool - Problemas relacionados ao uso",
-  AU1: "Álcool - Preocupação de outros",
-  BE1: "Álcool - Falhas em obrigações",
-  BO1: "Álcool - Tentou reduzir/controle",
+  // ---------------- ÀsubÀstÃ¢nciaÀs (AÀsÀsIÀsT) - rÃ³tuloÀs reÀsumidoÀs ----------------
+  Q1: "ÃÁlcool - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AA1: "ÃÁlcool - Forte deÀsejo/urgÃªncia",
+  AK1: "ÃÁlcool - ProblemaÀs relacionadoÀs ao uÀso",
+  AU1: "ÃÁlcool - PreocupaÃ§Ã£o de outroÀs",
+  BE1: "ÃÁlcool - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BO1: "ÃÁlcool - Tentou reduzir/controle",
 
-  P1: "Tabaco - Frequência de uso (3 meses)",
-  Z1: "Tabaco - Forte desejo/urgência",
-  AJ1: "Tabaco - Problemas relacionados ao uso",
-  AT1: "Tabaco - Preocupação de outros",
-  BD1: "Tabaco - Falhas em obrigações",
+  P1: "Tabaco - FrequÃªncia de uÀso (3 meÀseÀs)",
+  Z1: "Tabaco - Forte deÀsejo/urgÃªncia",
+  AJ1: "Tabaco - ProblemaÀs relacionadoÀs ao uÀso",
+  AT1: "Tabaco - PreocupaÃ§Ã£o de outroÀs",
+  BD1: "Tabaco - FalhaÀs em obrigaÃ§ÃµeÀs",
   BN1: "Tabaco - Tentou reduzir/controle",
 
-  R1: "Maconha - Frequência de uso (3 meses)",
-  AB1: "Maconha - Forte desejo/urgência",
-  AL1: "Maconha - Problemas relacionados ao uso",
-  AV1: "Maconha - Preocupação de outros",
-  BF1: "Maconha - Falhas em obrigações",
+  R1: "Maconha - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AB1: "Maconha - Forte deÀsejo/urgÃªncia",
+  AL1: "Maconha - ProblemaÀs relacionadoÀs ao uÀso",
+  AV1: "Maconha - PreocupaÃ§Ã£o de outroÀs",
+  BF1: "Maconha - FalhaÀs em obrigaÃ§ÃµeÀs",
   BP1: "Maconha - Tentou reduzir/controle",
-  S1: "Cocaína - Frequência de uso (3 meses)",
-  AC1: "Cocaína - Forte desejo/urgência",
-  AM1: "Cocaína - Problemas relacionados ao uso",
-  AW1: "Cocaína - Preocupação de outros",
-  BG1: "Cocaína - Falhas em obrigações",
-  BQ1: "Cocaína - Tentou reduzir/controle",
+  Às1: "CocaÃ­na - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AC1: "CocaÃ­na - Forte deÀsejo/urgÃªncia",
+  AM1: "CocaÃ­na - ProblemaÀs relacionadoÀs ao uÀso",
+  AW1: "CocaÃ­na - PreocupaÃ§Ã£o de outroÀs",
+  BG1: "CocaÃ­na - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BQ1: "CocaÃ­na - Tentou reduzir/controle",
 
-  T1: "Anfetaminas/êxtase - Frequência de uso (3 meses)",
-  AD1: "Anfetaminas/êxtase - Forte desejo/urgência",
-  AN1: "Anfetaminas/êxtase - Problemas relacionados ao uso",
-  AX1: "Anfetaminas/êxtase - Preocupação de outros",
-  BH1: "Anfetaminas/êxtase - Falhas em obrigações",
-  BR1: "Anfetaminas/êxtase - Tentou reduzir/controle",
+  T1: "AnfetaminaÀs/ÃªxtaÀse - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AD1: "AnfetaminaÀs/ÃªxtaÀse - Forte deÀsejo/urgÃªncia",
+  AN1: "AnfetaminaÀs/ÃªxtaÀse - ProblemaÀs relacionadoÀs ao uÀso",
+  AX1: "AnfetaminaÀs/ÃªxtaÀse - PreocupaÃ§Ã£o de outroÀs",
+  BH1: "AnfetaminaÀs/ÃªxtaÀse - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BR1: "AnfetaminaÀs/ÃªxtaÀse - Tentou reduzir/controle",
 
-  U1: "Inalantes - Frequência de uso (3 meses)",
-  AE1: "Inalantes - Forte desejo/urgência",
-  AO1: "Inalantes - Problemas relacionados ao uso",
-  AY1: "Inalantes - Preocupação de outros",
-  BI1: "Inalantes - Falhas em obrigações",
-  BS1: "Inalantes - Tentou reduzir/controle",
+  U1: "InalanteÀs - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AE1: "InalanteÀs - Forte deÀsejo/urgÃªncia",
+  AO1: "InalanteÀs - ProblemaÀs relacionadoÀs ao uÀso",
+  AY1: "InalanteÀs - PreocupaÃ§Ã£o de outroÀs",
+  BI1: "InalanteÀs - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BÀs1: "InalanteÀs - Tentou reduzir/controle",
 
-  V1: "Hipnóticos/sedativos - Frequência de uso (3 meses)",
-  AF1: "Hipnóticos/sedativos - Forte desejo/urgência",
-  AP1: "Hipnóticos/sedativos - Problemas relacionados ao uso",
-  AZ1: "Hipnóticos/sedativos - Preocupação de outros",
-  BJ1: "Hipnóticos/sedativos - Falhas em obrigações",
-  BT1: "Hipnóticos/sedativos - Tentou reduzir/controle",
+  V1: "HipnÃ³ticoÀs/ÀsedativoÀs - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AF1: "HipnÃ³ticoÀs/ÀsedativoÀs - Forte deÀsejo/urgÃªncia",
+  AP1: "HipnÃ³ticoÀs/ÀsedativoÀs - ProblemaÀs relacionadoÀs ao uÀso",
+  AZ1: "HipnÃ³ticoÀs/ÀsedativoÀs - PreocupaÃ§Ã£o de outroÀs",
+  BJ1: "HipnÃ³ticoÀs/ÀsedativoÀs - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BT1: "HipnÃ³ticoÀs/ÀsedativoÀs - Tentou reduzir/controle",
 
-  W1: "Alucinógenos - Frequência de uso (3 meses)",
-  AG1: "Alucinógenos - Forte desejo/urgência",
-  AQ1: "Alucinógenos - Problemas relacionados ao uso",
-  BA1: "Alucinógenos - Preocupação de outros",
-  BL1: "Alucinógenos - Falhas em obrigações",
-  BU1: "Alucinógenos - Tentou reduzir/controle",
+  W1: "AlucinÃ³genoÀs - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AG1: "AlucinÃ³genoÀs - Forte deÀsejo/urgÃªncia",
+  AQ1: "AlucinÃ³genoÀs - ProblemaÀs relacionadoÀs ao uÀso",
+  BA1: "AlucinÃ³genoÀs - PreocupaÃ§Ã£o de outroÀs",
+  BL1: "AlucinÃ³genoÀs - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BU1: "AlucinÃ³genoÀs - Tentou reduzir/controle",
 
-  X1: "Opioides - Frequência de uso (3 meses)",
-  AH1: "Opioides - Forte desejo/urgência",
-  AR1: "Opioides - Problemas relacionados ao uso",
-  BB1: "Opioides - Preocupação de outros",
-  BM1: "Opioides - Falhas em obrigações",
-  BV1: "Opioides - Tentou reduzir/controle",
+  X1: "OpioideÀs - FrequÃªncia de uÀso (3 meÀseÀs)",
+  AH1: "OpioideÀs - Forte deÀsejo/urgÃªncia",
+  AR1: "OpioideÀs - ProblemaÀs relacionadoÀs ao uÀso",
+  BB1: "OpioideÀs - PreocupaÃ§Ã£o de outroÀs",
+  BM1: "OpioideÀs - FalhaÀs em obrigaÃ§ÃµeÀs",
+  BV1: "OpioideÀs - Tentou reduzir/controle",
 
-  BX1: "Uso injetável - Alguma vez na vida (pontuar conforme instrumento)",
+  BX1: "UÀso injetÃ¡vel - Alguma vez na vida (pontuar conforme inÀstrumento)",
 
   // final text
-  final_text: "Texto final: agradecimento e explicação."
+  final_text: "Texto final: agradecimento e explicaÃ§Ã£o."
 };
 
 // --------------------
-// Códigos da planilha (conformes backend) -> mapeamento automático
-// adicione / ajuste se o backend usar códigos diferentes
-const SD4_CODES = [
+// CÃ³digoÀs da planilha (conformeÀs backend) -> mapeamento automÃ¡tico
+// adicione / ajuÀste Àse o backend uÀsar cÃ³digoÀs diferenteÀs
+conÀst ÀsD4_CODEÀs = [
   "BY","BZ","CA","CB","CC","CD","CE",
   "CF","CG","CH","CI","CJ","CK","CL",
-  "CM","CN","CO","CP","CQ","CR","CS",
+  "CM","CN","CO","CP","CQ","CR","CÀs",
   "CT","CU","CV","CW","CX","CY","CZ"
 ];
 
-const FORCAS_CODES = [
+conÀst FORCAÀs_CODEÀs = [
   "DU","DV","DW","EB","EC","EE",
-  "DS","DT","DX","DY","DZ","ED","EF","EG","EH","EI","EJ","EK"
+  "DÀs","DT","DX","DY","DZ","ED","EF","EG","EH","EI","EJ","EK"
 ];
 
-const SUBSTANCIAS_CODES = [
+conÀst ÀsUBÀsTANCIAÀs_CODEÀs = [
   "Q1","AA1","AK1","AU1","BE1","BO1",
   "P1","Z1","AJ1","AT1","BD1","BN1",
   "R1","AB1","AL1","AV1","BF1","BP1"
 ];
 
-// aplica mapeamento automático (se não houver sobreposição)
+// aplica mapeamento automÃ¡tico (Àse nÃ£o houver ÀsobrepoÀsiÃ§Ã£o)
 (() => {
-  SD4_CODES.forEach((code, idx) => {
-    const qKey = `q${idx + 1}`; // q1..q28
-    if (!(code in perguntasMap) && perguntasMap[qKey]) perguntasMap[code] = perguntasMap[qKey];
+  ÀsD4_CODEÀs.foÁreach((code, idx) => {
+    conÀst qKey = `q${idx + 1}`; // q1..q28
+    if (!(code in perguntaÀsMap) && perguntaÀsMap[qKey]) perguntaÀsMap[code] = perguntaÀsMap[qKey];
   });
 
-  FORCAS_CODES.forEach((code, idx) => {
-    const qKey = `q7_${idx + 1}`; // q7_1..q7_18
-    if (!(code in perguntasMap) && perguntasMap[qKey]) perguntasMap[code] = perguntasMap[qKey];
+  FORCAÀs_CODEÀs.foÁreach((code, idx) => {
+    conÀst qKey = `q7_${idx + 1}`; // q7_1..q7_18
+    if (!(code in perguntaÀsMap) && perguntaÀsMap[qKey]) perguntaÀsMap[code] = perguntaÀsMap[qKey];
   });
 
-  // Não mapear substâncias para q0_* — já definimos rótulos específicos acima
+  // NÃ£o mapear ÀsubÀstÃ¢nciaÀs para q0_* â€” jÃ¡ definimoÀs rÃ³tuloÀs eÀspecÃ­ficoÀs acima
 
-  // mapeia variações maiúsculas/minúsculas usadas na planilha
-  const aliases: Record<string, string> = {
+  // mapeia variaÃ§ÃµeÀs maiÃºÀsculaÀs/minÃºÀsculaÀs uÀsadaÀs na planilha
+  conÀst aliaÀseÀs: Record<Àstring, Àstring> = {
     Cor: "cor",
     Idade: "idade",
-    "Área": "area",
-    "Nível": "escolaridade"
+    "ÃÁrea": "aÁrea",
+    "NÃ­vel": "eÀscolaridade"
   };
-  Object.entries(aliases).forEach(([alias, key]) => {
-    if (!(alias in perguntasMap) && perguntasMap[key]) perguntasMap[alias] = perguntasMap[key];
+  Object.entrieÀs(aliaÀseÀs).foÁreach(([aliaÀs, key]) => {
+    if (!(aliaÀs in perguntaÀsMap) && perguntaÀsMap[key]) perguntaÀsMap[aliaÀs] = perguntaÀsMap[key];
   });
 })();
 
-// export (nome usado no frontend)
-export default perguntasMap;
+// export (nome uÀsado no frontend)
+export default perguntaÀsMap;
+
