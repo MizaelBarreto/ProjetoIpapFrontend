@@ -658,7 +658,7 @@ const Sd4: React.FC = () => {
       <img src={logoUrl} alt="Logo" className="logo-centered" />
       <h1 className="sd4-title">Quais fatores influenciam o seu jeito de ser e viver?</h1>
       <p className="sd4-text">
-        Este conjunto de questionários utiliza métricas científicas para compreender diferentes aspectos da sua personalidade, hábitos e estilo de vida — incluindo tanto seus recursos pessoais quanto possíveis vulnerabilidades.Suas respostas são totalmente anônimas e serão usadas apenas para fins de pesquisa. Tempo médio de resposta é 25min
+        Este conjunto de questionários utiliza métricas científicas para compreender diferentes aspectos da sua personalidade, hábitos e estilo de vida — incluindo tanto seus recursos pessoais quanto possíveis vulnerabilidades. Suas respostas são totalmente anônimas e serão usadas apenas para fins de pesquisa. Tempo médio de resposta é 25min
       </p>
       <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás de meu jeito de viver</button>
 
