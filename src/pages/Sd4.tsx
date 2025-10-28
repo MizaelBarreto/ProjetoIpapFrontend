@@ -409,27 +409,6 @@ const Sd4: React.FC = () => {
   }, [step, formData, showPopup]);
 
   // ---------------------------
-  // skip empty step (caused by conditionals) automatically
-  // ---------------------------
-  useEffect(() => {
-    if (!showPopup) return;
-    // when step changes, if it's a question step (>=2) but all questions are invisible, advance
-    let s = step;
-    const max = etapas.length - 1;
-    let safety = 0;
-    while (s >= 2 && s <= max) {
-      const visible = (etapas[s] || []).some((q) => isQuestionVisible(q));
-      if (!visible && s < max) {
-        s++;
-      } else break;
-      safety++;
-      if (safety > etapas.length) break;
-    }
-    if (s !== step) setStep(s);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, formData, showPopup]);
-
-  // ---------------------------
   // validation per step
   // ---------------------------
   const validarEtapaAtual = (): boolean => {
@@ -822,7 +801,7 @@ const Sd4: React.FC = () => {
                 {errors.consent && <div style={{ color: "crimson", marginTop: 6 }}>{errors.consent}</div>}
 
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "flex-end", gap: 8 }}>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>AvanÃ§ar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(1); }}>Avançar</button>
                 </div>
               </>
             )}
@@ -839,7 +818,7 @@ const Sd4: React.FC = () => {
                 </div>
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={() => setStep(0)}>Voltar</button>
-                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>AvanÃ§ar</button>
+                  <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>Avançar</button>
                 </div>
               </>
             )}
@@ -860,7 +839,7 @@ const Sd4: React.FC = () => {
                   <div style={{ fontSize: 12, color: "#666" }}>{`Tela ${step} de ${etapas.length - 1}`}</div>
                   <div style={{ display: "flex", gap: 8 }}>
                     <button className="btn-secondary" onClick={handleBack}>Voltar</button>
-                    <button className="btn-primary" onClick={handleNext}>AvanÃ§ar</button>
+                    <button className="btn-primary" onClick={handleNext}>Avançar</button>
                   </div>
                 </div>
               </>
@@ -907,6 +886,7 @@ const Sd4: React.FC = () => {
 };  
 
 export default Sd4;
+
 
 
 
