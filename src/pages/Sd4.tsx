@@ -409,89 +409,6 @@ const Sd4: React.FC = () => {
   }, [step, formData, showPopup]);
 
   // ---------------------------
-  // validation per step
-  // ---------------------------
-  const validarEtapaAtual = (): boolean => {
-    const newErrors: Record<string, string> = {};
-    if (step === 0 && !formData.consent) {
-      newErrors.consent = "VocÃª precisa aceitar o termo para continuar.";
-    }
-    if (step === 1) {
-      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome Ã© obrigatÃ³rio.";
-      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail Ã© obrigatÃ³rio.";
-    }
-    // validate visible questions in this step
-    const perguntas = etapas[step] || [];
-    perguntas.forEach((q) => {
-      if (!isQuestionVisible(q)) return;
-      const resp = formData.respostas[q.key];
-      if (q.tipo === "texto") {
-      if (q.tipo === "texto") {
-        // only certain text fields are required when visible
-        if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a área de formação.";
-        }
-        if (q.key === "diagnosticoDetalhe" && formData.respostas["diagnostico"] === "Sim") {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o diagnóstico.";
-        }
-        if (q.key === "crimeDetalhe" && formData.respostas["crime"] === "Sim") {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusação.";
-        }
-        if (q.key === "outrasSubstanciasDetalhe") {
-          const sel = (formData.respostas["substanciasSelecionadas"] as any) || [];
-          if (Array.isArray(sel) && sel.includes("Outras")) {
-            if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique as substâncias em Outras.";
-          }
-        }
-      } else {
-        if (q.tipo === "checkboxes") {
-          if ((formData.respostas["substancias"] === "Sim") && (!Array.isArray(resp) || (resp as any[]).length === 0)) {
-            newErrors[q.key] = "Selecione pelo menos uma substância.";
-          }
-        } else {
-          // radio / escalas: required
-          if (resp === undefined || resp === "") {
-            newErrors[q.key] = "Selecione uma opção.";
-          }
-        }
-      }
-    return out;
-  };
-
-  const questionChunks = useMemo(() => {
-  const chunks: Pergunta[][] = [];
-  let buffer: Pergunta[] = [];
-
-  flatQuestions.forEach((q) => {
-    if (q.tipo === "intro") {
-      // flush buffer se tiver algo acumulado
-      if (buffer.length > 0) {
-        chunks.push(buffer);
-        buffer = [];
-      }
-      // intro sempre sozinho
-      chunks.push([q]);
-    } else {
-      buffer.push(q);
-      if (buffer.length >= CHUNK_SIZE) {
-        chunks.push(buffer);
-        buffer = [];
-      }
-    }
-  });
-
-  if (buffer.length > 0) chunks.push(buffer);
-
-  return chunks;
-}, [flatQuestions]);
-
-  // etapas: [[], []] reserved for termo (0) e dados pessoais (1)
-  const etapas = useMemo(() => {
-    const base: Pergunta[][] = [[], []];
-    return base.concat(questionChunks);
-  }, [questionChunks]);
-
-  // ---------------------------
   // utility: visibility conditions
   // ---------------------------
   const SUBST_CODES_SET = useMemo(() => new Set<string>([
@@ -604,16 +521,24 @@ const Sd4: React.FC = () => {
         if (q.key === "crimeDetalhe" && formData.respostas["crime"] === "Sim") {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusaÃ§Ã£o.";
         }
-        
-        //
+        if (q.key === "outrasSubstanciasDetalhe") {
           const sel = (formData.respostas["substanciasSelecionadas"] as any) || [];
           if (Array.isArray(sel) && sel.includes("Outras")) {
             if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique as substâncias em Outras.";
           }
         }
+      } else {
+        if (q.tipo === "checkboxes") {
+          if ((formData.respostas["substancias"] === "Sim") && (!Array.isArray(resp) || (resp as any[]).length === 0)) {
+            newErrors[q.key] = "Selecione pelo menos uma substância.";
+          }
+        } else {
+          // radio / escalas: required
+          if (resp === undefined || resp === "") {
+            newErrors[q.key] = "Selecione uma opção.";
+          }
         }
-        
-      // caso "Outro:" sem texto (nÃ£o usado generically here, but safe)
+      }
       if (typeof resp === "string" && resp.startsWith("Outro:") && resp === "Outro:") {
         newErrors[q.key] = "Preencha o campo 'Outro'.";
       }
@@ -1046,3 +971,4 @@ const Sd4: React.FC = () => {
 };  
 
 export default Sd4;
+
