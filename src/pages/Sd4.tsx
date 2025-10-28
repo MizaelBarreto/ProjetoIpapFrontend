@@ -409,70 +409,6 @@ const Sd4: React.FC = () => {
   }, [step, formData, showPopup]);
 
   // ---------------------------
-  // utility: visibility conditions
-  // ---------------------------
-  const SUBST_CODES_SET = useMemo(() => new Set<string>([
-    "Q1","AA1","AK1","AU1","BE1","BO1",
-    "P1","Z1","AJ1","AT1","BD1","BN1",
-    "R1","AB1","AL1","AV1","BF1","BP1",
-    "S1","AC1","AM1","AW1","BG1","BQ1",
-    "T1","AD1","AN1","AX1","BH1","BR1",
-    "U1","AE1","AO1","AY1","BI1","BS1",
-    "V1","AF1","AP1","AZ1","BJ1","BT1",
-    "W1","AG1","AQ1","BA1","BL1","BU1",
-    "X1","AH1","AR1","BB1","BM1","BV1",
-    "BX1"
-  ]), []);
-
-
-  // mapa código -> grupo (para filtrar por seleção do usuário)
-  const SUBST_CODE_TO_GROUP: Record<string, string> = useMemo(() => {
-    const map: Record<string, string> = {};
-    const groups = [
-      { name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
-      { name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
-      { name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
-      { name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
-      { name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
-      { name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
-      { name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
-      { name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
-      { name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
-      { name: "Uso injetável", codes: ["BX1"] }
-    ];
-    groups.forEach((g) => g.codes.forEach((c) => (map[c] = g.name)));
-    return map;
-  }, []);
-
-  const isQuestionVisible = (q: Pergunta): boolean => {
-    const r = formData.respostas;
-    switch (q.key) {
-      case "area":
-        return (r["escolaridade"] || "").toString().includes("Ensino Superior");
-      case "diagnosticoDetalhe":
-        return r["diagnostico"] === "Sim";
-      case "crimeDetalhe":
-        return r["crime"] === "Sim";
-      case "substanciasSelecionadas":
-        return r["substancias"] === "Sim";
-      case "outrasSubstanciasDetalhe": {
-        if (r["substancias"] !== "Sim") return false;
-        const sel = (r["substanciasSelecionadas"] as any) || [];
-        return Array.isArray(sel) && sel.includes("Outras");
-      }
-      default:
-        if (SUBST_CODES_SET.has(q.key)) {
-          if (r["substancias"] !== "Sim") return false;
-          const group = SUBST_CODE_TO_GROUP[q.key];
-          const sel = (r["substanciasSelecionadas"] as any) || [];
-          if (Array.isArray(sel) && group) return sel.includes(group);
-          return true;
-        }
-        return true;
-    }
-  };
-
-  // ---------------------------
   // skip empty step (caused by conditionals) automatically
   // ---------------------------
   useEffect(() => {
@@ -971,4 +907,5 @@ const Sd4: React.FC = () => {
 };  
 
 export default Sd4;
+
 
