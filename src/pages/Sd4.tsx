@@ -678,7 +678,8 @@ const Sd4: React.FC = () => {
                 <h2>Termo de Consentimento</h2>
                 <div style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: 8 }}>
                   {!mostrarTermoCompleto ? (
-                    <p>
+                    <>
+                      <p>
                       Você está sendo convidado(a) a participar, como voluntário(a), de uma pesquisa sobre diferentes formas de pensar, sentir e agir no dia a dia e uso de álcool e outras substâncias, sob a responsabilidade da Psicóloga Profa. Dra. Ana Cristina Resende (CRP 09/2113), vinculada à PUC Goiás. Após receber os esclarecimentos e as informações a seguir, no caso de aceitar fazer parte do estudo, favor escolher a opção CONCORDO. Caso os resultados desta pesquisa sejam divulgados, a sua identidade não será revelada.
                     </p>
 
