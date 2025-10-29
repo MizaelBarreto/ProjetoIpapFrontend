@@ -351,8 +351,12 @@ const Sd4: React.FC = () => {
         return r["diagnostico"] === "Sim";
       case "crimeDetalhe":
         return r["crime"] === "Sim";
-      case "outrasSubstanciasDetalhe":
-        return r["substancias"] === "Sim";
+      case "outrasSubstanciasDetalhe": {
+        if (r["substancias"] !== "Sim") return false;
+        const sel = r["substanciasSelecionadas"] as any;
+        const arr: string[] = Array.isArray(sel) ? sel : [];
+        return arr.includes("outras");
+      }
       default:
         // Quest├Áes de substâncias vis├¡veis apenas se marcado "Sim"
         if (SUBST_CODES_SET.has(q.key)) return r["substancias"] === "Sim";
@@ -415,7 +419,11 @@ const Sd4: React.FC = () => {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o tipo de acusação.";
         }
         if (q.key === "outrasSubstanciasDetalhe" && formData.respostas["substancias"] === "Sim") {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique a(s) substância(s).";
+          const sel = formData.respostas["substanciasSelecionadas"] as any;
+          const arr: string[] = Array.isArray(sel) ? sel : [];
+          if (arr.includes("outras")) {
+            if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Especifique a(s) substância(s).";
+          }
         }
       } else {
         // radio / escala: required
@@ -539,6 +547,7 @@ const Sd4: React.FC = () => {
               { key: "alucinogenos", label: "Alucinógenos" },
               { key: "opioides", label: "Opioides" },
               { key: "injetavel", label: "Uso injetável" },
+              { key: "outras", label: "Outras" },
             ].map((g) => {
               const selRaw = formData.respostas["substanciasSelecionadas"] as any;
               const selected: string[] = Array.isArray(selRaw) ? selRaw : [];
