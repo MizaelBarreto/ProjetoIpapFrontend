@@ -92,9 +92,10 @@ const Sd4: React.FC = () => {
 
       { key: "substancias", texto: "você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opioides; uso injetável.` },
       { key: "substanciasSelecionadas", texto: "Se sim, selecione as substâncias usadas (marque todas)", tipo: "radio" },
-      { key: "outrasSubstanciasDetalhe", texto: "Outras (especificar)", tipo: "texto" },
       // Bloco condicional de substâncias (ASSIST)
       ...substPerguntas,
+      // Campo de outras substâncias (após seleção e blocos ASSIST)
+      { key: "outrasSubstanciasDetalhe", texto: "Outras (especificar)", tipo: "texto" },
 
       // Intro: escala 1-5
       {
