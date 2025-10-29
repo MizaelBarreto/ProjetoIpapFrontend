@@ -40,19 +40,21 @@ const Sd4: React.FC = () => {
   // Flat questions + intros (completo)
   // ---------------------------
   const flatQuestions: Pergunta[] = useMemo(() => {
-    // Bloco de perguntas de substâncias (ASSIST) — mostrado apenas se "substancias" === "Sim"
-    const substGroups: { name: string; codes: string[] }[] = [
-      { name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
-      { name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
-      { name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
-      { name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
-      { name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
-      { name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
-      { name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
-      { name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
-      { name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
-      { name: "Uso injetável", codes: ["BX1"] }
+    // Bloco de perguntas de substâncias (ASSIST)
+    const substGroups: { key: string; name: string; codes: string[] }[] = [
+      { key: "alcool", name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
+      { key: "tabaco", name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
+      { key: "maconha", name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
+      { key: "cocaina", name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
+      { key: "anfetaminas", name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
+      { key: "inalantes", name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
+      { key: "hipnoticos", name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
+      { key: "alucinogenos", name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
+      { key: "opioides", name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
+      { key: "injetavel", name: "Uso injetável", codes: ["BX1"] }
     ];
+    const codeToGroup: Record<string, string> = {};
+    substGroups.forEach(g => g.codes.forEach(c => { codeToGroup[c] = g.key; }));
     const substPerguntas: Pergunta[] = [];
     substGroups.forEach((g) => {
       g.codes.forEach((code, idx) => {
@@ -74,7 +76,7 @@ const Sd4: React.FC = () => {
 
     const arr: Pergunta[] = [
       // Demografia
-      { key: "idade", texto: "Idade", tipo: "radio", opcoes: ["18-   -25", "26ÔÇô -35", "36ÔÇô -45", "46+"] },
+      { key: "idade", texto: "Idade", tipo: "radio", opcoes: ["18-   -25", "26- -35", "36- -45", "46+"] },
       { key: "genero", texto: "Gênero que se identifica", tipo: "radio", opcoes: ["Mulher", "Homem", "Não Binarie", "Prefiro Não dizer", "Outro"] },
 
       { key: "cor", texto: "Cor", tipo: "radio", opcoes: ["Amarelo", "Branco", "Indígena", "Pardo", "Preto", "Outro"] },
@@ -83,12 +85,13 @@ const Sd4: React.FC = () => {
       { key: "estadoCivil", texto: "Estado Civil", tipo: "radio", opcoes: ["Solteiro", "Casado", "Viúvo", "Outro"] },
 
       { key: "renda", texto: "Renda Familiar Mensal", tipo: "radio", opcoes: ["Até 1 salário mínimo (Até R$ 1412,00)", "De 1 a 3 salários mínimos (Até R$ 4236,00)", "De 3 a 5 salários mínimos (Até R$ 7.060,00)", "De 7 a 10 salários (Até R$ 14.120,00)", "Acima de 10 salários mínimos"] },
-      { key: "diagnostico", texto: "você já recebeu algum diagnóstico cl├¡nico psicológico, psiquiátrico ou neurológico?", tipo: "radio", opcoes: ["Sim", "Não"] },
+      { key: "diagnostico", texto: "você já recebeu algum diagnóstico clínico psicológico, psiquiátrico ou neurológico?", tipo: "radio", opcoes: ["Sim", "Não"] },
       { key: "diagnosticoDetalhe", texto: "Se sim, qual?", tipo: "texto" },
       { key: "crime", texto: "já foi acusado de algum crime?", tipo: "radio", opcoes: ["Sim", "Não"] },
       { key: "crimeDetalhe", texto: "Se sim, qual?", tipo: "texto" },
 
-      { key: "substancias", texto: "você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; Cocaína; crack; anfetaminas/êxtase; inalantes; Hipnóticos/sedativos; Alucinógenos; opi├íceos/opioides; outras (especificar).` },
+      { key: "substancias", texto: "você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opioides; uso injetável.` },
+      { key: "substanciasSelecionadas", texto: "Se sim, selecione as substâncias usadas (marque todas)", tipo: "radio" },
       { key: "outrasSubstanciasDetalhe", texto: "Outras (especificar)", tipo: "texto" },
       // Bloco condicional de substâncias (ASSIST)
       ...substPerguntas,
@@ -394,6 +397,11 @@ const Sd4: React.FC = () => {
     perguntas.forEach((q) => {
       if (!isQuestionVisible(q)) return;
       const resp = formData.respostas[q.key];
+      if (q.key === "substanciasSelecionadas" && formData.respostas["substancias"] === "Sim") {
+        const arr = resp as any;
+        if (!Array.isArray(arr) || arr.length === 0) newErrors[q.key] = "Selecione pelo menos uma substância.";
+        return;
+      }
       if (q.tipo === "texto") {
         // only certain text fields are required when visible
         if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
@@ -471,6 +479,30 @@ const Sd4: React.FC = () => {
     if (!isQuestionVisible(q)) return null;
     const resp = formData.respostas[q.key];
 
+    // Filtro adicional: itens de substâncias só aparecem se grupo correspondente estiver selecionado
+    if (SUBST_CODES_SET.has(q.key)) {
+      const used = formData.respostas["substancias"] === "Sim";
+      if (!used) return null;
+      const selRaw = formData.respostas["substanciasSelecionadas"] as any;
+      const selected: string[] = Array.isArray(selRaw) ? selRaw : [];
+      if (selected.length > 0) {
+        const codeGroupMap: Record<string, string> = {
+          Q1: "alcool", AA1: "alcool", AK1: "alcool", AU1: "alcool", BE1: "alcool", BO1: "alcool",
+          P1: "tabaco", Z1: "tabaco", AJ1: "tabaco", AT1: "tabaco", BD1: "tabaco", BN1: "tabaco",
+          R1: "maconha", AB1: "maconha", AL1: "maconha", AV1: "maconha", BF1: "maconha", BP1: "maconha",
+          S1: "cocaina", AC1: "cocaina", AM1: "cocaina", AW1: "cocaina", BG1: "cocaina", BQ1: "cocaina",
+          T1: "anfetaminas", AD1: "anfetaminas", AN1: "anfetaminas", AX1: "anfetaminas", BH1: "anfetaminas", BR1: "anfetaminas",
+          U1: "inalantes", AE1: "inalantes", AO1: "inalantes", AY1: "inalantes", BI1: "inalantes", BS1: "inalantes",
+          V1: "hipnoticos", AF1: "hipnoticos", AP1: "hipnoticos", AZ1: "hipnoticos", BJ1: "hipnoticos", BT1: "hipnoticos",
+          W1: "alucinogenos", AG1: "alucinogenos", AQ1: "alucinogenos", BA1: "alucinogenos", BL1: "alucinogenos", BU1: "alucinogenos",
+          X1: "opioides", AH1: "opioides", AR1: "opioides", BB1: "opioides", BM1: "opioides", BV1: "opioides",
+          BX1: "injetavel",
+        } as any;
+        const grp = (codeGroupMap as any)[q.key] || "";
+        if (grp && !selected.includes(grp)) return null;
+      }
+    }
+
     // intro screen
     if (q.tipo === "intro") {
       return (
@@ -478,7 +510,7 @@ const Sd4: React.FC = () => {
           <h3>Instruções</h3>
           <p style={{ whiteSpace: "pre-wrap" }}>{q.texto}</p>
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
-            <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>Come├ºar se├º├úo</button>
+            <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>Começar seção</button>
           </div>
         </div>
       );
@@ -491,6 +523,43 @@ const Sd4: React.FC = () => {
         <div style={{ marginBottom: 6 }}><strong>{q.texto}</strong></div>
 
         {/* radio / big5 */}
+
+        {/* multiseleção de substâncias (checkboxes) */}
+        {q.key === "substanciasSelecionadas" && formData.respostas["substancias"] === "Sim" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {[
+              { key: "alcool", label: "Álcool" },
+              { key: "tabaco", label: "Tabaco" },
+              { key: "maconha", label: "Maconha" },
+              { key: "cocaina", label: "Cocaína" },
+              { key: "anfetaminas", label: "Anfetaminas/êxtase" },
+              { key: "inalantes", label: "Inalantes" },
+              { key: "hipnoticos", label: "Hipnóticos/sedativos" },
+              { key: "alucinogenos", label: "Alucinógenos" },
+              { key: "opioides", label: "Opioides" },
+              { key: "injetavel", label: "Uso injetável" },
+            ].map((g) => {
+              const selRaw = formData.respostas["substanciasSelecionadas"] as any;
+              const selected: string[] = Array.isArray(selRaw) ? selRaw : [];
+              const checked = selected.includes(g.key);
+              return (
+                <label key={g.key} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, padding: "4px 0" }}>
+                  <span>{g.label}</span>
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(e) => {
+                      const next = new Set<string>(selected);
+                      if (e.target.checked) next.add(g.key); else next.delete(g.key);
+                      setFormData((prev) => ({ ...prev, respostas: { ...prev.respostas, substanciasSelecionadas: Array.from(next) } }));
+                    }}
+                  />
+                </label>
+              );
+            })}
+            {errors["substanciasSelecionadas"] && <div style={{ color: "crimson", marginTop: 6 }}>{errors["substanciasSelecionadas"]}</div>}
+          </div>
+        )}
         
         {/* radio padr├úo */}
         {q.tipo === "radio" && q.opcoes && (
