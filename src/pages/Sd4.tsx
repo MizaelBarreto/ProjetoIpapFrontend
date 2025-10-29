@@ -351,6 +351,8 @@ const Sd4: React.FC = () => {
         return r["diagnostico"] === "Sim";
       case "crimeDetalhe":
         return r["crime"] === "Sim";
+      case "substanciasSelecionadas":
+        return r["substancias"] === "Sim";
       case "outrasSubstanciasDetalhe": {
         if (r["substancias"] !== "Sim") return false;
         const sel = r["substanciasSelecionadas"] as any;
