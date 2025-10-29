@@ -359,7 +359,27 @@ const Sd4: React.FC = () => {
       }
       default:
         // Quest├Áes de substâncias vis├¡veis apenas se marcado "Sim"
-        if (SUBST_CODES_SET.has(q.key)) return r["substancias"] === "Sim";
+        if (SUBST_CODES_SET.has(q.key)) {
+          if (r["substancias"] !== "Sim") return false;
+          const selRaw = r["substanciasSelecionadas"] as any;
+          const selected: string[] = Array.isArray(selRaw) ? selRaw : [];
+          const codeGroupMap: Record<string, string> = {
+            Q1: "alcool", AA1: "alcool", AK1: "alcool", AU1: "alcool", BE1: "alcool", BO1: "alcool",
+            P1: "tabaco", Z1: "tabaco", AJ1: "tabaco", AT1: "tabaco", BD1: "tabaco", BN1: "tabaco",
+            R1: "maconha", AB1: "maconha", AL1: "maconha", AV1: "maconha", BF1: "maconha", BP1: "maconha",
+            S1: "cocaina", AC1: "cocaina", AM1: "cocaina", AW1: "cocaina", BG1: "cocaina", BQ1: "cocaina",
+            T1: "anfetaminas", AD1: "anfetaminas", AN1: "anfetaminas", AX1: "anfetaminas", BH1: "anfetaminas", BR1: "anfetaminas",
+            U1: "inalantes", AE1: "inalantes", AO1: "inalantes", AY1: "inalantes", BI1: "inalantes", BS1: "inalantes",
+            V1: "hipnoticos", AF1: "hipnoticos", AP1: "hipnoticos", AZ1: "hipnoticos", BJ1: "hipnoticos", BT1: "hipnoticos",
+            W1: "alucinogenos", AG1: "alucinogenos", AQ1: "alucinogenos", BA1: "alucinogenos", BL1: "alucinogenos", BU1: "alucinogenos",
+            X1: "opioides", AH1: "opioides", AR1: "opioides", BB1: "opioides", BM1: "opioides", BV1: "opioides",
+            BX1: "injetavel",
+          } as any;
+          const grp = (codeGroupMap as any)[q.key] || "";
+          if (!grp) return false;
+          if (selected.length === 0) return false;
+          return selected.includes(grp);
+        }
         return true;
     }
   };
