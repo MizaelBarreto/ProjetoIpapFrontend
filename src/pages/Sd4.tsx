@@ -629,7 +629,7 @@ const Sd4: React.FC = () => {
 
     // visual for question
     return (
-      <div key={q.key} style={{ marginBottom: 12, padding: 6 }}>
+      <div key={q.key} style={{ marginBottom: 12, padding: 6, textAlign: "left" }}>
         {q.instrucoes && <p style={{ fontSize: 13, color: "#444" }}>{q.instrucoes}</p>}
         <div style={{ marginBottom: 6 }}><strong>{q.texto}</strong></div>
 
@@ -673,14 +673,14 @@ const Sd4: React.FC = () => {
         
         {/* radio padrão */}
         {q.tipo === "radio" && q.opcoes && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start", width: "100%" }}>
             {q.opcoes.map((op) => (
               <label
                 key={op}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 8,
+                  gap: 6,
                   padding: "2px 0",
                   textAlign: "left",
                   width: "100%"
@@ -722,13 +722,14 @@ const Sd4: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 6,
+              gap: 4,
               marginTop: 6,
-              alignItems: "flex-start"
+              alignItems: "flex-start",
+              width: "100%"
             }}
           >
             {escala1a5Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -748,13 +749,14 @@ const Sd4: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 6,
+              gap: 4,
               marginTop: 6,
-              alignItems: "flex-start"
+              alignItems: "flex-start",
+              width: "100%"
             }}
           >
             {escala1a7Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -774,13 +776,14 @@ const Sd4: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 6,
+              gap: 4,
               marginTop: 6,
-              alignItems: "flex-start"
+              alignItems: "flex-start",
+              width: "100%"
             }}
           >
             {escala0a4Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -800,13 +803,14 @@ const Sd4: React.FC = () => {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 6,
+              gap: 4,
               marginTop: 6,
-              alignItems: "flex-start"
+              alignItems: "flex-start",
+              width: "100%"
             }}
           >
             {(q.escalaOpcoes || escala1a5Default).map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
