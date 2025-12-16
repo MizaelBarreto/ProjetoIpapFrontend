@@ -1,27 +1,19 @@
 // Sd4.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import "../App.css";
-import { API_URL } from "../api";
 const logoUrl = new URL("../assets/logo.png", import.meta.url).href;
 
-type TipoPergunta = "radio" | "escala1a5" | "escala1a7" | "escala0a4" | "texto" | "big5" | "intro";
+type TipoPergunta = "radio" | "escala1a5" | "escala1a7" | "escala0a4" | "texto" | "big5" | "intro" | "numero";
 type Pergunta = {
   key: string;
   texto: string;
   tipo: TipoPergunta;
   opcoes?: string[];
   instrucoes?: string;
+  escalaOpcoes?: { valor: number; label: string }[];
 };
 
 const CHUNK_SIZE = 2; // duas perguntas por pop-up
-
-
-const encouragingMessages = [
-  "Quase lá — curioso para o resultado?",
-  "Cada vez mais curioso com as perguntas, né? Tá quase!",
-  "Cada passo conta — você está indo muito bem!",
-  "Quase lá! Continua assim que já já temos o resultado."
-];
 
 const Sd4: React.FC = () => {
   const [resultado, setResultado] = useState<any | null>(null);
@@ -35,6 +27,7 @@ const Sd4: React.FC = () => {
     respostas: {} as Record<string, string | number>
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const menorIdadeMensagem = "Agradecemos sua participação! Esta pesquisa é destinada apenas a pessoas maiores de 18 anos.";
 
   // ---------------------------
   // Flat questions + intros (completo)
@@ -42,55 +35,88 @@ const Sd4: React.FC = () => {
   const flatQuestions: Pergunta[] = useMemo(() => {
     // Bloco de perguntas de substâncias (ASSIST)
     const substGroups: { key: string; name: string; codes: string[] }[] = [
-      { key: "alcool", name: "Álcool", codes: ["Q1","AA1","AK1","AU1","BE1","BO1"] },
-      { key: "tabaco", name: "Tabaco", codes: ["P1","Z1","AJ1","AT1","BD1","BN1"] },
-      { key: "maconha", name: "Maconha", codes: ["R1","AB1","AL1","AV1","BF1","BP1"] },
-      { key: "cocaina", name: "Cocaína", codes: ["S1","AC1","AM1","AW1","BG1","BQ1"] },
-      { key: "anfetaminas", name: "Anfetaminas/êxtase", codes: ["T1","AD1","AN1","AX1","BH1","BR1"] },
-      { key: "inalantes", name: "Inalantes", codes: ["U1","AE1","AO1","AY1","BI1","BS1"] },
-      { key: "hipnoticos", name: "Hipnóticos/sedativos", codes: ["V1","AF1","AP1","AZ1","BJ1","BT1"] },
-      { key: "alucinogenos", name: "Alucinógenos", codes: ["W1","AG1","AQ1","BA1","BL1","BU1"] },
-      { key: "opioides", name: "Opioides", codes: ["X1","AH1","AR1","BB1","BM1","BV1"] },
+      { key: "alcool", name: "Álcool", codes: ["Q1", "AA1", "AK1", "AU1", "BE1", "BO1"] },
+      { key: "tabaco", name: "Tabaco", codes: ["P1", "Z1", "AJ1", "AT1", "BD1", "BN1"] },
+      { key: "maconha", name: "Maconha", codes: ["R1", "AB1", "AL1", "AV1", "BF1", "BP1"] },
+      { key: "cocaina", name: "Cocaína", codes: ["S1", "AC1", "AM1", "AW1", "BG1", "BQ1"] },
+      { key: "anfetaminas", name: "Anfetaminas/êxtase", codes: ["T1", "AD1", "AN1", "AX1", "BH1", "BR1"] },
+      { key: "inalantes", name: "Inalantes", codes: ["U1", "AE1", "AO1", "AY1", "BI1", "BS1"] },
+      { key: "hipnoticos", name: "Hipnóticos/sedativos", codes: ["V1", "AF1", "AP1", "AZ1", "BJ1", "BT1"] },
+      { key: "alucinogenos", name: "Alucinógenos", codes: ["W1", "AG1", "AQ1", "BA1", "BL1", "BU1"] },
+      { key: "opioides", name: "Opioides", codes: ["X1", "AH1", "AR1", "BB1", "BM1", "BV1"] },
       { key: "injetavel", name: "Uso injetável", codes: ["BX1"] }
     ];
-    const codeToGroup: Record<string, string> = {};
-    substGroups.forEach(g => g.codes.forEach(c => { codeToGroup[c] = g.key; }));
+    const assistFrequenciaOpcoes: { valor: number; label: string }[] = [
+      { valor: 0, label: "0 - Nunca" },
+      { valor: 1, label: "1 - 1 ou 2 vezes" },
+      { valor: 2, label: "2 - Mensalmente" },
+      { valor: 3, label: "3 - Semanalmente" },
+      { valor: 4, label: "4 - Diariamente ou quase todos os dias" }
+    ];
+    const assistPreocupacaoOpcoes: { valor: number; label: string }[] = [
+      { valor: 0, label: "0 - Não, nunca" },
+      { valor: 1, label: "1 - Sim, nos últimos 3 meses" },
+      { valor: 2, label: "2 - Sim, mas não nos últimos 3 meses" }
+    ];
+    const freqLegenda = "Escala: 0 - Nunca; 1 - 1 ou 2 vezes; 2 - Mensalmente; 3 - Semanalmente; 4 - Diariamente ou quase todos os dias.";
+    const preocupacaoLegenda = "Opções: 0 - Não, nunca; 1 - Sim, nos últimos 3 meses; 2 - Sim, mas não nos últimos 3 meses.";
     const substPerguntas: Pergunta[] = [];
     substGroups.forEach((g) => {
       g.codes.forEach((code, idx) => {
-        // r├│tulos tempor├írios: substituir pelos enunciados exatos do PDF/Excel
-        const labels = [
-          `${g.name} - Frequência de uso (3 meses)`,
-          `${g.name} - Forte desejo/urgência`,
-          `${g.name} - Problemas relacionados ao uso`,
-          `${g.name} - Preocupação de outros`,
-          `${g.name} - Falhas em obrigações`,
-          `${g.name} - Tentou reduzir/controle`
+        if (g.key === "injetavel") {
+          substPerguntas.push({
+            key: code,
+            texto: "Alguma vez você já usou drogas por injeção? (somente uso não prescrito pelo médico). " + preocupacaoLegenda,
+            tipo: "escala0a4",
+            escalaOpcoes: assistPreocupacaoOpcoes
+          });
+          return;
+        }
+        const textos = [
+          `${g.name}: durante os três últimos meses, com que frequência você utilizou? ${freqLegenda}`,
+          `Durante os três últimos meses, com que frequência você teve um forte desejo ou urgência em consumir ${g.name}? ${freqLegenda}`,
+          `Durante os três últimos meses, com que frequência o seu consumo de ${g.name} resultou em problemas de saúde, sociais, legais ou financeiros? ${freqLegenda}`,
+          `Durante os três últimos meses, com que frequência, por causa do uso de ${g.name}, você deixou de fazer coisas que eram normalmente esperadas de você? ${freqLegenda}`,
+          `Há amigo, parente ou outra pessoa que tenha demonstrado preocupação com seu uso de ${g.name}? ${preocupacaoLegenda}`,
+          `Alguma vez você já tentou controlar, diminuir ou parar o uso de ${g.name} e não conseguiu? ${preocupacaoLegenda}`
         ];
-        const texto = g.name === "Uso injetável"
-          ? `${g.name} - Alguma vez na vida (pontuar conforme instrumento)`
-          : (labels[idx] || `${g.name} - Item ${idx + 1}`);
-        substPerguntas.push({ key: code, texto, tipo: "escala0a4" });
+        const escalaOpcoes = idx <= 3 ? assistFrequenciaOpcoes : assistPreocupacaoOpcoes;
+        substPerguntas.push({
+          key: code,
+          texto: textos[idx] || `${g.name} - questão ${idx + 1}`,
+          tipo: "escala0a4",
+          escalaOpcoes
+        });
       });
     });
 
     const arr: Pergunta[] = [
+      {
+        key: "intro_linguagem",
+        texto: "As palavras estão no gênero masculino apenas por convenção da língua. Responda considerando o gênero que se aplica a você.",
+        tipo: "intro"
+      },
       // Demografia
-      { key: "idade", texto: "Idade", tipo: "radio", opcoes: ["18-   -25", "26- -35", "36- -45", "46+"] },
-      { key: "genero", texto: "Gênero que se identifica", tipo: "radio", opcoes: ["Mulher", "Homem", "Não Binarie", "Prefiro Não dizer", "Outro"] },
+      {
+        key: "idade",
+        texto: "Idade (em anos completos)",
+        tipo: "numero",
+        instrucoes: "Digite apenas números. Caso informe ter menos de 18 anos, o questionário será encerrado automaticamente."
+      },
+      { key: "genero", texto: "Gênero com que se identifica", tipo: "radio", opcoes: ["Mulher", "Homem", "Não binário", "Prefiro não dizer", "Outro"] },
 
       { key: "cor", texto: "Cor", tipo: "radio", opcoes: ["Amarelo", "Branco", "Indígena", "Pardo", "Preto", "Outro"] },
-      { key: "escolaridade", texto: "Nível Educacional", tipo: "radio", opcoes: ["Ensino Médio Cursando", "Ensino Médio Completo", "Ensino Superior Cursando", "Ensino Superior Completo", "Outro"] },
-      { key: "area", texto: "Se selecionado Ensino Superior, indique a Área:", tipo: "texto" },
-      { key: "estadoCivil", texto: "Estado Civil", tipo: "radio", opcoes: ["Solteiro", "Casado", "Viúvo", "Outro"] },
+      { key: "escolaridade", texto: "Nível educacional", tipo: "radio", opcoes: ["Ensino Médio cursando", "Ensino Médio completo", "Ensino Superior cursando", "Ensino Superior completo", "Outro"] },
+      { key: "area", texto: "Se selecionado Ensino Superior, indique a área:", tipo: "texto" },
+      { key: "estadoCivil", texto: "Estado civil", tipo: "radio", opcoes: ["Solteiro", "Casado", "Viúvo", "Outro"] },
 
-      { key: "renda", texto: "Renda Familiar Mensal", tipo: "radio", opcoes: ["Até 1 salário mínimo (Até R$ 1412,00)", "De 1 a 3 salários mínimos (Até R$ 4236,00)", "De 3 a 5 salários mínimos (Até R$ 7.060,00)", "De 7 a 10 salários (Até R$ 14.120,00)", "Acima de 10 salários mínimos"] },
-      { key: "diagnostico", texto: "você já recebeu algum diagnóstico clínico psicológico, psiquiátrico ou neurológico?", tipo: "radio", opcoes: ["Sim", "Não"] },
+      { key: "renda", texto: "Renda familiar mensal", tipo: "radio", opcoes: ["Até 1 salário mínimo (Até R$ 1412,00)", "De 1 a 3 salários mínimos (Até R$ 4236,00)", "De 3 a 5 salários mínimos (Até R$ 7.060,00)", "De 7 a 10 salários (Até R$ 14.120,00)", "Acima de 10 salários mínimos"] },
+      { key: "diagnostico", texto: "Você já recebeu algum diagnóstico clínico psicológico, psiquiátrico ou neurológico?", tipo: "radio", opcoes: ["Sim", "Não"] },
       { key: "diagnosticoDetalhe", texto: "Se sim, qual?", tipo: "texto" },
-      { key: "crime", texto: "já foi acusado de algum crime?", tipo: "radio", opcoes: ["Sim", "Não"] },
+      { key: "crime", texto: "Você já foi acusado de algum crime?", tipo: "radio", opcoes: ["Sim", "Não"] },
       { key: "crimeDetalhe", texto: "Se sim, qual?", tipo: "texto" },
 
-      { key: "substancias", texto: "você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opioides; uso injetável.` },
+      { key: "substancias", texto: "Você já usou alguma substância sem prescrição médica?", tipo: "radio", opcoes: ["Sim", "Não"], instrucoes: `Considere: derivados do tabaco; bebidas alcoólicas; maconha; cocaína; crack; anfetaminas/êxtase; inalantes; hipnóticos/sedativos; alucinógenos; opioides; uso injetável.` },
       { key: "substanciasSelecionadas", texto: "Se sim, selecione as substâncias usadas (marque todas)", tipo: "radio" },
       // Bloco condicional de substâncias (ASSIST)
       ...substPerguntas,
@@ -101,7 +127,7 @@ const Sd4: React.FC = () => {
       {
         key: "intro_1_5",
         texto:
-          "Agora, responda o quanto você concorda ou Não com o que está escrito nas próximas frases, considerando o que você pensa ou como age. Use a escala: 1 - Discordo totalmente; 2 - Discordo; 3 - Não concordo nem discordo; 4 - Concordo; 5 - Concordo totalmente.",
+          "Agora, responda o quanto você concorda ou não com o que está escrito nas próximas frases, considerando o que você pensa ou como age. Use a escala: 1 - Discordo totalmente; 2 - Discordo; 3 - Não concordo nem discordo; 4 - Concordo; 5 - Concordo totalmente.",
         tipo: "intro"
       },
 
@@ -117,19 +143,19 @@ const Sd4: React.FC = () => {
       { key: "q8", texto: "8. As pessoas me veem como uma pessoa que lidera com facilidade.", tipo: "escala1a5" },
 
       { key: "q9", texto: "9. Eu tenho um talento para convencer as pessoas.", tipo: "escala1a5" },
-      { key: "q10", texto: "10. Atividades em grupo geralmente são chatas se eu Não estiver presente.", tipo: "escala1a5" },
+      { key: "q10", texto: "10. Atividades em grupo geralmente são chatas se eu não estiver presente.", tipo: "escala1a5" },
       { key: "q11", texto: "11. Sei que sou especial porque as pessoas sempre me dizem isso.", tipo: "escala1a5" },
       { key: "q12", texto: "12. Tenho algumas qualidades extraordinárias.", tipo: "escala1a5" },
 
-      { key: "q13", texto: "13. é provável que no futuro eu seja famoso em alguma Área.", tipo: "escala1a5" },
+      { key: "q13", texto: "13. É provável que no futuro eu seja famoso em alguma área.", tipo: "escala1a5" },
       { key: "q14", texto: "14. Gosto de me exibir de vez em quando.", tipo: "escala1a5" },
       { key: "q15", texto: "15. As pessoas frequentemente dizem que eu estou descontrolado.", tipo: "escala1a5" },
       { key: "q16", texto: "16. Tenho a tendência de bater de frente com as autoridades, desrespeitando suas regras.", tipo: "escala1a5" },
 
-      { key: "q17", texto: "17. já me envolvi em mais conflitos do que a maioria das pessoas da minha idade e Gênero.", tipo: "escala1a5" },
+      { key: "q17", texto: "17. Já me envolvi em mais conflitos do que a maioria das pessoas da minha idade e gênero.", tipo: "escala1a5" },
       { key: "q18", texto: "18. Eu tenho a tendência de fazer primeiro e pensar depois.", tipo: "escala1a5" },
-      { key: "q19", texto: "19. já tive problemas com a justiça.", tipo: "escala1a5" },
-      { key: "q20", texto: "20. ás vezes, me envolvo em situações perigosas.", tipo: "escala1a5" },
+      { key: "q19", texto: "19. Já tive problemas com a justiça.", tipo: "escala1a5" },
+      { key: "q20", texto: "20. Às vezes, me envolvo em situações perigosas.", tipo: "escala1a5" },
 
       { key: "q21", texto: "21. As pessoas que me causam problemas sempre se arrependem.", tipo: "escala1a5" },
       { key: "q22", texto: "22. Gosto de assistir uma briga de rua.", tipo: "escala1a5" },
@@ -138,36 +164,34 @@ const Sd4: React.FC = () => {
 
       { key: "q25", texto: "25. Gosto de jogar videogames/jogos violentos.", tipo: "escala1a5" },
       { key: "q26", texto: "26. Acho que algumas pessoas merecem sofrer.", tipo: "escala1a5" },
-      { key: "q27", texto: "27. já disse coisas maldosas na internet só por diversão.", tipo: "escala1a5" },
+      { key: "q27", texto: "27. Já disse coisas maldosas na internet só por diversão.", tipo: "escala1a5" },
       { key: "q28", texto: "28. Sei como machucar as pessoas somente com palavras.", tipo: "escala1a5" },
 
       // Intro: escala 1-7
       {
         key: "intro_1_7",
-        texto: "Por favor, avalie sua concordância usando a escala: 1 - Discordo totalmente; 7 - Concordo totalmente." ,          
-
+        texto: "Por favor, avalie sua concordância usando a escala: 1 - Discordo totalmente; 7 - Concordo totalmente.",
         tipo: "intro",
-       
       },
 
       // Escala 1-7 (q7_1..q7_18)
       { key: "q7_1", texto: "1. Fui propositalmente maldoso(a) com outras pessoas no Ensino Médio.", tipo: "escala1a7" },
       { key: "q7_2", texto: "2. Gosto de machucar fisicamente as pessoas", tipo: "escala1a7" },
-      { key: "q7_3", texto: "3. já dominei outras pessoas usando medo.", tipo: "escala1a7" },
-      { key: "q7_4", texto: "4. ás vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
+      { key: "q7_3", texto: "3. Já dominei outras pessoas usando medo.", tipo: "escala1a7" },
+      { key: "q7_4", texto: "4. Às vezes dou replay (repito) em minhas cenas favoritas de filmes sangrentos de terror.", tipo: "escala1a7" },
 
-      { key: "q7_5", texto: "5. Gosto de fazer piadas as custas dos outros.", tipo: "escala1a7" },
+      { key: "q7_5", texto: "5. Gosto de fazer piadas às custas dos outros.", tipo: "escala1a7" },
       { key: "q7_6", texto: "6. Em jogos de videogame, gosto do realismo dos jorros de sangue.", tipo: "escala1a7" },
-      { key: "q7_7", texto: "7. já enganei alguém e ri quando pareceram tolos.", tipo: "escala1a7" },
+      { key: "q7_7", texto: "7. Já enganei alguém e ri quando pareceram tolos.", tipo: "escala1a7" },
       { key: "q7_8", texto: "8. Gosto de atormentar pessoas.", tipo: "escala1a7" },
 
-      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores Não tem por onde escapar.", tipo: "escala1a7" },
+      { key: "q7_9", texto: "9. Gosto de assistir lutas de ringue (e.g. MMA, UFC), nas quais os lutadores não têm por onde escapar.", tipo: "escala1a7" },
       { key: "q7_10", texto: "10. Eu gosto de machucar (ou fingir que vou machucar) meu parceiro(a) durante o sexo.", tipo: "escala1a7" },
       { key: "q7_11", texto: "11. Eu gosto de ter o papel de vilão em jogos e torturar os outros personagens.", tipo: "escala1a7" },
       { key: "q7_12", texto: "12. Quando tiro sarro de alguém, acho especialmente divertido se eles percebem o que estou fazendo.", tipo: "escala1a7" },
 
       { key: "q7_13", texto: "13. Em corridas profissionais de carros, os acidentes são as partes que eu mais gosto.", tipo: "escala1a7" },
-      { key: "q7_14", texto: "14. Talvez eu Não deveria, mas nunca me canso de zombar de alguns colegas.", tipo: "escala1a7" },
+      { key: "q7_14", texto: "14. Talvez eu não deveria, mas nunca me canso de zombar de alguns colegas.", tipo: "escala1a7" },
       { key: "q7_15", texto: "15. Eu jamais humilharia alguém de propósito.", tipo: "escala1a7" },
       { key: "q7_16", texto: "16. Eu tenho o direito de empurrar as pessoas.", tipo: "escala1a7" },
 
@@ -178,7 +202,7 @@ const Sd4: React.FC = () => {
       {
         key: "intro_0_4",
         texto:
-          "A seguir leia cada uma e decida o quanto cada item se assemelha a você: 0 - Nada a ver comigo; 1 - Um pouco a ver comigo; 2 - Mais ou menos; 3 - Muito a ver comigo; 4 - Tudo a ver comigo.",
+          "Abaixo há uma lista de afirmações. Por favor, leia cada uma e decida o quanto cada item se assemelha a você e assinale um dos valores, de zero a quatro. Seja sincero(a) e responda como “você é” e não como “gostaria de ser” ou como “as pessoas acham que você é”. Não há respostas certas ou erradas. Escala: 0 - Nada a ver comigo; 1 - Um pouco a ver comigo; 2 - Mais ou menos a ver comigo; 3 - Muito a ver comigo; 4 - Tudo a ver comigo.",
         tipo: "intro"
       },
 
@@ -191,7 +215,7 @@ const Sd4: React.FC = () => {
       { key: "q0_5", texto: "5. Acredito em uma força sagrada que nos liga um ao outro.", tipo: "escala0a4" },
       { key: "q0_6", texto: "6. Crio coisas úteis.", tipo: "escala0a4" },
       { key: "q0_7", texto: "7. Sou uma pessoa verdadeira.", tipo: "escala0a4" },
-      { key: "q0_8", texto: "8. Consigo criar um bom ambiente nos grupos que trabalho.", tipo: "escala0a4" },
+      { key: "q0_8", texto: "8. Consigo criar um bom ambiente nos grupos em que trabalho.", tipo: "escala0a4" },
 
       { key: "q0_9", texto: "9. Enfrento perigos para fazer o bem.", tipo: "escala0a4" },
       { key: "q0_10", texto: "10. Sei admirar a beleza que existe no mundo.", tipo: "escala0a4" },
@@ -210,14 +234,14 @@ const Sd4: React.FC = () => {
       {
         key: "intro_big5",
         texto:
-          "A seguir encontram-se algumas características. Para cada item escolha: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente. (As legendas aparecem junto às opções.)",
+          "Leia as novas instruções e responda às questões abaixo: a seguir encontram-se algumas características que podem ou não lhe dizer respeito. Por favor, escolha um dos números na escala abaixo que melhor expresse sua opinião em relação a você mesmo. Vale ressaltar que não existem respostas certas ou erradas. Utilize a seguinte escala de resposta: 1 - Discordo totalmente; 2 - Discordo em parte; 3 - Nem concordo nem discordo; 4 - Concordo em parte; 5 - Concordo totalmente.",
         tipo: "intro"
       },
 
       // Big5 short (big1..big10)
       {
         key: "big1",
-        texto: "1. é conversador, comunicativo.",
+        texto: "1. É conversador, comunicativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -229,43 +253,43 @@ const Sd4: React.FC = () => {
       },
       {
         key: "big3",
-        texto: "3. é original, tem sempre novas ideias.",
+        texto: "3. É original, tem sempre novas ideias.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big4",
-        texto: "4. é inventivo, criativo.",
+        texto: "4. É inventivo, criativo.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big5",
-        texto: "5. é prestativo e ajuda os outros.",
+        texto: "5. É prestativo e ajuda os outros.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big6",
-        texto: "6. Faz as coisas com eficiência.",
+        texto: "6. Faço as coisas com eficiência.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big7",
-        texto: "7. é sociável, extrovertido.",
+        texto: "7. É sociável, extrovertido.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big8",
-        texto: "8. é um trabalhador de confiança.",
+        texto: "8. É um trabalhador de confiança.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
       {
         key: "big9",
-        texto: "9. Fica tenso com Frequência.",
+        texto: "9. Fica tenso com frequência.",
         tipo: "big5",
         opcoes: ["1", "2", "3", "4", "5"]
       },
@@ -323,7 +347,7 @@ const Sd4: React.FC = () => {
   // etapas: [[], []] reserved for termo (0) e dados pessoais (1)
   const etapas = useMemo(() => {
     const base: Pergunta[][] = [[], []];
-    return base.concat(questionChunks);
+    return base.concat(questionChunks).concat([[]]); // passo extra reservado para a tela final de envio
   }, [questionChunks]);
 
   // ---------------------------
@@ -413,26 +437,29 @@ const Sd4: React.FC = () => {
   const validarEtapaAtual = (): boolean => {
     const newErrors: Record<string, string> = {};
     if (step === 0 && !formData.consent) {
-      newErrors.consent = "você precisa aceitar o termo para continuar.";
-    }
-    if (step === 1) {
-      if (!formData.nome || (formData.nome as string).trim() === "") newErrors.nome = "Nome é obrigatório.";
-      if (!formData.email || (formData.email as string).trim() === "") newErrors.email = "E-mail é obrigatório.";
+      newErrors.consent = "Você precisa aceitar o termo para continuar.";
     }
     // validate visible questions in this step
     const perguntas = etapas[step] || [];
     perguntas.forEach((q) => {
       if (!isQuestionVisible(q)) return;
+      if (q.tipo === "intro") return;
       const resp = formData.respostas[q.key];
       if (q.key === "substanciasSelecionadas" && formData.respostas["substancias"] === "Sim") {
         const arr = resp as any;
         if (!Array.isArray(arr) || arr.length === 0) newErrors[q.key] = "Selecione pelo menos uma substância.";
         return;
       }
-      if (q.tipo === "texto") {
-        // only certain text fields are required when visible
+      if (q.tipo === "numero") {
+        if (resp === undefined || resp === "") {
+          newErrors[q.key] = "Informe um número.";
+        }
+        return;
+      }
+        if (q.tipo === "texto") {
+          // only certain text fields are required when visible
         if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
-          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a Área de formação.";
+          if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a área de formação.";
         }
         if (q.key === "diagnosticoDetalhe" && formData.respostas["diagnostico"] === "Sim") {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe o diagnóstico.";
@@ -467,6 +494,7 @@ const Sd4: React.FC = () => {
   // handlers
   // ---------------------------
   const handleOpenPopup = () => {
+    setResultado(null);
     setShowPopup(true);
     setStep(0);
     setErrors({});
@@ -492,6 +520,26 @@ const Sd4: React.FC = () => {
   };
 
   const handleResposta = (key: string, value: string | number) => {
+    if (key === "idade") {
+      if (value === "") {
+        setFormData((prev) => ({ ...prev, respostas: { ...prev.respostas, [key]: "" } }));
+      } else {
+        const numeric = typeof value === "number" ? value : Number(value);
+        if (Number.isFinite(numeric)) {
+          setFormData((prev) => ({ ...prev, respostas: { ...prev.respostas, [key]: numeric } }));
+          if (numeric < 18) {
+            handleClosePopup();
+            setResultado({ summaryText: menorIdadeMensagem });
+          }
+        }
+      }
+      setErrors((e) => {
+        const copy = { ...e };
+        delete copy[key];
+        return copy;
+      });
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       respostas: { ...prev.respostas, [key]: value }
@@ -503,12 +551,39 @@ const Sd4: React.FC = () => {
     });
   };
 
+  const escala1a5Default: { valor: number; label: string }[] = [
+    { valor: 1, label: "1 - Discordo totalmente" },
+    { valor: 2, label: "2 - Discordo" },
+    { valor: 3, label: "3 - Não concordo nem discordo" },
+    { valor: 4, label: "4 - Concordo" },
+    { valor: 5, label: "5 - Concordo totalmente" }
+  ];
+  const escala1a7Default: { valor: number; label: string }[] = [
+    { valor: 1, label: "1 - Discordo totalmente" },
+    { valor: 2, label: "2 - Discordo" },
+    { valor: 3, label: "3 - Discordo em parte" },
+    { valor: 4, label: "4 - Nem concordo nem discordo" },
+    { valor: 5, label: "5 - Concordo em parte" },
+    { valor: 6, label: "6 - Concordo" },
+    { valor: 7, label: "7 - Concordo totalmente" }
+  ];
+  const escala0a4Default: { valor: number; label: string }[] = [
+    { valor: 0, label: "0 - Nada a ver comigo" },
+    { valor: 1, label: "1 - Um pouco a ver comigo" },
+    { valor: 2, label: "2 - Mais ou menos a ver comigo" },
+    { valor: 3, label: "3 - Muito a ver comigo" },
+    { valor: 4, label: "4 - Tudo a ver comigo" }
+  ];
+
   // ---------------------------
   // render individual pergunta
   // ---------------------------
   const renderPergunta = (q: Pergunta) => {
     if (!isQuestionVisible(q)) return null;
     const resp = formData.respostas[q.key];
+    const escala1a5Opcoes = q.escalaOpcoes || escala1a5Default;
+    const escala1a7Opcoes = q.escalaOpcoes || escala1a7Default;
+    const escala0a4Opcoes = q.escalaOpcoes || escala0a4Default;
 
     // Filtro adicional: itens de substâncias só aparecem se grupo correspondente estiver selecionado
     if (SUBST_CODES_SET.has(q.key)) {
@@ -539,7 +614,7 @@ const Sd4: React.FC = () => {
       return (
         <div key={q.key} style={{ padding: 8 }}>
           <h3>Instruções</h3>
-          <p style={{ whiteSpace: "pre-wrap" }}>{q.texto}</p>
+          <p style={{ whiteSpace: "pre-wrap", textAlign: "justify" }}>{q.texto}</p>
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}>
             <button className="btn-primary" onClick={() => setStep((s) => s + 1)}>Começar seção</button>
           </div>
@@ -552,8 +627,6 @@ const Sd4: React.FC = () => {
       <div key={q.key} style={{ marginBottom: 12, padding: 6 }}>
         {q.instrucoes && <p style={{ fontSize: 13, color: "#444" }}>{q.instrucoes}</p>}
         <div style={{ marginBottom: 6 }}><strong>{q.texto}</strong></div>
-
-        {/* radio / big5 */}
 
         {/* multiseleção de substâncias (checkboxes) */}
         {q.key === "substanciasSelecionadas" && formData.respostas["substancias"] === "Sim" && (
@@ -593,7 +666,7 @@ const Sd4: React.FC = () => {
           </div>
         )}
         
-        {/* radio padr├úo */}
+        {/* radio padrão */}
         {q.tipo === "radio" && q.opcoes && (
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {q.opcoes.map((op) => (
@@ -620,77 +693,94 @@ const Sd4: React.FC = () => {
           </div>
         )}
 
+        {/* campo numérico */}
+        {q.tipo === "numero" && (
+          <input
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            min={0}
+            placeholder="Digite sua idade"
+            value={(formData.respostas[q.key] as number | string | undefined) ?? ""}
+            onChange={(e) => handleResposta(q.key, e.target.value === "" ? "" : Number(e.target.value))}
+            onKeyDown={(e) => {
+              if (["e", "E", "+", "-", ".", ","].includes(e.key)) e.preventDefault();
+            }}
+            style={{ width: "100%", padding: 6, marginTop: 6 }}
+          />
+        )}
+
         {/* escala 1-5 */}
-          {q.tipo === "escala1a5" && (
-            <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6 }}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <label key={n} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <span>{n}</span>
-                  <input
-                    type="radio"
-                    name={q.key}
-                    value={n}
-                    checked={resp === n}
-                    onChange={() => handleResposta(q.key, n)}
-                  />
-                </label>
-              ))}
-            </div>
-          )}
+        {q.tipo === "escala1a5" && (
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+            {escala1a5Opcoes.map(({ valor, label }) => (
+              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 120, textAlign: "center" }}>
+                <span>{label}</span>
+                <input
+                  type="radio"
+                  name={q.key}
+                  value={valor}
+                  checked={resp === valor}
+                  onChange={() => handleResposta(q.key, valor)}
+                />
+              </label>
+            ))}
+          </div>
+        )}
 
-          {/* escala 1-7 */}
-          {q.tipo === "escala1a7" && (
-            <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6 }}>
-              {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-                <label key={n} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <span>{n}</span>
-                  <input
-                    type="radio"
-                    name={q.key}
-                    value={n}
-                    checked={resp === n}
-                    onChange={() => handleResposta(q.key, n)}
-                  />
-                </label>
-              ))}
-            </div>
-          )}
+        {/* escala 1-7 */}
+        {q.tipo === "escala1a7" && (
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+            {escala1a7Opcoes.map(({ valor, label }) => (
+              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 140, textAlign: "center" }}>
+                <span>{label}</span>
+                <input
+                  type="radio"
+                  name={q.key}
+                  value={valor}
+                  checked={resp === valor}
+                  onChange={() => handleResposta(q.key, valor)}
+                />
+              </label>
+            ))}
+          </div>
+        )}
 
-          {/* escala 0-4 */}
-          {q.tipo === "escala0a4" && (
-            <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6 }}>
-              {[0, 1, 2, 3, 4].map((n) => (
-                <label key={n} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <span>{n}</span>
-                  <input
-                    type="radio"
-                    name={q.key}
-                    value={n}
-                    checked={resp === n}
-                    onChange={() => handleResposta(q.key, n)}
-                  />
-                </label>
-              ))}
-            </div>
-          )}
+        {/* escala 0-4 */}
+        {q.tipo === "escala0a4" && (
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+            {escala0a4Opcoes.map(({ valor, label }) => (
+              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 160, textAlign: "center" }}>
+                <span>{label}</span>
+                <input
+                  type="radio"
+                  name={q.key}
+                  value={valor}
+                  checked={resp === valor}
+                  onChange={() => handleResposta(q.key, valor)}
+                />
+              </label>
+            ))}
+          </div>
+        )}
 
-          {/* Big Five horizontal */}
-          {q.tipo === "big5" && (
-            <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6 }}>
-              {[1, 2, 3, 4, 5].map((n) => (
-                <label key={n} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <span>{n}</span>
-                  <input
-                    type="radio"
-                    name={q.key}
-                    value={n}
-                    checked={resp === n}
-                    onChange={() => handleResposta(q.key, n)}
-                  />
-                </label>
-              ))}
-            </div>
-          )}
+        {/* Big Five horizontal */}
+        {q.tipo === "big5" && (
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+            {(q.escalaOpcoes || escala1a5Default).map(({ valor, label }) => (
+              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 130, textAlign: "center" }}>
+                <span>{label}</span>
+                <input
+                  type="radio"
+                  name={q.key}
+                  value={valor}
+                  checked={resp === valor}
+                  onChange={() => handleResposta(q.key, valor)}
+                />
+              </label>
+            ))}
+          </div>
+        )}
 
 
         {/* texto */}
@@ -708,14 +798,6 @@ const Sd4: React.FC = () => {
       </div>
     );
   };
-
-  // ---------------------------
-  // encouragement logic: show a message at top every 5 popups (question chunks)
-  // ---------------------------
-  const questionChunkIndex = Math.max(0, step - 2); // index among questionChunks; step 2 => chunk 0
-  const shouldShowEncouragement =
-    showPopup && step >= 2 && questionChunkIndex > 0 && questionChunkIndex % 5 === 0 && step < etapas.length - 1;
-  const encouragementMessage = encouragingMessages[Math.floor(questionChunkIndex / 5) % encouragingMessages.length];
 
   // ---------------------------
   // handle submit (final)
@@ -758,26 +840,21 @@ const Sd4: React.FC = () => {
     <div className="sd4-wrapper">
       <img src={logoUrl} alt="Logo" className="logo-centered" />
       <h1 className="sd4-title">Quais fatores influenciam o seu jeito de ser e viver?</h1>
-      <p className="sd4-text">
-        Este conjunto de questionários utiliza métricas científicas para compreender diferentes aspectos da sua personalidade, hábitos e estilo de vida — incluindo tanto seus recursos pessoais quanto possíveis vulnerabilidades. Suas respostas são totalmente anônimas e serão usadas apenas para fins de pesquisa. Tempo médio de resposta é 25min
+      <p className="sd4-text" style={{ textAlign: "justify" }}>
+        Este conjunto de questionários utiliza métricas científicas para compreender diferentes aspectos da sua personalidade, hábitos e estilo de vida — incluindo
+        tanto seus recursos pessoais quanto possíveis vulnerabilidades. Suas respostas são totalmente anônimas e serão usadas apenas para fins de pesquisa. O tempo
+        médio de resposta é de 25 minutos.
       </p>
       <button className="sd4-button" onClick={handleOpenPopup}>Quero descobrir o que há por trás de meu jeito de viver</button>
 
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box" style={{ maxWidth: 520, width: "95%" }}>
-            {/* Encouragement */}
-            {shouldShowEncouragement && (
-              <div style={{ background: "#eef6ff", padding: 10, borderRadius: 8, marginBottom: 10, textAlign: "center" }}>
-                <strong>{encouragementMessage}</strong>
-              </div>
-            )}
-
             {/* Step 0: Termo */}
             {step === 0 && (
               <>
                 <h2>Termo de Consentimento</h2>
-                <div style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: 8 }}>
+                <div style={{ maxHeight: "40vh", overflowY: "auto", paddingRight: 8, textAlign: "justify", lineHeight: 1.5 }}>
                   {!mostrarTermoCompleto ? (
                     <>
                       <p>
@@ -785,11 +862,11 @@ const Sd4: React.FC = () => {
                     </p>
 
                     <p>
-                      O objetivo do nosso estudo é a adaptação de uma medida com propriedades científicas adequadas para avaliar características da personalidade no contexto brasileiro para pessoas adultas. Este estudo é realizado online através de um formulário com uma série de perguntas objetivas, que deve durar aproximadamente 20 minutos para concluí-lo, sendo garantidas a segurança e a privacidade das suas informações. Sua participação é anônima, ou seja, não pediremos seu nome nem dados como CPF ou identidade.
+                      O objetivo do nosso estudo é a adaptação de uma medida com propriedades científicas adequadas para avaliar características da personalidade no contexto brasileiro para pessoas adultas. Este estudo é realizado online através de um formulário com uma série de perguntas objetivas, que deve durar aproximadamente 25 minutos para concluí-lo, sendo garantidas a segurança e a privacidade das suas informações. Sua participação é anônima, ou seja, não pediremos seu nome nem dados como CPF ou identidade.
                     </p>
 
                     <p>
-                      Nossa equipe de pesquisadores é composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela mestranda Cristina Damasceno e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, Luísa Libaroni Artiaga e Marcella Martins Dell Isola.
+                      Nossa equipe de pesquisadores é composta pelo doutorando Tharmes Chiodarelli C. dos Santos, pela mestranda Cristina Damasceno e pelas graduandas Thais Rodrigues do Nascimento Soares, Emanuelle Lima Ramos, Jaciara Chaves dos Reis, Luísa Libaroni Artiaga, Marcella Martins Dell Isola e Beatriz Mendes de Souza.
                     </p>
 
                     <p>
@@ -846,13 +923,15 @@ const Sd4: React.FC = () => {
             {/* Step 1: dados pessoais */}
             {step === 1 && (
               <>
-                <h2>Dados Pessoais</h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  <input type="text" placeholder="Seu nome" value={formData.nome} onChange={(e) => setFormData({ ...formData, nome: e.target.value })} />
-                  {errors.nome && <div style={{ color: "crimson" }}>{errors.nome}</div>}
-                  <input type="email" placeholder="Seu e-mail" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                  {errors.email && <div style={{ color: "crimson" }}>{errors.email}</div>}
-                </div>
+                <h2>Antes de começar</h2>
+                <p style={{ textAlign: "justify" }}>
+                  O tempo médio de resposta é de 25 minutos. Suas respostas são anônimas e usadas apenas para fins de pesquisa. Ao final, haverá um campo
+                  opcional para deixar apenas o seu primeiro nome e uma forma de contato (e-mail ou WhatsApp) caso concorde em responder um breve questionário
+                  em aproximadamente 1 mês.
+                </p>
+                <p style={{ marginTop: 8, textAlign: "justify" }}>
+                  Clique em Avançar para iniciar a parte sociodemográfica.
+                </p>
                 <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={() => setStep(0)}>Voltar</button>
                   <button className="btn-primary" onClick={() => { if (validarEtapaAtual()) setStep(2); }}>Avançar</button>
@@ -886,7 +965,25 @@ const Sd4: React.FC = () => {
             {step === etapas.length - 1 && (
               <>
                 <h2>Finalizar</h2>
-                <p>Obrigado! Ao enviar, seus dados serão encaminhados ao servidor para processamento e cálculo das pontuações. As respostas são anônimas.</p>
+                <p style={{ textAlign: "justify" }}>
+                  Obrigado! Ao enviar, suas respostas anônimas serão encaminhadas para processamento. Caso concorde em responder um novo questionário daqui
+                  aproximadamente 1 mês (duração estimada: 5 minutos), por favor deixe apenas o seu primeiro nome e uma forma de contato (e-mail ou WhatsApp).
+                  Este preenchimento é opcional.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 8 }}>
+                  <input
+                    type="text"
+                    placeholder="Primeiro nome (opcional)"
+                    value={formData.nome}
+                    onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Forma de contato: e-mail ou WhatsApp (opcional)"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                   <button className="btn-secondary" onClick={handleBack}>Voltar</button>
                   <button className="btn-primary" onClick={handleSubmit}>Enviar</button>
@@ -923,5 +1020,3 @@ const Sd4: React.FC = () => {
 };  
 
 export default Sd4;
-
-
