@@ -673,16 +673,17 @@ const Sd4: React.FC = () => {
         
         {/* radio padrão */}
         {q.tipo === "radio" && q.opcoes && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start" }}>
             {q.opcoes.map((op) => (
               <label
                 key={op}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 10,
+                  gap: 8,
                   padding: "2px 0",
-                  textAlign: "left"
+                  textAlign: "left",
+                  width: "100%"
                 }}
               >
                 <input
@@ -719,12 +720,11 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala1a5" && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-              gap: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
               marginTop: 6,
-              alignItems: "center",
-              justifyItems: "start"
+              alignItems: "flex-start"
             }}
           >
             {escala1a5Opcoes.map(({ valor, label }) => (
@@ -746,12 +746,11 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala1a7" && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-              gap: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
               marginTop: 6,
-              alignItems: "center",
-              justifyItems: "start"
+              alignItems: "flex-start"
             }}
           >
             {escala1a7Opcoes.map(({ valor, label }) => (
@@ -773,12 +772,11 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala0a4" && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-              gap: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
               marginTop: 6,
-              alignItems: "center",
-              justifyItems: "start"
+              alignItems: "flex-start"
             }}
           >
             {escala0a4Opcoes.map(({ valor, label }) => (
@@ -800,12 +798,11 @@ const Sd4: React.FC = () => {
         {q.tipo === "big5" && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-              gap: 8,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
               marginTop: 6,
-              alignItems: "center",
-              justifyItems: "start"
+              alignItems: "flex-start"
             }}
           >
             {(q.escalaOpcoes || escala1a5Default).map(({ valor, label }) => (
