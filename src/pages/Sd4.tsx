@@ -441,23 +441,23 @@ const Sd4: React.FC = () => {
     }
     // validate visible questions in this step
     const perguntas = etapas[step] || [];
-    perguntas.forEach((q) => {
-      if (!isQuestionVisible(q)) return;
-      if (q.tipo === "intro") return;
+    for (const q of perguntas) {
+      if (!isQuestionVisible(q)) continue;
+      if (q.tipo === "intro") continue;
       const resp = formData.respostas[q.key];
       if (q.key === "substanciasSelecionadas" && formData.respostas["substancias"] === "Sim") {
         const arr = resp as any;
         if (!Array.isArray(arr) || arr.length === 0) newErrors[q.key] = "Selecione pelo menos uma substância.";
-        return;
+        continue;
       }
       if (q.tipo === "numero") {
         if (resp === undefined || resp === "") {
           newErrors[q.key] = "Informe um número.";
         }
-        return;
+        continue;
       }
-        if (q.tipo === "texto") {
-          // only certain text fields are required when visible
+      if (q.tipo === "texto") {
+        // only certain text fields are required when visible
         if (q.key === "area" && (formData.respostas["escolaridade"] || "").toString().includes("Ensino Superior")) {
           if (!resp || (resp as string).trim() === "") newErrors[q.key] = "Informe a área de formação.";
         }
@@ -484,7 +484,16 @@ const Sd4: React.FC = () => {
       if (typeof resp === "string" && resp.startsWith("Outro:") && resp === "Outro:") {
         newErrors[q.key] = "Preencha o campo 'Outro'.";
       }
-    });
+    }
+
+    // Checagem específica: idade menor que 18 encerra o questionário com mensagem
+    const idadeResp = formData.respostas["idade"];
+    const idadeNum = typeof idadeResp === "number" ? idadeResp : Number(idadeResp);
+    if (idadeResp !== undefined && Number.isFinite(idadeNum) && idadeNum < 18) {
+      setResultado({ summaryText: menorIdadeMensagem });
+      handleClosePopup();
+      return false;
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -527,10 +536,6 @@ const Sd4: React.FC = () => {
         const numeric = typeof value === "number" ? value : Number(value);
         if (Number.isFinite(numeric)) {
           setFormData((prev) => ({ ...prev, respostas: { ...prev.respostas, [key]: numeric } }));
-          if (numeric < 18) {
-            handleClosePopup();
-            setResultado({ summaryText: menorIdadeMensagem });
-          }
         }
       }
       setErrors((e) => {
