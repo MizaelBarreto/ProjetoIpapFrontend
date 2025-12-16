@@ -301,7 +301,7 @@ const Sd4: React.FC = () => {
       },
 
       // Final placeholder text
-      { key: "final_text", texto: "Pop up final: explicação e resultados (seria calculado no backend). Obrigado por participar!", tipo: "texto" }
+      // removido placeholder de texto final; fluxo termina no passo de envio/contato opcional
     ];
     return arr;
   }, []);
