@@ -682,10 +682,10 @@ const Sd4: React.FC = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   gap: 8,
-                  padding: "4px 0"
+                  padding: "4px 0",
+                  textAlign: "left"
                 }}
               >
-                <span>{op}</span>
                 <input
                   type="radio"
                   name={q.key}
@@ -693,6 +693,7 @@ const Sd4: React.FC = () => {
                   checked={resp === op}
                   onChange={() => handleResposta(q.key, op)}
                 />
+                <span>{op}</span>
               </label>
             ))}
           </div>
@@ -717,10 +718,17 @@ const Sd4: React.FC = () => {
 
         {/* escala 1-5 */}
         {q.tipo === "escala1a5" && (
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+              gap: 12,
+              marginTop: 6,
+              alignItems: "center"
+            }}
+          >
             {escala1a5Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 120, textAlign: "center" }}>
-                <span>{label}</span>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -728,6 +736,7 @@ const Sd4: React.FC = () => {
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
                 />
+                <span>{label}</span>
               </label>
             ))}
           </div>
@@ -735,10 +744,17 @@ const Sd4: React.FC = () => {
 
         {/* escala 1-7 */}
         {q.tipo === "escala1a7" && (
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+              gap: 12,
+              marginTop: 6,
+              alignItems: "center"
+            }}
+          >
             {escala1a7Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 140, textAlign: "center" }}>
-                <span>{label}</span>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -746,6 +762,7 @@ const Sd4: React.FC = () => {
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
                 />
+                <span>{label}</span>
               </label>
             ))}
           </div>
@@ -753,10 +770,17 @@ const Sd4: React.FC = () => {
 
         {/* escala 0-4 */}
         {q.tipo === "escala0a4" && (
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
+              gap: 12,
+              marginTop: 6,
+              alignItems: "center"
+            }}
+          >
             {escala0a4Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 160, textAlign: "center" }}>
-                <span>{label}</span>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -764,6 +788,7 @@ const Sd4: React.FC = () => {
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
                 />
+                <span>{label}</span>
               </label>
             ))}
           </div>
@@ -771,10 +796,17 @@ const Sd4: React.FC = () => {
 
         {/* Big Five horizontal */}
         {q.tipo === "big5" && (
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 6, flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: 12,
+              marginTop: 6,
+              alignItems: "center"
+            }}
+          >
             {(q.escalaOpcoes || escala1a5Default).map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, maxWidth: 130, textAlign: "center" }}>
-                <span>{label}</span>
+              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 8, textAlign: "left" }}>
                 <input
                   type="radio"
                   name={q.key}
@@ -782,6 +814,7 @@ const Sd4: React.FC = () => {
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
                 />
+                <span>{label}</span>
               </label>
             ))}
           </div>
