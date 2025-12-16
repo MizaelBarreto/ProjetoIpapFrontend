@@ -673,28 +673,19 @@ const Sd4: React.FC = () => {
         
         {/* radio padrão */}
         {q.tipo === "radio" && q.opcoes && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start", width: "100%" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", columnGap: 8, rowGap: 6, alignItems: "center", width: "100%" }}>
             {q.opcoes.map((op) => (
-              <label
-                key={op}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "2px 0",
-                  textAlign: "left",
-                  width: "100%"
-                }}
-              >
+              <React.Fragment key={op}>
                 <input
                   type="radio"
                   name={q.key}
                   value={op}
                   checked={resp === op}
                   onChange={() => handleResposta(q.key, op)}
+                  style={{ justifySelf: "start" }}
                 />
-                <span>{op}</span>
-              </label>
+                <span style={{ textAlign: "left" }}>{op}</span>
+              </React.Fragment>
             ))}
           </div>
         )}
@@ -720,25 +711,27 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala1a5" && (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              columnGap: 8,
+              rowGap: 4,
               marginTop: 6,
-              alignItems: "flex-start",
+              alignItems: "center",
               width: "100%"
             }}
           >
             {escala1a5Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
+              <React.Fragment key={valor}>
                 <input
                   type="radio"
                   name={q.key}
                   value={valor}
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
+                  style={{ justifySelf: "start" }}
                 />
-                <span>{label}</span>
-              </label>
+                <span style={{ textAlign: "left" }}>{label}</span>
+              </React.Fragment>
             ))}
           </div>
         )}
@@ -747,25 +740,27 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala1a7" && (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              columnGap: 8,
+              rowGap: 4,
               marginTop: 6,
-              alignItems: "flex-start",
+              alignItems: "center",
               width: "100%"
             }}
           >
             {escala1a7Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
+              <React.Fragment key={valor}>
                 <input
                   type="radio"
                   name={q.key}
                   value={valor}
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
+                  style={{ justifySelf: "start" }}
                 />
-                <span>{label}</span>
-              </label>
+                <span style={{ textAlign: "left" }}>{label}</span>
+              </React.Fragment>
             ))}
           </div>
         )}
@@ -774,25 +769,27 @@ const Sd4: React.FC = () => {
         {q.tipo === "escala0a4" && (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              columnGap: 8,
+              rowGap: 4,
               marginTop: 6,
-              alignItems: "flex-start",
+              alignItems: "center",
               width: "100%"
             }}
           >
             {escala0a4Opcoes.map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
+              <React.Fragment key={valor}>
                 <input
                   type="radio"
                   name={q.key}
                   value={valor}
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
+                  style={{ justifySelf: "start" }}
                 />
-                <span>{label}</span>
-              </label>
+                <span style={{ textAlign: "left" }}>{label}</span>
+              </React.Fragment>
             ))}
           </div>
         )}
@@ -801,25 +798,27 @@ const Sd4: React.FC = () => {
         {q.tipo === "big5" && (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              columnGap: 8,
+              rowGap: 4,
               marginTop: 6,
-              alignItems: "flex-start",
+              alignItems: "center",
               width: "100%"
             }}
           >
             {(q.escalaOpcoes || escala1a5Default).map(({ valor, label }) => (
-              <label key={valor} style={{ display: "flex", alignItems: "center", gap: 6, textAlign: "left" }}>
+              <React.Fragment key={valor}>
                 <input
                   type="radio"
                   name={q.key}
                   value={valor}
                   checked={resp === valor}
                   onChange={() => handleResposta(q.key, valor)}
+                  style={{ justifySelf: "start" }}
                 />
-                <span>{label}</span>
-              </label>
+                <span style={{ textAlign: "left" }}>{label}</span>
+              </React.Fragment>
             ))}
           </div>
         )}
